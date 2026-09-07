@@ -8,7 +8,12 @@ This folder starts the rink-clerk desk. It has **no source code and no data dump
 1. PowerShell **as Administrator**: `wsl --install` (Ubuntu is fine). Reboot if asked.
 2. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
    and turn on **Settings → Resources → WSL integration** for that distro.
-3. Clone this repository (Git for Windows or inside WSL).
+3. Clone this repository (Git for Windows or inside WSL):
+
+```powershell
+git clone https://github.com/MaciejHubisz/rinkdesk.git
+cd rinkdesk
+```
 4. In this folder:
 
 ```powershell
