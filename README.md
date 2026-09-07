@@ -11,8 +11,8 @@ This folder starts the rink-clerk desk. It has **no source code and no data dump
 3. Clone this repository (Git for Windows or inside WSL):
 
 ```powershell
-git clone https://github.com/MaciejHubisz/rinkdesk.git
-cd rinkdesk
+git clone https://github.com/MaciejHubisz/rinkdesk-run.git
+cd rinkdesk-run
 ```
 4. In this folder:
 
