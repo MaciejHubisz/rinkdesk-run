@@ -13,7 +13,7 @@ and starts the desk.
 ```powershell
 git clone https://github.com/MaciejHubisz/rinkdesk-run.git
 cd rinkdesk-run
-.\install\windows.cmd --start
+.\scripts\windows.cmd --start
 ```
 
 Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`).

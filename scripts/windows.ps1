@@ -1,6 +1,6 @@
-# Jump into WSL and run ./start.sh (or ./build.sh).
-#   .\install\windows.cmd --start
-#   .\install\windows.ps1 --start
+# Jump into WSL and run ./start.sh.
+#   .\scripts\windows.cmd --start
+#   .\scripts\windows.ps1 --start
 param(
   [Alias('p')]
   [string]$Port,

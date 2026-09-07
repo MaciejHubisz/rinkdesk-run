@@ -5,12 +5,12 @@
 #   ./start.sh --stop
 #   ./start.sh --force-recreate
 #
-# Windows:  .\install\windows.cmd --start
+# Windows:  .\scripts\windows.cmd --start
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=run/common.sh
-source "$ROOT/run/common.sh"
+# shellcheck source=scripts/common.sh
+source "$ROOT/scripts/common.sh"
 maybe_reexec_wsl "$@"
 
 CMD=help
@@ -31,7 +31,7 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
   -V, --version
   -h, --help
 
-  Windows:  .\\install\\windows.cmd --start
+  Windows:  .\\scripts\\windows.cmd --start
   Images:   pulled, never built here.
 EOF
 }
@@ -92,7 +92,7 @@ done
 
 case "$CMD" in
   help) print_usage ;;
-  manual) cat "$ROOT/run/manual.txt" ;;
+  manual) cat "$ROOT/scripts/manual.txt" ;;
   start) cmd_start "$OPEN" "$RECREATE" ;;
   stop) cmd_stop ;;
 esac
