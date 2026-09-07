@@ -1,0 +1,81 @@
+RinkDesk data manual
+Amateur tournament desk · ice 5-on-5 · summer roller 4-on-4
+Commands:  ./start.sh
+
+────────────────────────────────────────────────────────
+1. Sign in
+
+  Roles — and only these:
+
+    admin  clerk. Licenses, teams, schedule, everything.
+           Creating a team creates its only login (username = short name).
+    ref    referee. Approve lineups, enter protocol, confirm.
+           Cannot register people, create teams, or schedule matches.
+    team   one account per club. Own roster and own lineup only.
+           Cannot approve, cannot enter protocol, cannot schedule.
+
+  Built-in clerk logins (change them in Settings):
+
+    admin / admin     ref / ref
+
+  Importing a snapshot also restores one login per club (short name).
+
+  Language: Polish is the default. Switch PL / EN on the login card,
+  in the top bar, and under Settings.
+
+────────────────────────────────────────────────────────
+2. What this is
+
+  A rink clerk’s book: licenses, teams, match lineups, protocols,
+  standings. Not a live scoreboard. Data lives on the server.
+
+────────────────────────────────────────────────────────
+3. Screens
+
+  Desk        today’s matches and the next required action
+  Licenses    master register — a person is entered once
+  Teams       club cards + kit swatches; open a team to assign
+  Matches     schedule, then open the match desk
+  Standings   season table, goal leaders, assists, penalties
+  Settings    tournament name, JSON export/import
+
+────────────────────────────────────────────────────────
+4. Official workflow — no skips
+
+  scheduled → lineup submitted → BOTH lineups approved → protocol confirmed
+
+    1. Register licenses (active only can be assigned or dressed).
+    2. Create teams. Assign from the license list.
+       Jersey unique on that team. One C, max two A.
+    3. Schedule a match. Home ≠ away.
+    4. Match desk → pick players → Save draft → Submit.
+    5. Approve both sides. Protocol stays locked until then.
+    6. Enter goals and penalties. Score is the goal count.
+    7. Confirm protocol. Only then does it hit the table.
+
+────────────────────────────────────────────────────────
+5. Ice vs roller
+
+                    Ice 5-on-5                   Roller 4-on-4
+  On surface        1 G + 5 skaters              1 G + 3 skaters
+  Club roster max   20 skaters + 2 G             10 total
+  Lineup            min 6 (incl. 1 G)            min 4 (incl. 1 G)
+                    max 20 skaters + 2 G         max 8, at most 2 G
+  Periods           1 2 3 OT SO                  1 2 3 4 OT SO
+
+────────────────────────────────────────────────────────
+6. Snapshot export / import
+
+  Export   timestamped copy on the server (no browser download)
+  Import   newest export or the factory default snapshot
+
+  ./start.sh --start             keeps current Postgres data
+  ./start.sh --force-recreate    wipes the database and starts empty
+
+────────────────────────────────────────────────────────
+7. Refusals (the API will reject these)
+
+  duplicate license number · duplicate jersey on one team
+  player outside the license list · suspended license in a lineup
+  protocol before both approvals · points before confirm
+  a team playing itself
