@@ -18,7 +18,7 @@ services:
       retries: 20
 
   backend:
-    image: ${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}-backend:${RINKDESK_IMAGE_TAG:-1.0.0}
+    image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-backend:${RINKDESK_IMAGE_TAG:-1.0.0}
     environment:
       DATABASE_URL: postgresql://rinkdesk:rinkdesk@db:5432/rinkdesk
       RINKDESK_HOST: 0.0.0.0
@@ -48,7 +48,7 @@ services:
       retries: 30
 
   web:
-    image: ${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-1.0.0}
+    image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-1.0.0}
     ports:
       - "${RINKDESK_PORT:-8765}:80"
     depends_on:

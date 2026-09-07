@@ -12,6 +12,12 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=scripts/common.sh
 source "$ROOT/scripts/common.sh"
 maybe_reexec_wsl "$@"
+if [[ -f "$ROOT/release.env" ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source "$ROOT/release.env"
+  set +a
+fi
 
 CMD=help
 OPEN=1
