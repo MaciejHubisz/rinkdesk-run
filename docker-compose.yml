@@ -1,0 +1,62 @@
+# Pre-built images only. No source, schema, or dumps in this folder.
+# Image prefix/tag come from .env (written when the maintainer pushes).
+name: rinkdesk
+
+services:
+  db:
+    image: docker.io/library/postgres:16-alpine
+    environment:
+      POSTGRES_USER: rinkdesk
+      POSTGRES_PASSWORD: rinkdesk
+      POSTGRES_DB: rinkdesk
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rinkdesk -d rinkdesk"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    image: ${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}-backend:${RINKDESK_IMAGE_TAG:-1.0.0}
+    environment:
+      DATABASE_URL: postgresql://rinkdesk:rinkdesk@db:5432/rinkdesk
+      RINKDESK_HOST: 0.0.0.0
+      RINKDESK_PORT: "8765"
+      RINKDESK_VERSION: "${RINKDESK_VERSION:-1.0.0}"
+      RINKDESK_COMMIT: "${RINKDESK_COMMIT:-release}"
+      RINKDESK_DEFAULT_SNAPSHOT: /app/database/default-snapshot.json
+      RINKDESK_CUSTOM_SNAPSHOT: /app/exports/whole-application-data-export.json
+      RINKDESK_SNAPSHOT_ARCHIVE: /app/exports/archive
+    volumes:
+      - exports:/app/exports
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8765"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8765/api/health')"
+        ]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  web:
+    image: ${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-1.0.0}
+    ports:
+      - "${RINKDESK_PORT:-8765}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+    name: rinkdesk-pg
+  exports:
+    name: rinkdesk-exports
