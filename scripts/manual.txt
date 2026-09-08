@@ -85,9 +85,9 @@ Commands:  ./start.sh
   ./start.sh --force-recreate           wipes the database and starts empty
   ./start.sh --manual                   this manual
 
-  Snapshots default to the Docker volume rinkdesk-exports and protocol
-  PDFs to rinkdesk-protocols. Pass the flags on every start, or set
-  RINKDESK_EXPORTS_PATH / RINKDESK_PROTOCOLS_PATH.
+  Snapshots default to the Docker volume rinkdesk-exports; protocol PDFs go
+  to the protocols/ folder next to start.sh. Pass the flags on every start,
+  or set RINKDESK_EXPORTS_PATH / RINKDESK_PROTOCOLS_PATH for another folder.
 
   Team logos: there is no upload and no per-team setting. Drop a PNG into
   team-logos/ next to start.sh, named {short}_logo.png with the ASCII slug of

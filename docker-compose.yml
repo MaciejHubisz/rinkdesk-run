@@ -35,9 +35,11 @@ services:
       RINKDESK_TEAM_LOGOS: /app/team-logos
     volumes:
       # Named volume by default; --export-path bind-mounts a host folder instead.
-      - "${RINKDESK_EXPORTS_PATH:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
-      # Named volume by default; --protocols-path bind-mounts a host folder instead.
-      - "${RINKDESK_PROTOCOLS_PATH:-protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
+      # SOURCE vars are set by start.sh; named *_SOURCE so podman-compose does
+      # not confuse them with the in-container RINKDESK_*_PATH app variables.
+      - "${RINKDESK_EXPORTS_SOURCE:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
+      # Host ./protocols by default; --protocols-path picks another host folder.
+      - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-:z}"
       # Team logo images live in ./team-logos; export/import writes them here too.
       - ./team-logos:/app/team-logos:z
     depends_on:
@@ -70,5 +72,3 @@ volumes:
     name: rinkdesk-pg
   exports:
     name: rinkdesk-exports
-  protocols:
-    name: rinkdesk-protocols

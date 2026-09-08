@@ -52,7 +52,7 @@ apply_export_path() {
   local resolved
   resolved="$(resolve_host_path "$1")"
   mkdir -p "$resolved/archive" || die "cannot create $resolved/archive"
-  export RINKDESK_EXPORTS_PATH="$resolved"
+  export RINKDESK_EXPORTS_SOURCE="$resolved"
   export RINKDESK_EXPORTS_OPTS=":z"
   say "${DIM}exports → ${resolved}${RESET}"
 }
@@ -61,7 +61,7 @@ apply_export_path() {
 apply_protocols_path() {
   local resolved
   resolved="$(resolve_host_path "$1")"
-  export RINKDESK_PROTOCOLS_PATH="$resolved"
+  export RINKDESK_PROTOCOLS_SOURCE="$resolved"
   export RINKDESK_PROTOCOLS_OPTS=":z"
   say "${DIM}protocols → ${resolved}${RESET}"
 }
