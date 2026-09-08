@@ -4,6 +4,7 @@
 #   ./start.sh --start
 #   ./start.sh --stop
 #   ./start.sh --force-recreate
+#   ./start.sh --start --force-pull
 #   ./start.sh --start --export-path /path/to/folder
 #
 # If a sibling ../rinkdesk source tree is on disk (or RINKDESK_SRC),
@@ -28,6 +29,7 @@ CMD=help
 OPEN=1
 RECREATE=0
 SKIP_BUILD="${RINKDESK_SKIP_BUILD:-0}"
+FORCE_PULL="${RINKDESK_FORCE_PULL:-0}"
 EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
 
 # Source tree = app + build.sh. Others clone only this repo, so this is empty.
@@ -72,6 +74,7 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
 
   -p, --port PORT                UI port (default ${PORT})
       --export-path DIR          bind snapshot exports to a local folder
+      --force-pull               skip local build; pull from hub (fail if pull fails)
 EOF
   if [[ -n "$src" ]]; then
     cat <<EOF
@@ -116,7 +119,11 @@ cmd_start() {
   export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-$APP_VERSION}"
 
   say "${DIM}Pulling images…${RESET}"
-  compose pull || say "${DIM}pull failed — using local images if present${RESET}"
+  if [[ "$FORCE_PULL" == 1 ]]; then
+    compose pull || die "could not pull images from the registry (--force-pull)"
+  else
+    compose pull || say "${DIM}pull failed — using local images if present${RESET}"
+  fi
 
   if [[ "$recreate" == 1 ]]; then
     say "Wiping volumes…"
@@ -154,6 +161,10 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "$1 needs a folder"
       EXPORT_PATH="$2"; shift 2 ;;
     --no-build) SKIP_BUILD=1; shift ;;
+    --force-pull|--from-hub)
+      FORCE_PULL=1
+      SKIP_BUILD=1
+      shift ;;
     -n|--no-open) OPEN=0; shift ;;
     --start|start) CMD=start; shift ;;
     --stop|stop) CMD=stop; shift ;;
@@ -164,6 +175,8 @@ while [[ $# -gt 0 ]]; do
     *) die "unknown argument: $1  (try: $0 --help)" ;;
   esac
 done
+
+[[ "$FORCE_PULL" == 1 ]] && SKIP_BUILD=1
 
 case "$CMD" in
   help) print_usage ;;

@@ -28,6 +28,7 @@ Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`)
 |---|---|
 | `./start.sh --start` | Pull images, start or resume, keep data |
 | `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
+| `./start.sh --start --force-pull` | Skip local build; pull from hub (fail if pull fails) |
 | `./start.sh --force-recreate` | Wipe Postgres, pull, start empty |
 | `./start.sh --stop` | Stop containers (data kept) |
 | `./start.sh --manual` | How the desk works |

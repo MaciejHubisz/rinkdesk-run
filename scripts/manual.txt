@@ -73,6 +73,8 @@ Commands:  ./start.sh
                                  (builds + publishes first if ../rinkdesk exists)
   ./start.sh --start --export-path DIR
                                  bind those JSON files to a local folder
+  ./start.sh --start --force-pull
+                                 skip local build; pull from hub (fail if pull fails)
   ./start.sh --force-recreate    wipes the database and starts empty
 
 ────────────────────────────────────────────────────────

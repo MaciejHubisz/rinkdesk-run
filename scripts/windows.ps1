@@ -15,6 +15,8 @@ param(
   [string]$ExportPath,
   [Alias('no-build')]
   [switch]$NoBuild,
+  [Alias('force-pull')]
+  [switch]$ForcePull,
   [switch]$Start,
   [switch]$Stop,
   [switch]$Manual,
@@ -85,6 +87,7 @@ if ($Help) { [void]$forward.Add('--help') }
 if ($Version) { [void]$forward.Add('--version') }
 if ($NoOpen) { [void]$forward.Add('--no-open') }
 if ($NoBuild) { [void]$forward.Add('--no-build') }
+if ($ForcePull) { [void]$forward.Add('--force-pull') }
 if ($Port) { [void]$forward.Add('--port'); [void]$forward.Add("$Port") }
 if ($ExportPath) {
   [void]$forward.Add('--export-path')
