@@ -28,6 +28,8 @@ services:
       RINKDESK_DEFAULT_SNAPSHOT: /app/database/default-snapshot.json
       RINKDESK_CUSTOM_SNAPSHOT: /app/exports/whole-application-data-export.json
       RINKDESK_SNAPSHOT_ARCHIVE: /app/exports/archive
+      RINKDESK_DEFAULT_LICENSES: /app/database/default-licenses.json
+      RINKDESK_CUSTOM_LICENSES: /app/exports/licenses-export.json
     volumes:
       # Named volume by default; --export-path bind-mounts a host folder instead.
       - "${RINKDESK_EXPORTS_PATH:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
