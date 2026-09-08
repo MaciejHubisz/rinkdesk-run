@@ -29,7 +29,8 @@ services:
       RINKDESK_CUSTOM_SNAPSHOT: /app/exports/whole-application-data-export.json
       RINKDESK_SNAPSHOT_ARCHIVE: /app/exports/archive
     volumes:
-      - exports:/app/exports
+      # Named volume by default; --export-path bind-mounts a host folder instead.
+      - "${RINKDESK_EXPORTS_PATH:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
     depends_on:
       db:
         condition: service_healthy

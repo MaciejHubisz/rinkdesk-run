@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
-# RinkDesk — pull images and run. Same file in rinkdesk and rinkdesk-run.
+# RinkDesk — pull images and run. This is the only start.sh.
 #
 #   ./start.sh --start
 #   ./start.sh --stop
 #   ./start.sh --force-recreate
+#   ./start.sh --start --export-path /path/to/folder
 #
-# Windows:  .\scripts\windows.cmd --start
+# If a sibling ../rinkdesk source tree is on disk (or RINKDESK_SRC),
+# --start runs that repo's ./build.sh (build + publish) first, then
+# pulls and runs here — same as a machine that only has this repo.
+#
+# Windows:  .\scripts\windows.cmd --start --export-path D:\rinkdesk-exports
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -22,8 +27,41 @@ fi
 CMD=help
 OPEN=1
 RECREATE=0
+SKIP_BUILD="${RINKDESK_SKIP_BUILD:-0}"
+EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
+
+# Source tree = app + build.sh. Others clone only this repo, so this is empty.
+find_source_tree() {
+  local cand
+  if [[ -n "${RINKDESK_SRC:-}" ]]; then
+    cand="${RINKDESK_SRC}"
+    if [[ -x "$cand/build.sh" && -d "$cand/app/backend" ]]; then
+      (cd "$cand" && pwd)
+      return 0
+    fi
+    die "RINKDESK_SRC=$cand is not a RinkDesk source tree (need build.sh and app/backend)"
+  fi
+  cand="$(cd "$ROOT/.." && pwd)/rinkdesk"
+  if [[ -x "$cand/build.sh" && -d "$cand/app/backend" ]]; then
+    printf '%s\n' "$cand"
+    return 0
+  fi
+  return 1
+}
+
+# Build + publish from the source repo, then this script pulls those images.
+maybe_publish_from_source() {
+  local src
+  [[ "$SKIP_BUILD" == 1 ]] && return 0
+  src="$(find_source_tree)" || return 0
+  say "${BOLD}source${RESET}  ${src}"
+  say "Building and publishing images…"
+  bash "$src/build.sh"
+}
 
 print_usage() {
+  local src=""
+  src="$(find_source_tree 2>/dev/null || true)"
   cat <<EOF
 ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
 
@@ -33,19 +71,46 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
   ${GREEN}./start.sh --manual${RESET}            how the desk works
 
   -p, --port PORT                UI port (default ${PORT})
+      --export-path DIR          bind snapshot exports to a local folder
+EOF
+  if [[ -n "$src" ]]; then
+    cat <<EOF
+      --no-build                 skip source build + publish
+EOF
+  fi
+  cat <<EOF
   -n, --no-open                  do not open a browser
   -V, --version
   -h, --help
 
   Windows:  .\\scripts\\windows.cmd --start
+            .\\scripts\\windows.cmd --start --export-path D:\\rinkdesk-exports
+EOF
+  if [[ -n "$src" ]]; then
+    cat <<EOF
+  Source:   ${src}
+            --start builds and publishes, then pulls and runs.
+EOF
+  else
+    cat <<EOF
   Images:   pulled, never built here.
 EOF
+  fi
 }
 
 cmd_start() {
   local open_it="$1" recreate="$2"
   ensure_runtime
+  [[ -n "$EXPORT_PATH" ]] && apply_export_path "$EXPORT_PATH"
+  maybe_publish_from_source
   cd "$ROOT"
+  if [[ -f "$ROOT/.env" ]]; then
+    set -a
+    # shellcheck disable=SC1091
+    source "$ROOT/.env"
+    set +a
+  fi
+  APP_VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION" 2>/dev/null || printf '1.0.0')"
   export RINKDESK_PORT="$PORT"
   export RINKDESK_VERSION="$APP_VERSION"
   export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-$APP_VERSION}"
@@ -85,6 +150,10 @@ while [[ $# -gt 0 ]]; do
     -H|--host)
       [[ $# -ge 2 ]] || die "$1 needs a host"
       HOST="$2"; refresh_url; shift 2 ;;
+    --export-path)
+      [[ $# -ge 2 ]] || die "$1 needs a folder"
+      EXPORT_PATH="$2"; shift 2 ;;
+    --no-build) SKIP_BUILD=1; shift ;;
     -n|--no-open) OPEN=0; shift ;;
     --start|start) CMD=start; shift ;;
     --stop|stop) CMD=stop; shift ;;

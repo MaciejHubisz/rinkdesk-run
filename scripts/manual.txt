@@ -70,6 +70,9 @@ Commands:  ./start.sh
   Import   newest export or the factory default snapshot
 
   ./start.sh --start             keeps current Postgres data
+                                 (builds + publishes first if ../rinkdesk exists)
+  ./start.sh --start --export-path DIR
+                                 bind those JSON files to a local folder
   ./start.sh --force-recreate    wipes the database and starts empty
 
 ────────────────────────────────────────────────────────

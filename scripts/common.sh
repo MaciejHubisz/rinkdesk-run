@@ -1,4 +1,4 @@
-# Shared by ./start.sh and ./build.sh. Expects ROOT.
+# Used by ./start.sh. Expects ROOT (this rinkdesk-run tree).
 
 : "${ROOT:?ROOT must be set}"
 
@@ -24,6 +24,38 @@ have() { command -v "$1" >/dev/null 2>&1; }
 git_commit() { git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || printf 'dev'; }
 print_version() { printf '%s\n' "RinkDesk ${APP_VERSION} ($(git_commit))"; }
 refresh_url() { URL="http://${HOST}:${PORT}/"; }
+
+# Host path Docker can bind-mount. Windows drive letters become WSL paths.
+resolve_host_path() {
+  local raw="$1" unix=""
+  raw="${raw%$'\r'}"
+  [[ -n "$raw" ]] || die "--export-path needs a folder"
+
+  if [[ "$raw" =~ ^[A-Za-z]:[\\/] ]] || [[ "$raw" == \\\\* ]]; then
+    if have wslpath; then
+      unix="$(wslpath -a "$raw" | tr -d '\r')"
+    elif have wsl.exe; then
+      unix="$(wsl.exe wslpath -a "$raw" | tr -d '\r')"
+    fi
+    [[ -n "$unix" ]] || die "could not map Windows path into Linux: $raw"
+    raw="$unix"
+  elif [[ "$raw" != /* ]]; then
+    raw="$(pwd)/$raw"
+  fi
+
+  mkdir -p "$raw" || die "cannot create export folder: $raw"
+  (cd "$raw" && pwd)
+}
+
+# Bind /app/exports to a local folder. rinkdesk-run uses a named volume unless this is set.
+apply_export_path() {
+  local resolved
+  resolved="$(resolve_host_path "$1")"
+  mkdir -p "$resolved/archive" || die "cannot create $resolved/archive"
+  export RINKDESK_EXPORTS_PATH="$resolved"
+  export RINKDESK_EXPORTS_OPTS=":z"
+  say "${DIM}exports → ${resolved}${RESET}"
+}
 
 detect_os() {
   WSL=0
