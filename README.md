@@ -27,6 +27,15 @@ Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`)
 ./start.sh --start
 ```
 
+Tab completion for the flags works like any other Linux command. Enable it
+once by sourcing the completion script (add the line to your `~/.bashrc` to
+make it permanent):
+
+```bash
+source scripts/start-completion.bash
+# then ./start.sh --for<TAB> → --force-recreate / --force-pull
+```
+
 | Command | What it does |
 |---|---|
 | `./start.sh --start` | Pull images, start or resume, keep data |
