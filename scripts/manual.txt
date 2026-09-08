@@ -34,8 +34,8 @@ Commands:  ./start.sh
 
   Desk        today’s matches and the next required action
   Licenses    master register — a person is entered once
-  Teams       club cards, kit colours and optional logo; open a team to
-              assign players and set its logo file
+  Teams       club cards, kit colours and logo; open a team to assign
+              players (the logo is a PNG in team-logos/, matched by short name)
   Matches     schedule, then open the match desk
   Standings   table (with team logos), goal leaders, assists, penalties
   Settings    tournament name, snapshot export/import, protocol JSON export
@@ -89,9 +89,11 @@ Commands:  ./start.sh
   PDFs to rinkdesk-protocols. Pass the flags on every start, or set
   RINKDESK_EXPORTS_PATH / RINKDESK_PROTOCOLS_PATH.
 
-  Team logos: put a PNG/JPG in team-logos/ next to start.sh, then open the
-  team and set its “Logo file” to the exact file name (e.g. orly.png). The
-  logo shows in the standings table and on the printed protocol.
+  Team logos: there is no upload and no per-team setting. Drop a PNG into
+  team-logos/ next to start.sh, named {short}_logo.png with the ASCII slug of
+  the short name (ORŁY → orly_logo.png). A missing file just shows a neutral
+  crest. The logo appears in the standings table and on the printed protocol.
+  Snapshot export copies these files next to the JSON; import restores them.
   See team-logos/README.md.
 
 ────────────────────────────────────────────────────────

@@ -1,17 +1,25 @@
 # Team logos
 
-Drop team logo image files here (PNG/JPG, small, e.g. 200x200 px). There is no
-upload in the app: this folder is bind-mounted into the running desk, so the
-logo files physically live on the machine that runs `./start.sh`.
+There is no upload and no per-team logo setting. A team’s logo file is looked
+up by a fixed name derived from its short name:
 
-How to connect a logo to a team:
+    Short name    →  Logo file
+    JETS          →  jets_logo.png
+    ORŁY          →  orly_logo.png
+    WILKI         →  wilki_logo.png
 
-1. Put the file here, e.g. `orly.png`.
-2. Open the team in the app and set **Logo file** to the exact file name, e.g.
-   `orly.png`.
+Rules:
 
-When the desk is running, the file is served under `/logos/orly.png` and the
-logo is drawn in the standings table and on the printed protocol. Files without
-a matching team are ignored.
+  - PNG files only (that is the expected image type).
+  - Use the lower-case, ASCII slug of the short name (ł → l, other diacritics
+    stripped), then `_logo.png`.
+  - Small, roughly square files look best (e.g. 200×200 px).
+  - Put the file in this folder — no restart or data edit is needed.
+  - If the file is missing, the web shows a neutral “no logo” crest and the
+    printed protocol draws a placeholder box.
 
-Copy the same images to this folder on every machine that runs the desk.
+Snapshot export (Settings → Export) copies these logo files next to the
+exported JSON, and import restores them from that same folder — so the whole
+dump (JSON + images) can be moved to another machine.
+
+Files without a matching team are ignored.

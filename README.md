@@ -37,7 +37,7 @@ Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`)
 | `./start.sh --stop` | Stop containers (data kept) |
 | `./start.sh --manual` | How the desk works |
 
-Without `--export-path`, snapshot JSON lives in the Docker volume `rinkdesk-exports`. With it, Settings → export writes into that folder (`archive/` plus the latest file). Pass the flag each time you start, or set `RINKDESK_EXPORTS_PATH`.
+Without `--export-path`, snapshot JSON lives in the Docker volume `rinkdesk-exports`. With it, Settings → export writes into that folder (`archive/` plus the latest file) and copies each team’s logo PNG next to the JSON; import restores both. Pass the flag each time you start, or set `RINKDESK_EXPORTS_PATH`.
 
 Without `--protocols-path`, generated protocol PDFs live in the Docker volume `rinkdesk-protocols`. With it, the desk’s “Save protocol” action writes each match’s PDF into that folder — always the same file per match, overwritten on every save. Pass the flag each time you start, or set `RINKDESK_PROTOCOLS_PATH`.
 
@@ -51,9 +51,11 @@ Without `--protocols-path`, generated protocol PDFs live in the Docker volume `r
 .\scripts\windows.cmd --start --protocols-path D:\rinkdesk-protocols
 ```
 
-Team logos: drop image files in the `team-logos/` folder next to `start.sh`
-(served as `/logos/<file>`), then set the team's **Logo file** field to the file
-name. See `team-logos/README.md`.
+Team logos: drop a PNG into the `team-logos/` folder next to `start.sh`, named
+after the team short name (e.g. `orly_logo.png` for `ORŁY`). There is no upload
+and no per-team field — a missing file simply shows a neutral "no logo" crest.
+Export bundles those images with the JSON dump; import restores them. See
+`team-logos/README.md`.
 
 If pull fails, GHCR packages `rinkdesk-backend` and `rinkdesk-web` may still
 be private — the publisher must set them Public.
