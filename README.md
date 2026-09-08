@@ -3,6 +3,9 @@
 No source code and no data dumps. `./start.sh --start` pulls Docker images
 and starts the desk. This is the only `start.sh`.
 
+Proprietary — © Maciej Hubisz. All rights reserved. Use, modify, fork, or
+redistribute only with the author's written permission. See `LICENSE`.
+
 ## Windows (WSL + Docker)
 
 1. PowerShell **as Administrator**: `wsl --install` (Ubuntu is fine). Reboot if asked.

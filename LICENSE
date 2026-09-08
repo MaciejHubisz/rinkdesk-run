@@ -1,0 +1,19 @@
+RinkDesk (run-only project)
+
+Copyright (c) 2026 Maciej Hubisz
+
+All rights reserved.
+
+This repository is a deployment wrapper for RinkDesk and is proprietary
+software. This licence notice replaces any open-source licence: no rights are
+granted automatically.
+
+You may use it privately or commercially only with the written permission of
+the author (Maciej Hubisz). Without that permission you may not copy,
+redistribute, or share it with anyone else, modify it, fork it, create
+derivative works, or include it as part of another system.
+
+The parent software (RinkDesk) carries the same terms. See rinkdesk/LICENSE.
+
+License name (short): Proprietary
+Author: Maciej Hubisz
