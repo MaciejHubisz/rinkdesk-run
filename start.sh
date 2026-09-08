@@ -91,6 +91,7 @@ EOF
 
   Windows:  .\\scripts\\windows.cmd --start
             .\\scripts\\windows.cmd --start --export-path D:\\rinkdesk-exports
+            .\\scripts\\windows.cmd --start --protocols-path D:\\rinkdesk-protocols
 EOF
   if [[ -n "$src" ]]; then
     cat <<EOF

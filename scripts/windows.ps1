@@ -2,6 +2,7 @@
 #   .\scripts\windows.cmd --start
 #   .\scripts\windows.ps1 --start
 #   .\scripts\windows.cmd --start --export-path D:\rinkdesk-exports
+#   .\scripts\windows.cmd --start --protocols-path D:\rinkdesk-protocols
 param(
   [Alias('p')]
   [string]$Port,
@@ -13,6 +14,8 @@ param(
   [switch]$Version,
   [Alias('export-path')]
   [string]$ExportPath,
+  [Alias('protocols-path')]
+  [string]$ProtocolsPath,
   [Alias('no-build')]
   [switch]$NoBuild,
   [Alias('force-pull')]
@@ -92,6 +95,10 @@ if ($Port) { [void]$forward.Add('--port'); [void]$forward.Add("$Port") }
 if ($ExportPath) {
   [void]$forward.Add('--export-path')
   [void]$forward.Add((ConvertTo-WslPath $ExportPath))
+}
+if ($ProtocolsPath) {
+  [void]$forward.Add('--protocols-path')
+  [void]$forward.Add((ConvertTo-WslPath $ProtocolsPath))
 }
 foreach ($a in @($Argv)) {
   if ($null -ne $a -and "$a" -ne '') { [void]$forward.Add("$a") }

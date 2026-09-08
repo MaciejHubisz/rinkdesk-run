@@ -34,10 +34,11 @@ Commands:  ./start.sh
 
   Desk        today’s matches and the next required action
   Licenses    master register — a person is entered once
-  Teams       club cards + kit swatches; open a team to assign
+  Teams       club cards, kit colours and optional logo; open a team to
+              assign players and set its logo file
   Matches     schedule, then open the match desk
-  Standings   season table, goal leaders, assists, penalties
-  Settings    tournament name, JSON export/import
+  Standings   table (with team logos), goal leaders, assists, penalties
+  Settings    tournament name, snapshot export/import, protocol JSON export
 
 ────────────────────────────────────────────────────────
 4. Official workflow — no skips
@@ -52,6 +53,11 @@ Commands:  ./start.sh
     5. Approve both sides. Protocol stays locked until then.
     6. Enter goals and penalties. Score is the goal count.
     7. Confirm protocol. Only then does it hit the table.
+    8. Save the protocol: the match desk writes the match PDF to disk.
+       Every match keeps one file; saving again replaces it. The protocol
+       always fits on one page — if a game has many goals or penalties,
+       the list continues on extra pages that repeat the template and the
+       rosters, and the signatures stay on the first page.
 
 ────────────────────────────────────────────────────────
 5. Ice vs roller
@@ -64,24 +70,29 @@ Commands:  ./start.sh
   Periods           1 2 3 OT SO                  1 2 3 4 OT SO
 
 ────────────────────────────────────────────────────────
-6. Snapshot export / import
+6. Files and folders
 
-  Export   timestamped copy on the server (no browser download)
-  Import   newest export or the factory default snapshot
+  The desk keeps three kinds of files:
 
-  ./start.sh --start             keeps current Postgres data
-                                 (builds + publishes first if ../rinkdesk exists)
-  ./start.sh --start --export-path DIR
-                                 bind those JSON files to a local folder
-  ./start.sh --start --force-pull
-                                 skip local build; pull from hub (fail if pull fails)
-  ./start.sh --force-recreate    wipes the database and starts empty
+    snapshots   whole-app export (Settings → Export); newest is imported
+    protocols   one PDF per confirmed match, replaced on every save
+    team-logos  image files you drop in yourself (no upload in the app)
 
-  Protocol PDFs (per match, after confirm):
+  ./start.sh --start                    keeps current Postgres data
+  ./start.sh --start --export-path DIR  write snapshots into a local folder
   ./start.sh --start --protocols-path DIR
-                                 write the desk's "Save protocol" PDFs here.
-                                 Each match keeps one file; saving again replaces it.
-                                 Default: a Docker volume (rinkdesk-protocols).
+                                        write protocol PDFs into a local folder
+  ./start.sh --force-recreate           wipes the database and starts empty
+  ./start.sh --manual                   this manual
+
+  Snapshots default to the Docker volume rinkdesk-exports and protocol
+  PDFs to rinkdesk-protocols. Pass the flags on every start, or set
+  RINKDESK_EXPORTS_PATH / RINKDESK_PROTOCOLS_PATH.
+
+  Team logos: put a PNG/JPG in team-logos/ next to start.sh, then open the
+  team and set its “Logo file” to the exact file name (e.g. orly.png). The
+  logo shows in the standings table and on the printed protocol.
+  See team-logos/README.md.
 
 ────────────────────────────────────────────────────────
 7. Refusals (the API will reject these)
