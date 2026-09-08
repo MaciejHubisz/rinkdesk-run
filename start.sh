@@ -117,6 +117,7 @@ cmd_start() {
   export RINKDESK_PORT="$PORT"
   export RINKDESK_VERSION="$APP_VERSION"
   export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-$APP_VERSION}"
+  export RINKDESK_RUN_COMMIT="$(git_commit)"
 
   say "${DIM}Pulling images…${RESET}"
   if [[ "$FORCE_PULL" == 1 ]]; then
