@@ -6,6 +6,7 @@
 #   ./start.sh --force-recreate
 #   ./start.sh --start --force-pull
 #   ./start.sh --start --export-path /path/to/folder
+#   ./start.sh --start --protocols-path /path/to/folder
 #
 # If a sibling ../rinkdesk source tree is on disk (or RINKDESK_SRC),
 # --start runs that repo's ./build.sh (build + publish) first, then
@@ -31,6 +32,7 @@ RECREATE=0
 SKIP_BUILD="${RINKDESK_SKIP_BUILD:-0}"
 FORCE_PULL="${RINKDESK_FORCE_PULL:-0}"
 EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
+PROTOCOLS_PATH="${RINKDESK_PROTOCOLS_PATH:-}"
 
 # Source tree = app + build.sh. Others clone only this repo, so this is empty.
 find_source_tree() {
@@ -74,6 +76,7 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
 
   -p, --port PORT                UI port (default ${PORT})
       --export-path DIR          bind snapshot exports to a local folder
+      --protocols-path DIR       bind generated protocol PDFs to a local folder
       --force-pull               skip local build; pull from hub (fail if pull fails)
 EOF
   if [[ -n "$src" ]]; then
@@ -105,6 +108,7 @@ cmd_start() {
   local open_it="$1" recreate="$2"
   ensure_runtime
   [[ -n "$EXPORT_PATH" ]] && apply_export_path "$EXPORT_PATH"
+  [[ -n "$PROTOCOLS_PATH" ]] && apply_protocols_path "$PROTOCOLS_PATH"
   maybe_publish_from_source
   cd "$ROOT"
   if [[ -f "$ROOT/.env" ]]; then
@@ -161,6 +165,9 @@ while [[ $# -gt 0 ]]; do
     --export-path)
       [[ $# -ge 2 ]] || die "$1 needs a folder"
       EXPORT_PATH="$2"; shift 2 ;;
+    --protocols-path)
+      [[ $# -ge 2 ]] || die "$1 needs a folder"
+      PROTOCOLS_PATH="$2"; shift 2 ;;
     --no-build) SKIP_BUILD=1; shift ;;
     --force-pull|--from-hub)
       FORCE_PULL=1

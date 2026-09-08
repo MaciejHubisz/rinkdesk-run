@@ -28,6 +28,7 @@ Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`)
 |---|---|
 | `./start.sh --start` | Pull images, start or resume, keep data |
 | `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
+| `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
 | `./start.sh --start --force-pull` | Skip local build; pull from hub (fail if pull fails) |
 | `./start.sh --force-recreate` | Wipe Postgres, pull, start empty |
 | `./start.sh --stop` | Stop containers (data kept) |
@@ -35,12 +36,16 @@ Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`)
 
 Without `--export-path`, snapshot JSON lives in the Docker volume `rinkdesk-exports`. With it, Settings → export writes into that folder (`archive/` plus the latest file). Pass the flag each time you start, or set `RINKDESK_EXPORTS_PATH`.
 
+Without `--protocols-path`, generated protocol PDFs live in the Docker volume `rinkdesk-protocols`. With it, the desk’s “Save protocol” action writes each match’s PDF into that folder — always the same file per match, overwritten on every save. Pass the flag each time you start, or set `RINKDESK_PROTOCOLS_PATH`.
+
 ```bash
 ./start.sh --start --export-path ~/rinkdesk-exports
+./start.sh --start --protocols-path ~/rinkdesk-protocols
 ```
 
 ```powershell
 .\scripts\windows.cmd --start --export-path D:\rinkdesk-exports
+.\scripts\windows.cmd --start --protocols-path D:\rinkdesk-protocols
 ```
 
 If pull fails, GHCR packages `rinkdesk-backend` and `rinkdesk-web` may still

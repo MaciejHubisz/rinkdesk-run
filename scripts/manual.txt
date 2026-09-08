@@ -77,6 +77,12 @@ Commands:  ./start.sh
                                  skip local build; pull from hub (fail if pull fails)
   ./start.sh --force-recreate    wipes the database and starts empty
 
+  Protocol PDFs (per match, after confirm):
+  ./start.sh --start --protocols-path DIR
+                                 write the desk's "Save protocol" PDFs here.
+                                 Each match keeps one file; saving again replaces it.
+                                 Default: a Docker volume (rinkdesk-protocols).
+
 ────────────────────────────────────────────────────────
 7. Refusals (the API will reject these)
 

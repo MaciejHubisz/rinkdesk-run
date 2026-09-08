@@ -57,6 +57,15 @@ apply_export_path() {
   say "${DIM}exports → ${resolved}${RESET}"
 }
 
+# Bind /app/protocols (generated protocol PDFs) to a local folder.
+apply_protocols_path() {
+  local resolved
+  resolved="$(resolve_host_path "$1")"
+  export RINKDESK_PROTOCOLS_PATH="$resolved"
+  export RINKDESK_PROTOCOLS_OPTS=":z"
+  say "${DIM}protocols → ${resolved}${RESET}"
+}
+
 detect_os() {
   WSL=0
   case "$(uname -s 2>/dev/null)" in

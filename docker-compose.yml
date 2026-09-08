@@ -31,9 +31,12 @@ services:
       RINKDESK_SNAPSHOT_ARCHIVE: /app/exports/archive
       RINKDESK_DEFAULT_LICENSES: /app/database/default-licenses.json
       RINKDESK_CUSTOM_LICENSES: /app/exports/licenses-export.json
+      RINKDESK_PROTOCOLS_PATH: /app/protocols
     volumes:
       # Named volume by default; --export-path bind-mounts a host folder instead.
       - "${RINKDESK_EXPORTS_PATH:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
+      # Named volume by default; --protocols-path bind-mounts a host folder instead.
+      - "${RINKDESK_PROTOCOLS_PATH:-protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
     depends_on:
       db:
         condition: service_healthy
@@ -64,3 +67,5 @@ volumes:
     name: rinkdesk-pg
   exports:
     name: rinkdesk-exports
+  protocols:
+    name: rinkdesk-protocols
