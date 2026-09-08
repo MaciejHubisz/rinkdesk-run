@@ -51,5 +51,9 @@ Without `--protocols-path`, generated protocol PDFs live in the Docker volume `r
 .\scripts\windows.cmd --start --protocols-path D:\rinkdesk-protocols
 ```
 
+Team logos: drop image files in the `team-logos/` folder next to `start.sh`
+(served as `/logos/<file>`), then set the team's **Logo file** field to the file
+name. See `team-logos/README.md`.
+
 If pull fails, GHCR packages `rinkdesk-backend` and `rinkdesk-web` may still
 be private — the publisher must set them Public.

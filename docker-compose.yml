@@ -32,11 +32,14 @@ services:
       RINKDESK_DEFAULT_LICENSES: /app/database/default-licenses.json
       RINKDESK_CUSTOM_LICENSES: /app/exports/licenses-export.json
       RINKDESK_PROTOCOLS_PATH: /app/protocols
+      RINKDESK_TEAM_LOGOS: /app/team-logos
     volumes:
       # Named volume by default; --export-path bind-mounts a host folder instead.
       - "${RINKDESK_EXPORTS_PATH:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
       # Named volume by default; --protocols-path bind-mounts a host folder instead.
       - "${RINKDESK_PROTOCOLS_PATH:-protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
+      # Team logo images live in ./team-logos; shared read-only with the web server.
+      - ./team-logos:/app/team-logos:ro,z
     depends_on:
       db:
         condition: service_healthy
@@ -58,6 +61,9 @@ services:
     image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-1.0.0}
     ports:
       - "${RINKDESK_PORT:-8765}:80"
+    volumes:
+      # Serve team logo images from ./team-logos under /logos/.
+      - ./team-logos:/usr/share/nginx/html/logos:ro,z
     depends_on:
       backend:
         condition: service_healthy
