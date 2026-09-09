@@ -77,6 +77,7 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
   -p, --port PORT                UI port (default ${PORT})
       --export-path DIR          bind snapshot exports to a local folder
       --protocols-path DIR       bind generated protocol PDFs to a local folder
+      --paths                    show where JSON, protocols, and logos live
       --force-pull               skip local build; pull from hub (fail if pull fails)
 EOF
   if [[ -n "$src" ]]; then
@@ -145,7 +146,36 @@ cmd_start() {
   fi
   printf '%s\n' "${BOLD}RinkDesk${RESET} ${APP_VERSION}  ${GREEN}up${RESET}  ${BOLD}${URL}${RESET}"
   [[ "$recreate" == 1 ]] && say "Empty desk (database wiped)."
+  print_paths
   [[ "$open_it" == 1 ]] && open_browser "$URL"
+}
+
+# Show the effective + default locations of the JSON snapshots, generated
+# protocol PDFs, and team logos. *_SOURCE vars are set by apply_* only when a
+# --export-path / --protocols-path override is in effect; otherwise the
+# docker-compose default applies.
+print_paths() {
+  local json protocols logos
+  if [[ -n "${RINKDESK_EXPORTS_SOURCE:-}" ]]; then
+    json="host    ${RINKDESK_EXPORTS_SOURCE}   (--export-path)"
+  else
+    json="volume  rinkdesk-exports   (default, not a host folder)"
+  fi
+  if [[ -n "${RINKDESK_PROTOCOLS_SOURCE:-}" ]]; then
+    protocols="host    ${RINKDESK_PROTOCOLS_SOURCE}   (--protocols-path)"
+  else
+    protocols="host    ${ROOT}/protocols   (default)"
+  fi
+  logos="${ROOT}/team-logos"
+  say "${DIM}  JSON exports → ${json}${RESET}"
+  say "${DIM}  Protocols    → ${protocols}${RESET}"
+  say "${DIM}  Team logos   → host    ${logos}${RESET}"
+}
+
+cmd_paths() {
+  [[ -n "$EXPORT_PATH" ]] && apply_export_path "$EXPORT_PATH"
+  [[ -n "$PROTOCOLS_PATH" ]] && apply_protocols_path "$PROTOCOLS_PATH"
+  print_paths
 }
 
 cmd_stop() {
@@ -178,6 +208,7 @@ while [[ $# -gt 0 ]]; do
     --start|start) CMD=start; shift ;;
     --stop|stop) CMD=stop; shift ;;
     --force-recreate|--reset) CMD=start; RECREATE=1; shift ;;
+    --paths|--where) CMD=paths; shift ;;
     --manual|--data|manual) CMD=manual; shift ;;
     -h|--help|help) CMD=help; shift ;;
     -V|--version) print_version; exit 0 ;;
@@ -192,4 +223,5 @@ case "$CMD" in
   manual) cat "$ROOT/scripts/manual.txt" ;;
   start) cmd_start "$OPEN" "$RECREATE" ;;
   stop) cmd_stop ;;
+  paths) cmd_paths ;;
 esac
