@@ -21,6 +21,25 @@ cd rinkdesk-run
 
 Browser: http://127.0.0.1:8765/ — sign in `admin` / `admin` (or `ref` / `ref`).
 
+### Share the live page on the internet (Windows)
+
+`start-funnel.cmd` is the Windows twin of `./start-funnel.sh`. It installs
+Tailscale if needed, starts its service, logs you in (the one interactive
+step, in a browser), starts the desk via WSL if it is not running, and enables
+the Funnel:
+
+```powershell
+.\scripts\start-funnel.cmd
+.\scripts\start-funnel.cmd --path /scores
+.\scripts\start-funnel.cmd --authkey tskey-auth-...   # non-interactive login
+.\scripts\start-funnel.cmd --status
+.\scripts\start-funnel.cmd --stop
+```
+
+Tailscale runs on Windows and points at the loopback live listener that Docker
+Desktop publishes from WSL (`127.0.0.1:8766`). Env: `RINKDESK_LIVE_PORT`,
+`RINKDESK_FUNNEL_PATH`.
+
 ### Make protocols land in a shared Google Drive folder (Windows)
 
 So new protocol PDFs are shared the moment they are written, run the one-time
@@ -76,13 +95,19 @@ A standalone scoring page (table + games, auto-refresh, light/dark, PL/EN/CS) is
 served at `http://127.0.0.1:8765/live/` and is not linked to the desk.
 
 Share just that page on the internet with Tailscale Funnel — the desk stays
-private:
+private. The script provisions everything from scratch: installs Tailscale,
+starts the daemon, logs in (interactive the first time), starts the desk if
+needed, and enables the Funnel:
 
 ```bash
-./start.sh --start
 ./start-funnel.sh                 # https://<machine>.<tailnet>.ts.net/live/
+./start-funnel.sh --path /scores  # different URL path
+./start-funnel.sh --authkey KEY   # non-interactive login
+./start-funnel.sh --status
 ./start-funnel.sh --stop
 ```
+
+On Windows use `.\scripts\start-funnel.cmd` with the same flags.
 
 Auto-refresh and the live port live in `.env`
 (`RINKDESK_LIVE_REFRESH_SECONDS`, `RINKDESK_LIVE_PORT`). See
