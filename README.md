@@ -70,6 +70,24 @@ source scripts/start-completion.bash
 | `./start.sh --stop` | Stop containers (data kept) |
 | `./start.sh --manual` | How the desk works |
 
+### Read-only live page
+
+A standalone scoring page (table + games, auto-refresh, light/dark, PL/EN/CS) is
+served at `http://127.0.0.1:8765/live/` and is not linked to the desk.
+
+Share just that page on the internet with Tailscale Funnel — the desk stays
+private:
+
+```bash
+./start.sh --start
+./start-funnel.sh                 # https://<machine>.<tailnet>.ts.net/live/
+./start-funnel.sh --stop
+```
+
+Auto-refresh and the live port live in `.env`
+(`RINKDESK_LIVE_REFRESH_SECONDS`, `RINKDESK_LIVE_PORT`). See
+`rinkdesk/docs/live-page.md` in the source repo.
+
 Without `--export-path`, snapshot JSON lives in the Docker volume `rinkdesk-exports`. With it, Settings → export writes into that folder (`archive/` plus the latest file) and copies each team’s logo PNG next to the JSON; import restores both. Pass the flag each time you start, or set `RINKDESK_EXPORTS_PATH`.
 
 Protocol PDFs are written to the `protocols/` folder next to `start.sh` — always the same file per match, overwritten on every save. Pass `--protocols-path DIR` (or set `RINKDESK_PROTOCOLS_PATH`) to put them in another folder instead — e.g. `G:\My Drive\protocols` to share them via Google Drive (see the Windows setup above).
