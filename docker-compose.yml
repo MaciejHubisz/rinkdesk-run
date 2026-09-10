@@ -38,11 +38,12 @@ services:
       # Named volume by default; --export-path bind-mounts a host folder instead.
       # SOURCE vars are set by start.sh; named *_SOURCE so podman-compose does
       # not confuse them with the in-container RINKDESK_*_PATH app variables.
+      # RINKDESK_VOL_OPTS is ":z" on Linux (SELinux) and empty on macOS/Windows.
       - "${RINKDESK_EXPORTS_SOURCE:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
       # Host ./protocols by default; --protocols-path picks another host folder.
-      - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-:z}"
+      - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
       # Team logo images live in ./team-logos; export/import writes them here too.
-      - ./team-logos:/app/team-logos:z
+      - ./team-logos:/app/team-logos${RINKDESK_VOL_OPTS:-}
     depends_on:
       db:
         condition: service_healthy

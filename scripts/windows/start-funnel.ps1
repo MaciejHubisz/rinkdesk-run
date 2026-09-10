@@ -5,13 +5,13 @@
 # needed, starts its service, logs in (interactive the first time), starts the
 # desk (via WSL) if the live listener is down, then enables the Funnel.
 #
-#   .\scripts\start-funnel.cmd
-#   .\scripts\start-funnel.cmd --path /scores
-#   .\scripts\start-funnel.cmd --port 8766
-#   .\scripts\start-funnel.cmd --authkey tskey-auth-...
-#   .\scripts\start-funnel.cmd --no-desk
-#   .\scripts\start-funnel.cmd --status
-#   .\scripts\start-funnel.cmd --stop
+#   .\scripts\windows\start-funnel.cmd
+#   .\scripts\windows\start-funnel.cmd --path /scores
+#   .\scripts\windows\start-funnel.cmd --port 8766
+#   .\scripts\windows\start-funnel.cmd --authkey tskey-auth-...
+#   .\scripts\windows\start-funnel.cmd --no-desk
+#   .\scripts\windows\start-funnel.cmd --status
+#   .\scripts\windows\start-funnel.cmd --stop
 param(
   [Alias('path')]
   [string]$Path = '/live',
@@ -31,7 +31,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path $PSScriptRoot -Parent
+$Root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
 function Fail([string]$Message) {
   Write-Host "error: $Message" -ForegroundColor Red
@@ -46,13 +46,13 @@ function Show-Usage {
   Write-Host @"
 RinkDesk live funnel (Windows)
 
-  .\scripts\start-funnel.cmd                 set up Tailscale and expose the live page
-  .\scripts\start-funnel.cmd --path /scores  use a different URL path
-  .\scripts\start-funnel.cmd --port 8766     live listener port
-  .\scripts\start-funnel.cmd --authkey KEY   non-interactive Tailscale login
-  .\scripts\start-funnel.cmd --no-desk       do not auto-start the desk
-  .\scripts\start-funnel.cmd --status        show current funnel config
-  .\scripts\start-funnel.cmd --stop          stop exposing the path
+  .\scripts\windows\start-funnel.cmd                 set up Tailscale and expose the live page
+  .\scripts\windows\start-funnel.cmd --path /scores  use a different URL path
+  .\scripts\windows\start-funnel.cmd --port 8766     live listener port
+  .\scripts\windows\start-funnel.cmd --authkey KEY   non-interactive Tailscale login
+  .\scripts\windows\start-funnel.cmd --no-desk       do not auto-start the desk
+  .\scripts\windows\start-funnel.cmd --status        show current funnel config
+  .\scripts\windows\start-funnel.cmd --stop          stop exposing the path
 
 Everything is automatic except the Tailscale login, which opens in a browser
 the first time. Tailscale runs on Windows and points at the loopback live

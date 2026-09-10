@@ -1,8 +1,8 @@
 # Jump into WSL and run ./start.sh.
-#   .\scripts\windows.cmd --start
-#   .\scripts\windows.ps1 --start
-#   .\scripts\windows.cmd --start --export-path D:\rinkdesk-exports
-#   .\scripts\windows.cmd --start --protocols-path D:\rinkdesk-protocols
+#   .\scripts\windows\windows.cmd --start
+#   .\scripts\windows\windows.ps1 --start
+#   .\scripts\windows\windows.cmd --start --export-path D:\rinkdesk-exports
+#   .\scripts\windows\windows.cmd --start --protocols-path D:\rinkdesk-protocols
 param(
   [Alias('p')]
   [string]$Port,
@@ -30,7 +30,7 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$Root = Split-Path $PSScriptRoot -Parent
+$Root = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
 
 function Fail([string]$Message) {
   Write-Host "error: $Message" -ForegroundColor Red

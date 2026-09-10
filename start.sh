@@ -12,19 +12,22 @@
 # --start runs that repo's ./build.sh (build + publish) first, then
 # pulls and runs here — same as a machine that only has this repo.
 #
-# Windows:  .\scripts\windows.cmd --start --export-path D:\rinkdesk-exports
+# macOS: double-click scripts/macos/start.command, or run this script.
+# Windows: scripts\windows\windows.cmd --start --export-path D:\rinkdesk-exports
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-# shellcheck source=scripts/common.sh
-source "$ROOT/scripts/common.sh"
+# shellcheck source=scripts/lib/common.sh
+source "$ROOT/scripts/lib/common.sh"
+# shellcheck source=scripts/lib/platform.sh
+source "$ROOT/scripts/lib/platform.sh"
+# shellcheck source=scripts/lib/config.sh
+source "$ROOT/scripts/lib/config.sh"
+# shellcheck source=scripts/lib/engine.sh
+source "$ROOT/scripts/lib/engine.sh"
+
 maybe_reexec_wsl "$@"
-if [[ -f "$ROOT/release.env" ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  source "$ROOT/release.env"
-  set +a
-fi
+load_env "$ROOT/release.env" "$ROOT/.env"
 
 CMD=help
 OPEN=1
@@ -92,10 +95,11 @@ EOF
   -V, --version
   -h, --help
 
-  Windows:  .\\scripts\\windows.cmd --start
-            .\\scripts\\windows.cmd --start --export-path D:\\rinkdesk-exports
-            .\\scripts\\windows.cmd --start --protocols-path D:\\rinkdesk-protocols
-            .\\scripts\\start-funnel.cmd        share the live page (installs Tailscale)
+  Windows:  .\\scripts\\windows\\windows.cmd --start
+            .\\scripts\\windows\\windows.cmd --start --export-path D:\\rinkdesk-exports
+            .\\scripts\\windows\\windows.cmd --start --protocols-path D:\\rinkdesk-protocols
+            .\\scripts\\windows\\start-funnel.cmd        share the live page (installs Tailscale)
+  macOS:    double-click scripts/macos/start.command
 EOF
   if [[ -n "$src" ]]; then
     cat <<EOF
@@ -116,17 +120,13 @@ cmd_start() {
   [[ -n "$PROTOCOLS_PATH" ]] && apply_protocols_path "$PROTOCOLS_PATH"
   maybe_publish_from_source
   cd "$ROOT"
-  if [[ -f "$ROOT/.env" ]]; then
-    set -a
-    # shellcheck disable=SC1091
-    source "$ROOT/.env"
-    set +a
-  fi
+  load_env "$ROOT/.env"
   APP_VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION" 2>/dev/null || printf '1.0.0')"
   export RINKDESK_PORT="$PORT"
   export RINKDESK_VERSION="$APP_VERSION"
   export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-$APP_VERSION}"
-  export RINKDESK_RUN_COMMIT="$(git_commit)"
+  RINKDESK_RUN_COMMIT="$(git_commit)"
+  export RINKDESK_RUN_COMMIT
 
   say "${DIM}Pulling images…${RESET}"
   if [[ "$FORCE_PULL" == 1 ]]; then
@@ -151,7 +151,7 @@ cmd_start() {
   say "${DIM}  Live page    → ${URL}live/   (read-only; ./start-funnel.sh to share)${RESET}"
   [[ "$recreate" == 1 ]] && say "Empty desk (database wiped)."
   print_paths
-  [[ "$open_it" == 1 ]] && open_browser "$URL"
+  if [[ "$open_it" == 1 ]]; then open_browser "$URL"; fi
 }
 
 # Show the effective + default locations of the JSON snapshots, generated
@@ -191,10 +191,10 @@ cmd_stop() {
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -p|--port)
+    -p | --port)
       [[ $# -ge 2 ]] || die "$1 needs a port"
       PORT="$2"; refresh_url; shift 2 ;;
-    -H|--host)
+    -H | --host)
       [[ $# -ge 2 ]] || die "$1 needs a host"
       HOST="$2"; refresh_url; shift 2 ;;
     --export-path)
@@ -204,18 +204,18 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "$1 needs a folder"
       PROTOCOLS_PATH="$2"; shift 2 ;;
     --no-build) SKIP_BUILD=1; shift ;;
-    --force-pull|--from-hub)
+    --force-pull | --from-hub)
       FORCE_PULL=1
       SKIP_BUILD=1
       shift ;;
-    -n|--no-open) OPEN=0; shift ;;
-    --start|start) CMD=start; shift ;;
-    --stop|stop) CMD=stop; shift ;;
-    --force-recreate|--reset) CMD=start; RECREATE=1; shift ;;
-    --paths|--where) CMD=paths; shift ;;
-    --manual|--data|manual) CMD=manual; shift ;;
-    -h|--help|help) CMD=help; shift ;;
-    -V|--version) print_version; exit 0 ;;
+    -n | --no-open) OPEN=0; shift ;;
+    --start | start) CMD=start; shift ;;
+    --stop | stop) CMD=stop; shift ;;
+    --force-recreate | --reset) CMD=start; RECREATE=1; shift ;;
+    --paths | --where) CMD=paths; shift ;;
+    --manual | --data | manual) CMD=manual; shift ;;
+    -h | --help | help) CMD=help; shift ;;
+    -V | --version) print_version; exit 0 ;;
     *) die "unknown argument: $1  (try: $0 --help)" ;;
   esac
 done

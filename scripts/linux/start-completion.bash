@@ -2,11 +2,12 @@
 #
 # Enable it by sourcing this file from ~/.bashrc:
 #
-#   source /path/to/rinkdesk-run/scripts/start-completion.bash
+#   source /path/to/rinkdesk-run/scripts/linux/start-completion.bash
 #
 # Then `./start.sh --for<TAB>` completes to --force-pull/--force-recreate,
 # `./start.sh --start --export-path ~/e<TAB>` completes the folder, etc.
 # Works for any invocation spelling (start.sh, ./start.sh, /full/path/start.sh).
+# compopt needs bash 4+ (Linux); macOS bash 3.2 simply skips the hint.
 
 _start_sh_complete() {
     local cur prev
@@ -23,7 +24,7 @@ _start_sh_complete() {
 
     case "$prev" in
         --export-path|--protocols-path)
-            compopt -o dirnames
+            type compopt >/dev/null 2>&1 && compopt -o dirnames
             COMPREPLY=()
             return 0
             ;;
@@ -34,7 +35,7 @@ _start_sh_complete() {
     esac
 
     COMPREPLY=($(compgen -W "$opts" -- "$cur"))
-    compopt -o default 2>/dev/null
+    type compopt >/dev/null 2>&1 && compopt -o default 2>/dev/null
     return 0
 }
 

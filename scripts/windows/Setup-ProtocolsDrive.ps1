@@ -8,7 +8,7 @@
 #   so every generated protocol is shared to Google Drive automatically.
 #
 # HOW TO RUN  (run once per PC, in an ADMIN PowerShell, from rinkdesk-run)
-#   powershell -ExecutionPolicy Bypass -File scripts\Setup-ProtocolsDrive.ps1 `
+#   powershell -ExecutionPolicy Bypass -File scripts\windows\Setup-ProtocolsDrive.ps1 `
 #     -OwnerEmail maciej@example.com -Share ref@example.com,trener@example.com
 #
 #   Optional: -ProtocolsFolder protocols  -DriveLetter G  -TimeOutMinutes 15
@@ -24,7 +24,7 @@
 #   script finishes it opens drive.google.com — there, right-click the
 #   protocols folder and add the -Share people once. The script prints the full
 #   path you give rinkdesk-run, e.g.:
-#     .\scripts\windows.cmd --start --protocols-path "G:\My Drive\protocols"
+#     .\scripts\windows\windows.cmd --start --protocols-path "G:\My Drive\protocols"
 #   No passwords or tokens are stored by this script.
 #>
 
@@ -255,6 +255,6 @@ if ($Share.Count -gt 0) {
 
 Write-Host '================================================================' -ForegroundColor Cyan
 Write-Host '  Point rinkdesk-run at this protocols folder:' -ForegroundColor White
-Write-Host "      .\scripts\windows.cmd --start --protocols-path `"$protocolsPath`"" -ForegroundColor White
+Write-Host "      .\scripts\windows\windows.cmd --start --protocols-path `"$protocolsPath`"" -ForegroundColor White
 Write-Host '  (or set RINKDESK_PROTOCOLS_PATH to that path).' -ForegroundColor White
 Write-Host '================================================================' -ForegroundColor Cyan
