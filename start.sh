@@ -73,6 +73,8 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
   ${GREEN}./start.sh --force-recreate${RESET}    wipe database, pull, start empty
   ${GREEN}./start.sh --stop${RESET}              stop (data kept)
   ${GREEN}./start.sh --manual${RESET}            how the desk works
+  ${GREEN}./start-funnel.sh${RESET}             share the read-only live page on the internet
+                                    (${URL}live/)
 
   -p, --port PORT                UI port (default ${PORT})
       --export-path DIR          bind snapshot exports to a local folder
@@ -145,6 +147,7 @@ cmd_start() {
     die "desk did not start on ${URL}"
   fi
   printf '%s\n' "${BOLD}RinkDesk${RESET} ${APP_VERSION}  ${GREEN}up${RESET}  ${BOLD}${URL}${RESET}"
+  say "${DIM}  Live page    → ${URL}live/   (read-only; ./start-funnel.sh to share)${RESET}"
   [[ "$recreate" == 1 ]] && say "Empty desk (database wiped)."
   print_paths
   [[ "$open_it" == 1 ]] && open_browser "$URL"
