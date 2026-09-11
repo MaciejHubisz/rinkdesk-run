@@ -35,6 +35,8 @@ SKIP_BUILD="${RINKDESK_SKIP_BUILD:-0}"
 FORCE_PULL="${RINKDESK_FORCE_PULL:-0}"
 EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
 PROTOCOLS_PATH="${RINKDESK_PROTOCOLS_PATH:-}"
+LOG_ARGS=()
+SERVICE_NAME="rinkdesk"
 
 # Source tree = app + build.sh. Others clone only this repo, so this is empty.
 find_source_tree() {
@@ -73,8 +75,13 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
 
   ${GREEN}./start.sh --start${RESET}             start or resume (keep data)
   ${GREEN}./start.sh --force-recreate${RESET}    wipe database, pull, start empty
+  ${GREEN}./start.sh --update${RESET}            pull newer images, keep data
+  ${GREEN}./start.sh --status${RESET}            show container status
+  ${GREEN}./start.sh --logs [SERVICE]${RESET}    follow logs (backend/web/db, all by default)
   ${GREEN}./start.sh --stop${RESET}              stop (data kept)
   ${GREEN}./start.sh --manual${RESET}            how the desk works
+  ${GREEN}./start.sh --install-service${RESET}   run on boot via systemd, start now
+  ${GREEN}./start.sh --uninstall-service${RESET} remove the systemd unit
   ${GREEN}./start-funnel.sh${RESET}             share the read-only live page on the internet
                                     (${URL}live/)
 
@@ -90,6 +97,7 @@ EOF
 EOF
   fi
   cat <<EOF
+  -y, --yes                      assume yes for prompts (unattended SSH)
   -n, --no-open                  do not open a browser
   -V, --version
   -h, --help
@@ -182,6 +190,75 @@ cmd_stop() {
   say "Stopped RinkDesk ${APP_VERSION} on ${URL}"
 }
 
+cmd_status() {
+  ensure_runtime
+  cd "$ROOT"
+  load_env "$ROOT/.env"
+  compose ps
+}
+
+cmd_logs() {
+  ensure_runtime
+  cd "$ROOT"
+  compose logs -f --tail=200 "${LOG_ARGS[@]}"
+}
+
+# Pull newer images and recreate the containers without touching the database.
+cmd_update() {
+  FORCE_PULL=1
+  SKIP_BUILD=1
+  cmd_start "$1" 0
+}
+
+# A system unit so the desk starts on boot and keeps running after the SSH
+# session ends. Runs as the user that invoked this script (root stays root).
+cmd_install_service() {
+  have systemctl || die "systemd is required for --install-service"
+  ensure_runtime
+  local run_user run_group
+  if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
+    run_user=root; run_group=root
+  else
+    run_user="$(id -un)"; run_group="$(id -gn)"
+  fi
+  say "${BOLD}Installing systemd unit${RESET} /etc/systemd/system/${SERVICE_NAME}.service"
+  as_root tee "/etc/systemd/system/${SERVICE_NAME}.service" >/dev/null <<EOF
+[Unit]
+Description=RinkDesk (rink-clerk desk)
+Documentation=file://${ROOT}/README.md
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=${ROOT}
+User=${run_user}
+Group=${run_group}
+ExecStart=${ROOT}/start.sh --start --no-open
+ExecStop=${ROOT}/start.sh --stop
+TimeoutStartSec=0
+TimeoutStopSec=120
+
+[Install]
+WantedBy=multi-user.target
+EOF
+  as_root systemctl daemon-reload
+  as_root systemctl enable --now "${SERVICE_NAME}.service"
+  say "${GREEN}${SERVICE_NAME}.service enabled and started${RESET}"
+  say "${DIM}  systemctl status ${SERVICE_NAME}${RESET}"
+  say "${DIM}  journalctl -u ${SERVICE_NAME} -f${RESET}"
+}
+
+cmd_uninstall_service() {
+  have systemctl || die "systemd is required for --uninstall-service"
+  say "Stopping and removing ${SERVICE_NAME}.service…"
+  as_root systemctl disable --now "${SERVICE_NAME}.service" >/dev/null 2>&1 || true
+  as_root rm -f "/etc/systemd/system/${SERVICE_NAME}.service"
+  as_root systemctl daemon-reload
+  say "${GREEN}${SERVICE_NAME}.service removed${RESET}"
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -p | --port)
@@ -201,15 +278,27 @@ while [[ $# -gt 0 ]]; do
       FORCE_PULL=1
       SKIP_BUILD=1
       shift ;;
+    -y | --yes) export RINKDESK_ASSUME_YES=1; shift ;;
     -n | --no-open) OPEN=0; shift ;;
     --start | start) CMD=start; shift ;;
     --stop | stop) CMD=stop; shift ;;
     --force-recreate | --reset) CMD=start; RECREATE=1; shift ;;
+    --update | update) CMD=update; shift ;;
+    --status | status) CMD=status; shift ;;
+    --logs | logs) CMD=logs; shift ;;
+    --install-service) CMD=install-service; shift ;;
+    --uninstall-service) CMD=uninstall-service; shift ;;
     --paths | --where) CMD=paths; shift ;;
     --manual | --data | manual) CMD=manual; shift ;;
     -h | --help | help) CMD=help; shift ;;
     -V | --version) print_version; exit 0 ;;
-    *) die "unknown argument: $1  (try: $0 --help)" ;;
+    *)
+      if [[ "$CMD" == logs && "$1" != -* ]]; then
+        LOG_ARGS+=("$1"); shift
+      else
+        die "unknown argument: $1  (try: $0 --help)"
+      fi
+      ;;
   esac
 done
 
@@ -219,6 +308,11 @@ case "$CMD" in
   help) print_usage ;;
   manual) cat "$ROOT/scripts/manual.txt" ;;
   start) cmd_start "$OPEN" "$RECREATE" ;;
+  update) cmd_update "$OPEN" ;;
   stop) cmd_stop ;;
+  status) cmd_status ;;
+  logs) cmd_logs ;;
+  install-service) cmd_install_service ;;
+  uninstall-service) cmd_uninstall_service ;;
   paths) cmd_paths ;;
 esac

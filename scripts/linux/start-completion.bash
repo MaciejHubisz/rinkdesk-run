@@ -15,11 +15,13 @@ _start_sh_complete() {
     prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
     local opts="--start start --stop stop --force-recreate --reset
+        --update update --status status --logs logs
+        --install-service --uninstall-service
         --manual --data manual
         --port -p --host -H
         --export-path --protocols-path
         --force-pull --from-hub --no-build
-        --no-open -n
+        --yes -y --no-open -n
         --version -V --help -h help"
 
     case "$prev" in
