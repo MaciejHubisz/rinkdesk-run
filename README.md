@@ -137,5 +137,5 @@ and no per-team field — a missing file simply shows a neutral "no logo" crest.
 Export bundles those images with the JSON dump; import restores them. See
 `team-logos/README.md`.
 
-If pull fails, GHCR packages `rinkdesk-backend` and `rinkdesk-web` may still
-be private — the publisher must set them Public.
+If pull fails, the `rinkdesk-backend` and `rinkdesk-web` images may still be
+private in the registry — the publisher must set them Public.
