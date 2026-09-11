@@ -38,5 +38,4 @@ confirm() {
   esac
 }
 
-git_commit() { git -C "${ROOT:-.}" rev-parse --short HEAD 2>/dev/null || printf 'dev'; }
-print_version() { printf '%s\n' "RinkDesk ${APP_VERSION:-?} ($(git_commit))"; }
+print_version() { printf '%s\n' "RinkDesk ${APP_VERSION:-?}"; }

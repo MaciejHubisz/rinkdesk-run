@@ -1,5 +1,5 @@
 # Pre-built images only. No source, schema, or dumps in this folder.
-# Image prefix/tag come from .env (written when the maintainer pushes).
+# Image prefix/tag come from .env.
 name: rinkdesk
 
 services:
@@ -18,14 +18,11 @@ services:
       retries: 20
 
   backend:
-    image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-backend:${RINKDESK_IMAGE_TAG:-1.0.0}
+    image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-backend:${RINKDESK_IMAGE_TAG:-latest}
     environment:
       DATABASE_URL: postgresql://rinkdesk:rinkdesk@db:5432/rinkdesk
       RINKDESK_HOST: 0.0.0.0
       RINKDESK_PORT: "8765"
-      RINKDESK_VERSION: "${RINKDESK_VERSION:-1.0.0}"
-      RINKDESK_COMMIT: "${RINKDESK_COMMIT:-release}"
-      RINKDESK_RUN_COMMIT: "${RINKDESK_RUN_COMMIT:-}"
       RINKDESK_LIVE_REFRESH_SECONDS: "${RINKDESK_LIVE_REFRESH_SECONDS:-5}"
       RINKDESK_DEFAULT_SNAPSHOT: /app/database/default-snapshot.json
       RINKDESK_CUSTOM_SNAPSHOT: /app/exports/whole-application-data-export.json
@@ -38,7 +35,7 @@ services:
       # Named volume by default; --export-path bind-mounts a host folder instead.
       # SOURCE vars are set by start.sh; named *_SOURCE so podman-compose does
       # not confuse them with the in-container RINKDESK_*_PATH app variables.
-      # RINKDESK_VOL_OPTS is ":z" on Linux (SELinux) and empty on macOS/Windows.
+      # RINKDESK_VOL_OPTS is ":z" for SELinux relabelling on Linux.
       - "${RINKDESK_EXPORTS_SOURCE:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
       # Host ./protocols by default; --protocols-path picks another host folder.
       - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
@@ -62,7 +59,7 @@ services:
       retries: 30
 
   web:
-    image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-1.0.0}
+    image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-latest}
     ports:
       - "${RINKDESK_PORT:-8765}:80"
     depends_on:

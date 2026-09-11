@@ -1,10 +1,14 @@
 # RinkDesk (run-only)
 
-No source code and no data dumps. `./start.sh --start` pulls Docker images
-and starts the desk. This is the only `start.sh`.
+No source code and no data dumps. `./start.sh --start` pulls the `:latest`
+Docker images and starts the desk. This is the only `start.sh`.
+
+If a sibling `../rinkdesk` source tree is on disk (or `RINKDESK_SRC` is set),
+`--start` builds and publishes fresh images from it first, then pulls and
+runs. Without it, the script just pulls and runs.
 
 Linux only — this repo is meant to run on a remote Linux host, usually over
-SSH. There are no Windows or macOS launchers.
+SSH.
 
 Proprietary — © Maciej Hubisz. All rights reserved. Use, modify, fork, or
 redistribute only with the author's written permission. See `LICENSE`.

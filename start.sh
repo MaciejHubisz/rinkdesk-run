@@ -25,7 +25,6 @@ source "$ROOT/scripts/lib/config.sh"
 # shellcheck source=scripts/lib/engine.sh
 source "$ROOT/scripts/lib/engine.sh"
 
-maybe_reexec_wsl "$@"
 load_env "$ROOT/release.env" "$ROOT/.env"
 
 CMD=help
@@ -123,10 +122,7 @@ cmd_start() {
   load_env "$ROOT/.env"
   APP_VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION" 2>/dev/null || printf '1.0.0')"
   export RINKDESK_PORT="$PORT"
-  export RINKDESK_VERSION="$APP_VERSION"
-  export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-$APP_VERSION}"
-  RINKDESK_RUN_COMMIT="$(git_commit)"
-  export RINKDESK_RUN_COMMIT
+  export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-latest}"
 
   say "${DIM}Pulling images…${RESET}"
   if [[ "$FORCE_PULL" == 1 ]]; then

@@ -9,8 +9,7 @@ COMPOSE=()
 # dirs onto PATH so a non-interactive SSH session can still find podman.
 brew_bin() {
   local c
-  for c in "$HOME/.linuxbrew/bin/brew" "/home/linuxbrew/.linuxbrew/bin/brew" \
-    "/opt/homebrew/bin/brew"; do
+  for c in "$HOME/.linuxbrew/bin/brew" "/home/linuxbrew/.linuxbrew/bin/brew"; do
     [[ -x "$c" ]] && { printf '%s\n' "$c"; return 0; }
   done
   have brew && command -v brew
@@ -96,20 +95,13 @@ engine_ready() { [[ -n "${ENGINE:-}" ]] && "$ENGINE" info >/dev/null 2>&1; }
 
 wake_engine() {
   engine_ready && return 0
-  if is_macos; then
-    if have colima; then colima start >/dev/null 2>&1 || true
-    elif [[ -d /Applications/Docker.app ]]; then open -a Docker >/dev/null 2>&1 || true
-    elif have podman; then podman machine start >/dev/null 2>&1 || true
-    fi
-  else
-    if have podman && have systemctl; then
-      systemctl --user start podman.socket >/dev/null 2>&1 || true
-      as_root systemctl enable --now podman.socket >/dev/null 2>&1 || true
-    fi
-    if have docker && have systemctl; then
-      as_root systemctl enable --now docker >/dev/null 2>&1 ||
-        as_root systemctl start docker >/dev/null 2>&1 || true
-    fi
+  if have podman && have systemctl; then
+    systemctl --user start podman.socket >/dev/null 2>&1 || true
+    as_root systemctl enable --now podman.socket >/dev/null 2>&1 || true
+  fi
+  if have docker && have systemctl; then
+    as_root systemctl enable --now docker >/dev/null 2>&1 ||
+      as_root systemctl start docker >/dev/null 2>&1 || true
   fi
 }
 
@@ -169,14 +161,9 @@ install_engine_linux() {
 }
 
 ensure_runtime() {
-  detect_os
   [[ -n "${ENGINE:-}" && ${#COMPOSE[@]} -gt 0 ]] && engine_ready && return 0
   if ! find_engine; then
-    if is_macos; then
-      say "No Docker runtime found on macOS."
-      brew_ensure colima docker docker-compose
-      find_engine || die "docker is still missing after install"
-    elif brew_install_podman; then
+    if brew_install_podman; then
       : # Podman installed from Homebrew; no sudo was needed.
     else
       install_engine_linux
