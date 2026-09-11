@@ -24,6 +24,7 @@ services:
       RINKDESK_HOST: 0.0.0.0
       RINKDESK_PORT: "8765"
       RINKDESK_LIVE_REFRESH_SECONDS: "${RINKDESK_LIVE_REFRESH_SECONDS:-5}"
+      RINKDESK_LIVE_CACHE_SECONDS: "${RINKDESK_LIVE_CACHE_SECONDS:-5}"
       RINKDESK_DEFAULT_SNAPSHOT: /app/database/default-snapshot.json
       RINKDESK_CUSTOM_SNAPSHOT: /app/exports/whole-application-data-export.json
       RINKDESK_SNAPSHOT_ARCHIVE: /app/exports/archive
