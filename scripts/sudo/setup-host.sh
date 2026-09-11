@@ -4,8 +4,8 @@
 # bits Homebrew/Podman need, then everything else (Podman + the app) is done
 # by ./start.sh without sudo.
 #
-#   sudo scripts/linux/setup-host.sh              # user = $SUDO_USER
-#   sudo scripts/linux/setup-host.sh maciej
+#   sudo scripts/sudo/setup-host.sh              # user = $SUDO_USER
+#   sudo scripts/sudo/setup-host.sh maciej
 #
 # Idempotent: safe to re-run. Tuned for Ubuntu/Debian (also tries Fedora,
 # Arch, openSUSE); handles Ubuntu's unprivileged-userns AppArmor restriction.
