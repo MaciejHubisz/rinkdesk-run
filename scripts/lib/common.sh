@@ -14,6 +14,12 @@ warn() { printf '%s\n' "${YELLOW}warn:${RESET} $*" >&2; }
 die()  { printf '%s\n' "${RED}error:${RESET} $*" >&2; exit 1; }
 have() { command -v "$1" >/dev/null 2>&1; }
 
+# Run a command with root privileges. `sudo` is not guaranteed on a server
+# where the operator logs in as root, so only escalate when we are not root.
+as_root() {
+  if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then "$@"; else sudo "$@"; fi
+}
+
 # Ask a yes/no question. Yes -> 0. In a pipe (no TTY) it is "no" unless
 # RINKDESK_ASSUME_YES=1, which is handy for unattended installs.
 confirm() {

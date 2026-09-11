@@ -41,11 +41,67 @@ wake_engine() {
     elif have podman; then podman machine start >/dev/null 2>&1 || true
     fi
   else
-    if have podman && have systemctl; then systemctl --user start podman.socket >/dev/null 2>&1 || true; fi
-    if have docker && have systemctl && systemctl list-unit-files docker.service >/dev/null 2>&1; then
-      sudo systemctl start docker >/dev/null 2>&1 || true
+    if have podman && have systemctl; then
+      systemctl --user start podman.socket >/dev/null 2>&1 || true
+      as_root systemctl enable --now podman.socket >/dev/null 2>&1 || true
+    fi
+    if have docker && have systemctl; then
+      as_root systemctl enable --now docker >/dev/null 2>&1 ||
+        as_root systemctl start docker >/dev/null 2>&1 || true
     fi
   fi
+}
+
+# Install a container runtime on a Linux host that has none. Docker is the
+# default; the distro package manager is preferred, with Docker's own
+# convenience script as a fallback. The atomic (rpm-ostree) case needs a reboot.
+install_engine_linux() {
+  say "${BOLD}No container runtime found — installing one…${RESET}"
+  if ! confirm "Install Docker with the system package manager?"; then
+    die "no docker or podman. Install one and re-run $0:
+  Debian/Ubuntu:  sudo apt-get install -y docker.io docker-compose-v2
+  Fedora/RHEL:    sudo dnf install -y docker docker-compose-plugin
+  Arch:           sudo pacman -S --noconfirm docker docker-compose
+  openSUSE:       sudo zypper install -y docker docker-compose
+  Or just re-run with --yes to let this script do it."
+  fi
+
+  local installed=0
+  if have rpm-ostree && [[ -e /run/ostree-booted ]]; then
+    say "${BOLD}Atomic host detected — staging Docker with rpm-ostree…${RESET}"
+    as_root rpm-ostree install --idempotent docker docker-compose ||
+      die "rpm-ostree install failed"
+    die "Docker is staged on this atomic system. Reboot, then re-run $0."
+  elif have apt-get; then
+    as_root apt-get update -y || die "apt-get update failed"
+    if as_root apt-get install -y docker.io docker-compose-v2; then installed=1; fi
+    if [[ "$installed" == 0 ]]; then
+      if as_root apt-get install -y docker.io docker-compose; then installed=1; fi
+    fi
+  elif have dnf; then
+    if as_root dnf install -y docker docker-compose-plugin; then installed=1; fi
+    if [[ "$installed" == 0 ]] && as_root dnf install -y moby-engine docker-compose; then installed=1; fi
+  elif have yum; then
+    if as_root yum install -y docker docker-compose-plugin; then installed=1; fi
+    if [[ "$installed" == 0 ]] && as_root yum install -y docker docker-compose; then installed=1; fi
+  elif have pacman; then
+    as_root pacman -S --noconfirm docker docker-compose && installed=1
+  elif have zypper; then
+    as_root zypper --non-interactive install docker docker-compose && installed=1
+  fi
+
+  if [[ "$installed" == 0 ]]; then
+    if have curl; then
+      say "${DIM}package manager failed or unsupported — using get.docker.com${RESET}"
+      curl -fsSL https://get.docker.com | as_root sh ||
+        die "Docker install script failed"
+    else
+      die "could not install a container runtime automatically (need curl or a supported package manager)"
+    fi
+  fi
+
+  hash -r 2>/dev/null || true
+  find_engine || die "a runtime was installed but no docker/podman was found on PATH"
 }
 
 ensure_runtime() {
@@ -57,16 +113,15 @@ ensure_runtime() {
       brew_ensure colima docker docker-compose
       find_engine || die "docker is still missing after install"
     else
-      die "no docker or podman. Install Docker Desktop (Windows) or docker/podman (Linux)."
+      install_engine_linux
     fi
   fi
   wake_engine
   local i
   for i in $(seq 1 30); do engine_ready && break; sleep 1; done
   engine_ready || die "$ENGINE is installed but the daemon is not running.
-  macOS: colima start   or open Docker Desktop
   Linux: sudo systemctl start docker   or   systemctl --user start podman.socket
-  Windows: Docker Desktop + WSL integration, then rerun."
+  Then re-run $0."
   find_compose || die "no compose for $ENGINE (need: docker compose / podman compose)"
   say "${DIM}engine ${ENGINE}  compose ${COMPOSE[*]}${RESET}"
 }
