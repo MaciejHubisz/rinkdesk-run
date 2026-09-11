@@ -65,8 +65,6 @@ services:
     image: ${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-1.0.0}
     ports:
       - "${RINKDESK_PORT:-8765}:80"
-      # Live-only listener, loopback so only a local tunnel can reach it.
-      - "127.0.0.1:${RINKDESK_LIVE_PORT:-8766}:8080"
     depends_on:
       backend:
         condition: service_healthy

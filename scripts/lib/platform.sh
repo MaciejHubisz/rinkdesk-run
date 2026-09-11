@@ -70,16 +70,6 @@ brew_ensure() {
   brew install "${missing[@]}" || die "brew install failed: ${missing[*]}"
 }
 
-# Some Tailscale helpers read `tailscale status --json`. Either python3 or jq
-# does the job; install jq (small) on macOS if neither is present.
-ensure_json_tool() {
-  if have python3 || have jq; then return 0; fi
-  if is_macos; then
-    brew_ensure jq
-  fi
-  have python3 || have jq || die "need python3 or jq to read Tailscale status"
-}
-
 # Host path Docker can bind-mount. Windows drive letters become WSL paths.
 resolve_host_path() {
   local raw="$1" unix=""

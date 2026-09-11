@@ -82,8 +82,6 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
   ${GREEN}./start.sh --manual${RESET}            how the desk works
   ${GREEN}./start.sh --install-service${RESET}   run on boot via systemd, start now
   ${GREEN}./start.sh --uninstall-service${RESET} remove the systemd unit
-  ${GREEN}./start-funnel.sh${RESET}             share the read-only live page on the internet
-                                    (${URL}live/)
 
   -p, --port PORT                UI port (default ${PORT})
       --export-path DIR          bind snapshot exports to a local folder
@@ -149,7 +147,7 @@ cmd_start() {
     die "desk did not start on ${URL}"
   fi
   printf '%s\n' "${BOLD}RinkDesk${RESET} ${APP_VERSION}  ${GREEN}up${RESET}  ${BOLD}${URL}${RESET}"
-  say "${DIM}  Live page    → ${URL}live/   (read-only; ./start-funnel.sh to share)${RESET}"
+  say "${DIM}  Live page    → ${URL}live/   (read-only)${RESET}"
   [[ "$recreate" == 1 ]] && say "Empty desk (database wiped)."
   print_paths
   if [[ "$open_it" == 1 ]]; then open_browser "$URL"; fi

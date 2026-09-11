@@ -92,29 +92,15 @@ journalctl -u rinkdesk -f
 A standalone scoring page (table + games, auto-refresh, light/dark, PL/EN/CS) is
 served at `http://127.0.0.1:8765/live/` and is not linked to the desk.
 
-Share just that page on the internet with Tailscale Funnel — the desk stays
-private. The script provisions everything from scratch: installs Tailscale,
-starts the daemon, logs in (interactive the first time), starts the desk if
-needed, and enables the Funnel:
-
-```bash
-./start-funnel.sh                 # https://<machine>.<tailnet>.ts.net/live/
-./start-funnel.sh --path /scores  # different URL path
-./start-funnel.sh --authkey KEY   # non-interactive login
-./start-funnel.sh --status
-./start-funnel.sh --stop
-```
-
-Auto-refresh and the live port live in `.env`
-(`RINKDESK_LIVE_REFRESH_SECONDS`, `RINKDESK_LIVE_PORT`). See
+Auto-refresh lives in `.env` (`RINKDESK_LIVE_REFRESH_SECONDS`). See
 `rinkdesk/docs/live-page.md` in the source repo.
 
 ## Folders and files
 
 ```
-start.sh, start-funnel.sh     entry points
+start.sh                      entry point
 scripts/
-  lib/                        shared bash helpers (common, platform, config, engine, tailscale)
+  lib/                        shared bash helpers (common, platform, config, engine)
   linux/setup-host.sh         one-time admin setup (Homebrew + linger)
   linux/start-completion.bash tab completion for bash
   manual.txt                  text shown by --manual
