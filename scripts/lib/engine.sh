@@ -73,7 +73,10 @@ install_engine_linux() {
       die "rpm-ostree install failed"
     die "Docker is staged on this atomic system. Reboot, then re-run $0."
   elif have apt-get; then
-    as_root apt-get update -y || die "apt-get update failed"
+    as_root apt-get update -y || die "apt-get update failed.
+  If this account cannot sudo, ask an administrator to run once:
+    sudo scripts/linux/setup-host.sh $USER
+  Then log out and back in, and re-run $0."
     if as_root apt-get install -y docker.io docker-compose-v2; then installed=1; fi
     if [[ "$installed" == 0 ]]; then
       if as_root apt-get install -y docker.io docker-compose; then installed=1; fi
@@ -121,6 +124,7 @@ ensure_runtime() {
   for i in $(seq 1 30); do engine_ready && break; sleep 1; done
   engine_ready || die "$ENGINE is installed but the daemon is not running.
   Linux: sudo systemctl start docker   or   systemctl --user start podman.socket
+  No sudo? Ask an administrator to run:  sudo scripts/linux/setup-host.sh $USER
   Then re-run $0."
   find_compose || die "no compose for $ENGINE (need: docker compose / podman compose)"
   say "${DIM}engine ${ENGINE}  compose ${COMPOSE[*]}${RESET}"
