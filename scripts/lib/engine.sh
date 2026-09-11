@@ -5,7 +5,38 @@
 ENGINE=""
 COMPOSE=()
 
+# Homebrew (Linux) installs into a user prefix; locate it and pull its bin
+# dirs onto PATH so a non-interactive SSH session can still find podman.
+brew_bin() {
+  local c
+  for c in "$HOME/.linuxbrew/bin/brew" "/home/linuxbrew/.linuxbrew/bin/brew" \
+    "/opt/homebrew/bin/brew"; do
+    [[ -x "$c" ]] && { printf '%s\n' "$c"; return 0; }
+  done
+  have brew && command -v brew
+}
+
+ensure_brew_path() {
+  local b
+  b="$(brew_bin)" || return 1
+  eval "$("$b" shellenv)" 2>/dev/null || true
+  hash -r 2>/dev/null || true
+  return 0
+}
+
+# No sudo and no runtime yet: install Podman + Compose from Homebrew, entirely
+# in the user's prefix. Returns 0 once an engine is available.
+brew_install_podman() {
+  local b
+  b="$(brew_bin)" || return 1
+  say "${BOLD}Installing Podman with Homebrew (no sudo)…${RESET}"
+  "$b" install podman podman-compose || return 1
+  ensure_brew_path
+  find_engine
+}
+
 find_engine() {
+  ensure_brew_path || true
   local bin
   for bin in docker podman; do
     if have "$bin" && "$bin" info >/dev/null 2>&1; then ENGINE="$bin"; return 0; fi
@@ -115,6 +146,8 @@ ensure_runtime() {
       say "No Docker runtime found on macOS."
       brew_ensure colima docker docker-compose
       find_engine || die "docker is still missing after install"
+    elif brew_install_podman; then
+      : # Podman installed from Homebrew; no sudo was needed.
     else
       install_engine_linux
     fi

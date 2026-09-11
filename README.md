@@ -18,17 +18,18 @@ redistribute only with the author's written permission. See `LICENSE`.
 Browser after starting: <http://127.0.0.1:8765/> — sign in `admin` / `admin`
 (or `ref` / `ref`).
 
-On a fresh Linux host the script installs a container runtime (Docker or
-Podman) for you when neither is present. If your account cannot `sudo`, ask an
-administrator to run the one-time host setup once, then log in again:
+On a fresh Linux host the script installs a container runtime for you. If
+your account can `sudo`, it installs Docker with the package manager. If it
+cannot, ask an administrator to run the one-time host setup once:
 
 ```bash
 sudo scripts/linux/setup-host.sh maciej
 ```
 
-It installs Docker + Compose, enables the daemon on boot, and adds `maciej` to
-the `docker` group so `./start.sh` works without sudo. On Fedora atomic
-desktops (Bazzite/Silverblue), `podman` is already there.
+That installs Homebrew for `maciej` (plus the few system tools it needs) and
+enables lingering. Then, with no sudo at all, `./start.sh` installs Podman +
+Compose from Homebrew and runs the desk rootless. On Fedora atomic desktops
+(Bazzite/Silverblue), `podman` is already there.
 
 Tab completion for the flags works like any other Linux command. Enable it
 once by sourcing the completion script (add the line to your `~/.bashrc` to
@@ -69,11 +70,18 @@ SSH session that will end. Install the systemd unit once:
 ```
 
 This starts RinkDesk now and on every boot, and keeps it running after you
-log out. Manage it with the usual tools:
+log out. Root gets a system unit; a regular user gets a user unit (no sudo;
+needs lingering, which `setup-host.sh` enables). Manage it with:
 
 ```bash
+# regular user (no sudo):
+systemctl --user status rinkdesk
+journalctl --user -u rinkdesk -f
+
+# root:
 systemctl status rinkdesk
 journalctl -u rinkdesk -f
+
 ./start.sh --update          # pull new images, keep data
 ./start.sh --status
 ```
@@ -106,7 +114,7 @@ Auto-refresh and the live port live in `.env`
 start.sh, start-funnel.sh     entry points
 scripts/
   lib/                        shared bash helpers (common, platform, config, engine, tailscale)
-  linux/setup-host.sh         one-time admin setup (Docker + docker group)
+  linux/setup-host.sh         one-time admin setup (Homebrew + linger)
   linux/start-completion.bash tab completion for bash
   manual.txt                  text shown by --manual
 docker-compose.yml            pre-built images only

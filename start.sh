@@ -210,17 +210,20 @@ cmd_update() {
   cmd_start "$1" 0
 }
 
-# A system unit so the desk starts on boot and keeps running after the SSH
-# session ends. Runs as the user that invoked this script (root stays root).
+# Install a systemd unit so the desk starts on boot and keeps running after
+# the SSH session ends. Root installs a system unit; a regular user installs
+# a user unit (no sudo needed; requires lingering, which setup-host.sh sets).
 cmd_install_service() {
   have systemctl || die "systemd is required for --install-service"
   ensure_runtime
-  local run_user run_group
   if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then
-    run_user=root; run_group=root
+    install_system_unit
   else
-    run_user="$(id -un)"; run_group="$(id -gn)"
+    install_user_unit
   fi
+}
+
+install_system_unit() {
   say "${BOLD}Installing systemd unit${RESET} /etc/systemd/system/${SERVICE_NAME}.service"
   as_root tee "/etc/systemd/system/${SERVICE_NAME}.service" >/dev/null <<EOF
 [Unit]
@@ -233,8 +236,8 @@ After=network-online.target docker.service
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=${ROOT}
-User=${run_user}
-Group=${run_group}
+User=root
+Group=root
 ExecStart=${ROOT}/start.sh --start --no-open
 ExecStop=${ROOT}/start.sh --stop
 TimeoutStartSec=0
@@ -250,12 +253,50 @@ EOF
   say "${DIM}  journalctl -u ${SERVICE_NAME} -f${RESET}"
 }
 
+install_user_unit() {
+  local dir="$HOME/.config/systemd/user"
+  mkdir -p "$dir" || die "cannot create $dir"
+  say "${BOLD}Installing user systemd unit${RESET} ${dir}/${SERVICE_NAME}.service"
+  cat >"$dir/${SERVICE_NAME}.service" <<EOF
+[Unit]
+Description=RinkDesk (rink-clerk desk)
+Documentation=file://${ROOT}/README.md
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=${ROOT}
+ExecStart=${ROOT}/start.sh --start --no-open
+ExecStop=${ROOT}/start.sh --stop
+TimeoutStartSec=0
+TimeoutStopSec=120
+
+[Install]
+WantedBy=default.target
+EOF
+  systemctl --user daemon-reload || die "systemctl --user is not available in this session"
+  systemctl --user enable --now "${SERVICE_NAME}.service"
+  say "${GREEN}${SERVICE_NAME}.service enabled and started${RESET}"
+  say "${DIM}  systemctl --user status ${SERVICE_NAME}${RESET}"
+  say "${DIM}  journalctl --user -u ${SERVICE_NAME} -f${RESET}"
+  say "${DIM}  (needs 'loginctl enable-linger $USER' to survive logout — setup-host.sh does it)${RESET}"
+}
+
 cmd_uninstall_service() {
   have systemctl || die "systemd is required for --uninstall-service"
   say "Stopping and removing ${SERVICE_NAME}.service…"
-  as_root systemctl disable --now "${SERVICE_NAME}.service" >/dev/null 2>&1 || true
-  as_root rm -f "/etc/systemd/system/${SERVICE_NAME}.service"
-  as_root systemctl daemon-reload
+  if [[ -f "$HOME/.config/systemd/user/${SERVICE_NAME}.service" ]]; then
+    systemctl --user disable --now "${SERVICE_NAME}.service" >/dev/null 2>&1 || true
+    rm -f "$HOME/.config/systemd/user/${SERVICE_NAME}.service"
+    systemctl --user daemon-reload >/dev/null 2>&1 || true
+  fi
+  if [[ "${EUID:-$(id -u)}" -eq 0 ]] || sudo -n true >/dev/null 2>&1; then
+    as_root systemctl disable --now "${SERVICE_NAME}.service" >/dev/null 2>&1 || true
+    as_root rm -f "/etc/systemd/system/${SERVICE_NAME}.service"
+    as_root systemctl daemon-reload
+  fi
   say "${GREEN}${SERVICE_NAME}.service removed${RESET}"
 }
 
