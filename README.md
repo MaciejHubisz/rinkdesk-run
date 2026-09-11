@@ -26,10 +26,11 @@ cannot, ask an administrator to run the one-time host setup once:
 sudo scripts/linux/setup-host.sh maciej
 ```
 
-That installs Homebrew for `maciej` (plus the few system tools it needs) and
-enables lingering. Then, with no sudo at all, `./start.sh` installs Podman +
-Compose from Homebrew and runs the desk rootless. On Fedora atomic desktops
-(Bazzite/Silverblue), `podman` is already there.
+That installs Homebrew for `maciej` (plus the system tools it needs), sets up
+rootless prerequisites (`uidmap`, a subuid range, Ubuntu's AppArmor user-namespace
+rule), and enables lingering. Then, with no sudo at all, `./start.sh` installs
+Podman + Compose from Homebrew and runs the desk rootless. On Fedora atomic
+desktops (Bazzite/Silverblue), `podman` is already there.
 
 Tab completion for the flags works like any other Linux command. Enable it
 once by sourcing the completion script (add the line to your `~/.bashrc` to

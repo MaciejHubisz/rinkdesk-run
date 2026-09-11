@@ -30,9 +30,17 @@ brew_install_podman() {
   local b
   b="$(brew_bin)" || return 1
   say "${BOLD}Installing Podman with Homebrew (no sudo)…${RESET}"
-  "$b" install podman podman-compose || return 1
+  HOMEBREW_NO_AUTO_UPDATE=1 "$b" install podman podman-compose || return 1
   ensure_brew_path
-  find_engine
+  find_engine || return 1
+  # A runtime that is present but cannot start usually means Ubuntu's AppArmor
+  # userns restriction (or a missing uidmap); point at the admin script.
+  if ! engine_ready; then
+    die "$ENGINE is installed but cannot start rootless containers.
+  Ask an administrator to run once:  sudo scripts/linux/setup-host.sh $USER
+  (it installs uidmap, sets a subuid range, and allows user namespaces)."
+  fi
+  return 0
 }
 
 find_engine() {
