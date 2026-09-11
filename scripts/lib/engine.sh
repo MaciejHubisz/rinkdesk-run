@@ -33,6 +33,7 @@ brew_install_podman() {
   HOMEBREW_NO_AUTO_UPDATE=1 "$b" install podman podman-compose || return 1
   ensure_brew_path
   find_engine || return 1
+  ensure_podman_config
   # A runtime that is present but cannot start usually means Ubuntu's AppArmor
   # userns restriction (or a missing uidmap); point at the admin script.
   if ! engine_ready; then
@@ -41,6 +42,25 @@ brew_install_podman() {
   (it installs uidmap, sets a subuid range, and allows user namespaces)."
   fi
   return 0
+}
+
+# Homebrew's Podman looks for its policy.json in the system/user paths, not in
+# the brew prefix, so pulling fails with "no policy.json file found". Write a
+# per-user policy (and registries) config only when none exists anywhere.
+ensure_podman_config() {
+  [[ "${ENGINE:-}" == podman ]] || return 0
+  local dir="$HOME/.config/containers"
+  if [[ ! -f "$dir/policy.json" && ! -f /etc/containers/policy.json &&
+    ! -f /usr/share/containers/policy.json ]]; then
+    mkdir -p "$dir" || return 0
+    printf '{"default":[{"type":"insecureAcceptAnything"}]}\n' >"$dir/policy.json"
+    say "${DIM}wrote $dir/policy.json${RESET}"
+  fi
+  if [[ ! -f "$dir/registries.conf" && ! -f /etc/containers/registries.conf &&
+    ! -f /usr/share/containers/registries.conf ]]; then
+    mkdir -p "$dir" || return 0
+    printf 'unqualified-search-registries=["docker.io"]\n' >"$dir/registries.conf"
+  fi
 }
 
 find_engine() {
@@ -62,8 +82,10 @@ find_compose() {
     have docker-compose && { COMPOSE=(docker-compose); return 0; }
   fi
   if [[ "$ENGINE" == podman ]]; then
-    podman compose version >/dev/null 2>&1 && { COMPOSE=(podman compose); return 0; }
+    # Use podman-compose directly: 'podman compose' just re-execs it and prints
+    # an "Executing external compose provider" notice on every call.
     have podman-compose && { COMPOSE=(podman-compose); return 0; }
+    podman compose version >/dev/null 2>&1 && { COMPOSE=(podman compose); return 0; }
   fi
   have docker-compose && { COMPOSE=(docker-compose); return 0; }
   have podman-compose && { COMPOSE=(podman-compose); return 0; }
@@ -160,6 +182,7 @@ ensure_runtime() {
       install_engine_linux
     fi
   fi
+  ensure_podman_config
   wake_engine
   local i
   for i in $(seq 1 30); do engine_ready && break; sleep 1; done
