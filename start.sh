@@ -33,6 +33,7 @@ OPEN=1
 RECREATE=0
 SKIP_BUILD="${RINKDESK_SKIP_BUILD:-0}"
 FORCE_PULL="${RINKDESK_FORCE_PULL:-0}"
+FORCE_UP="${RINKDESK_FORCE_UP:-0}"
 EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
 PROTOCOLS_PATH="${RINKDESK_PROTOCOLS_PATH:-}"
 LOG_ARGS=()
@@ -138,6 +139,8 @@ cmd_start() {
     say "Wiping volumes…"
     compose down --remove-orphans -v >/dev/null 2>&1 || true
     compose up --force-recreate --no-build -d
+  elif [[ "$FORCE_UP" == 1 ]]; then
+    compose up --force-recreate --no-build -d
   else
     compose up --no-build -d
   fi
@@ -204,6 +207,7 @@ cmd_logs() {
 # Pull newer images and recreate the containers without touching the database.
 cmd_update() {
   FORCE_PULL=1
+  FORCE_UP=1
   SKIP_BUILD=1
   cmd_start "$1" 0
 }
