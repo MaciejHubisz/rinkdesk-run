@@ -134,6 +134,11 @@ cmd_start() {
   if [[ "$recreate" == 1 ]]; then
     say "Wiping volumes…"
     compose down --remove-orphans -v >/dev/null 2>&1 || true
+    # podman-compose's `down -v` only removes volumes labelled with the current
+    # compose project. A named volume created under an older project name
+    # survives it, so drop the named volumes explicitly to guarantee a clean
+    # database (see the volume names in docker-compose.yml).
+    "$ENGINE" volume rm -f rinkdesk-pg rinkdesk-exports >/dev/null 2>&1 || true
     compose up --force-recreate --no-build -d
   elif [[ "$FORCE_UP" == 1 ]]; then
     compose up --force-recreate --no-build -d
