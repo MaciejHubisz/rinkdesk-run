@@ -190,6 +190,13 @@ ensure_runtime() {
   Linux: sudo systemctl start docker   or   systemctl --user start podman.socket
   No sudo? Ask an administrator to run:  sudo scripts/linux/setup-host.sh $USER
   Then re-run $0."
+  # Rootless podman needs to create user namespaces; Ubuntu blocks that by
+  # default unless setup-host.sh has allowed it. Warn early instead of failing
+  # later with a cryptic "operation not permitted".
+  if [[ "$ENGINE" == podman ]] && ! podman unshare true >/dev/null 2>&1; then
+    warn "rootless Podman could not create a user namespace.
+  If containers fail, ask an administrator to run:  sudo scripts/linux/setup-host.sh $USER"
+  fi
   find_compose || die "no compose for $ENGINE (need: docker compose / podman compose)"
   say "${DIM}engine ${ENGINE}  compose ${COMPOSE[*]}${RESET}"
 }
