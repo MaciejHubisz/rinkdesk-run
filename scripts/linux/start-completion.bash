@@ -7,7 +7,7 @@
 # Then `./start.sh --for<TAB>` completes to --force-pull/--force-recreate,
 # `./start.sh --start --export-path ~/e<TAB>` completes the folder, etc.
 # Works for any invocation spelling (start.sh, ./start.sh, /full/path/start.sh).
-# compopt needs bash 4+ (Linux); macOS bash 3.2 simply skips the hint.
+# compopt needs bash 4+ (Linux); older bash simply skips the hint.
 
 _start_sh_complete() {
     local cur prev

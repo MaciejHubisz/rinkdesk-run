@@ -12,8 +12,7 @@
 # --start runs that repo's ./build.sh (build + publish) first, then
 # pulls and runs here — same as a machine that only has this repo.
 #
-# macOS: double-click scripts/macos/start.command, or run this script.
-# Windows: scripts\windows\windows.cmd --start --export-path D:\rinkdesk-exports
+# Linux only. Designed to run unattended over SSH (see --yes, --install-service).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -94,12 +93,6 @@ EOF
   -n, --no-open                  do not open a browser
   -V, --version
   -h, --help
-
-  Windows:  .\\scripts\\windows\\windows.cmd --start
-            .\\scripts\\windows\\windows.cmd --start --export-path D:\\rinkdesk-exports
-            .\\scripts\\windows\\windows.cmd --start --protocols-path D:\\rinkdesk-protocols
-            .\\scripts\\windows\\start-funnel.cmd        share the live page (installs Tailscale)
-  macOS:    double-click scripts/macos/start.command
 EOF
   if [[ -n "$src" ]]; then
     cat <<EOF

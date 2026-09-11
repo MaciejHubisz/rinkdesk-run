@@ -21,8 +21,7 @@
 #   ./start-funnel.sh --stop          # stop exposing this path
 #
 # Env: RINKDESK_LIVE_PORT, RINKDESK_FUNNEL_PATH, RINKDESK_TS_AUTHKEY (or
-# TS_AUTHKEY). macOS: scripts/macos/start-funnel.command.
-# Windows: scripts\windows\start-funnel.cmd
+# TS_AUTHKEY).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
