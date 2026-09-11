@@ -19,8 +19,11 @@ Browser after starting: <http://127.0.0.1:8765/> — sign in `admin` / `admin`
 (or `ref` / `ref`).
 
 On a fresh Linux host the script installs a container runtime (Docker or
-Podman) for you when neither is present. On Fedora atomic desktops
-(Bazzite/Silverblue), `podman` is already there.
+Podman) for you when neither is present. If the account has no `sudo`, it
+installs rootless Docker under `$HOME/bin` instead and sets `DOCKER_HOST`
+automatically; rootless needs a one-time `uidmap` install plus a subuid range
+from an administrator (the script prints the exact commands). On Fedora atomic
+desktops (Bazzite/Silverblue), `podman` is already there.
 
 Tab completion for the flags works like any other Linux command. Enable it
 once by sourcing the completion script (add the line to your `~/.bashrc` to

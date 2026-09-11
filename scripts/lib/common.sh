@@ -20,6 +20,16 @@ as_root() {
   if [[ "${EUID:-$(id -u)}" -eq 0 ]]; then "$@"; else sudo "$@"; fi
 }
 
+# Can we actually get root? True when already root, when sudo is passwordless,
+# or when an interactive sudo succeeds after prompting once. On a host where
+# sudo is denied outright this is false, so callers fall back to rootless.
+can_sudo() {
+  [[ "${EUID:-$(id -u)}" -eq 0 ]] && return 0
+  have sudo || return 1
+  sudo -n true >/dev/null 2>&1 && return 0
+  [[ -t 0 ]] && sudo -v >/dev/null 2>&1
+}
+
 # Ask a yes/no question. Yes -> 0. In a pipe (no TTY) it is "no" unless
 # RINKDESK_ASSUME_YES=1, which is handy for unattended installs.
 confirm() {
