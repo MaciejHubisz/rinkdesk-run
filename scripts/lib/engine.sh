@@ -192,6 +192,11 @@ compose() {
   "${COMPOSE[@]}" -f "$ROOT/docker-compose.yml" "$@"
 }
 
+# Local image id for a ref, or empty when the image is not present.
+image_id() {
+  "$ENGINE" image inspect --format '{{.Id}}' "$1" 2>/dev/null || true
+}
+
 wait_until_up() {
   local i
   say "${DIM}Waiting for ${URL}…${RESET}"

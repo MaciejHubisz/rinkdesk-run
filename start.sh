@@ -64,7 +64,10 @@ maybe_publish_from_source() {
   src="$(find_source_tree)" || return 0
   say "${BOLD}source${RESET}  ${src}"
   say "Building and publishing images…"
-  bash "$src/build.sh"
+  # .env sets RINKDESK_IMAGE_TAG=latest for running. Do not leak that into the
+  # build, or build.sh would only tag/push :latest and leave the version tag
+  # stale. Without it build.sh tags both VERSION and :latest.
+  env -u RINKDESK_IMAGE_TAG bash "$src/build.sh"
 }
 
 print_usage() {
@@ -73,7 +76,7 @@ print_usage() {
   cat <<EOF
 ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
 
-  ${GREEN}./start.sh --start${RESET}             start or resume (keep data)
+  ${GREEN}./start.sh --start${RESET}             start or resume, applying newer images (keep data)
   ${GREEN}./start.sh --force-recreate${RESET}    wipe database, pull, start empty
   ${GREEN}./start.sh --update${RESET}            pull newer images, keep data
   ${GREEN}./start.sh --status${RESET}            show container status
@@ -124,11 +127,27 @@ cmd_start() {
   export RINKDESK_PORT="$PORT"
   export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-latest}"
 
+  local prefix tag before_backend before_web after_backend after_web image_changed=0
+  prefix="${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}"
+  tag="${RINKDESK_IMAGE_TAG:-latest}"
+  before_backend="$(image_id "${prefix}-backend:${tag}")"
+  before_web="$(image_id "${prefix}-web:${tag}")"
+
   say "${DIM}Pulling images…${RESET}"
   if [[ "$FORCE_PULL" == 1 ]]; then
     compose pull || die "could not pull images from the registry (--force-pull)"
-  else
-    compose pull || say "${DIM}pull failed — using local images if present${RESET}"
+  elif ! compose pull; then
+    say "${YELLOW}Warning: could not pull images — starting local images if present.${RESET}"
+    say "${DIM}  The desk may be stale. Check network, or that the registry images are Public.${RESET}"
+  fi
+
+  # A re-pull can move :latest without the running containers noticing:
+  # podman-compose does not recreate a container just because its tag moved.
+  # Compare the image ids so --start actually applies a newer build.
+  after_backend="$(image_id "${prefix}-backend:${tag}")"
+  after_web="$(image_id "${prefix}-web:${tag}")"
+  if [[ "$before_backend" != "$after_backend" || "$before_web" != "$after_web" ]]; then
+    image_changed=1
   fi
 
   if [[ "$recreate" == 1 ]]; then
@@ -140,8 +159,12 @@ cmd_start() {
     # database (see the volume names in docker-compose.yml).
     "$ENGINE" volume rm -f rinkdesk-pg rinkdesk-exports >/dev/null 2>&1 || true
     compose up --force-recreate --no-build -d
-  elif [[ "$FORCE_UP" == 1 ]]; then
-    compose up --force-recreate --no-build -d
+  elif [[ "$FORCE_UP" == 1 || "$image_changed" == 1 ]]; then
+    if [[ "$image_changed" == 1 ]]; then
+      say "${DIM}New images pulled — recreating app containers.${RESET}"
+    fi
+    # Recreate only the stateless app services; the Postgres volume is kept.
+    compose up --force-recreate --no-build -d backend web
   else
     compose up --no-build -d
   fi

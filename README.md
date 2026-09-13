@@ -62,7 +62,7 @@ source scripts/linux/start-completion.bash
 
 | Command | What it does |
 |---|---|
-| `./start.sh --start` | Pull images, start or resume, keep data |
+| `./start.sh --start` | Pull images, apply newer ones, start or resume, keep data |
 | `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
 | `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
 | `./start.sh --start --force-pull` | Skip local build; pull from hub (fail if pull fails) |
