@@ -13,6 +13,19 @@ SSH.
 Proprietary — © Maciej Hubisz. All rights reserved. Use, modify, fork, or
 redistribute only with the author's written permission. See `LICENSE`.
 
+## The two things you can run
+
+RinkDesk has two entry points. Which one you use depends on who you are:
+
+| Who | Command | Needs sudo? | What it does |
+|---|---|---|---|
+| Operator, day to day | `./start.sh --start` | no | Pulls the images and runs the desk |
+| Administrator, once per server | `sudo scripts/setup-server-as-root.sh maciej` | yes | Prepares a fresh server so the operator can run `./start.sh` |
+
+The admin script's name says exactly what it is: it **sets up the server**,
+and you run it **as root**. Everything else in this repo runs as the operator,
+without sudo.
+
 ## Quick start
 
 ```bash
@@ -22,16 +35,14 @@ redistribute only with the author's written permission. See `LICENSE`.
 Browser after starting: <http://127.0.0.1:8765/> — sign in `admin` / `admin`
 (or `ref` / `ref`).
 
-On a fresh Linux host the script installs a container runtime for you. If
+On a fresh Linux server the script installs a container runtime for you. If
 your account can `sudo`, it installs Docker with the package manager. If it
-cannot, ask an administrator to run the one-time host setup once:
+cannot, ask an administrator to prepare the server once:
 
 ```bash
-sudo scripts/sudo/setup-host.sh maciej
+sudo scripts/setup-server-as-root.sh maciej
 ```
 
-The `scripts/sudo/` folder marks the one script that must be run as root
-(everything else, including `./start.sh`, runs as the operator without sudo).
 That installs Homebrew for `maciej` (plus the system tools it needs), sets up
 rootless prerequisites (`uidmap`, a subuid range, Ubuntu's AppArmor user-namespace
 rule), and enables lingering. Then, with no sudo at all, `./start.sh` installs
@@ -77,8 +88,19 @@ SSH session that will end. Install the systemd unit once:
 ```
 
 This starts RinkDesk now and on every boot, and keeps it running after you
-log out. Root gets a system unit; a regular user gets a user unit (no sudo;
-needs lingering, which `scripts/sudo/setup-host.sh` enables). Manage it with:
+log out. Root gets a system unit; a regular user gets a user unit (no sudo).
+
+**A user unit only starts at boot if lingering is enabled.** Without it, your
+systemd user manager is started on login, so after a reboot the desk stays
+down until someone SSHes in. `scripts/setup-server-as-root.sh` enables lingering
+for the operator; if you installed the service some other way, do it yourself:
+
+```bash
+sudo loginctl enable-linger maciej
+loginctl show-user maciej | grep Linger   # → Linger=yes
+```
+
+Manage the service with:
 
 ```bash
 # regular user (no sudo):
@@ -93,26 +115,51 @@ journalctl -u rinkdesk -f
 ./start.sh --status
 ```
 
+To confirm it really comes back, `sudo reboot` and check
+`systemctl --user status rinkdesk` after you reconnect.
+
 ## Deploy on a new machine
 
-End-to-end on a fresh Linux host. Steps 1 and 4 need an administrator
-(`sudo`); everything in between runs as the operator.
+End-to-end on a fresh Linux host. Deployment has two phases, split by
+privilege: **Phase 1 (root)** prepares the host, **Phase 2 (operator, no
+sudo)** installs Podman and starts the desk on boot. Step 4 (nginx) is also
+root and optional.
 
-1. **One-time host setup, as root.** Installs build tools, Homebrew, rootless
-   prerequisites, and lingering for the operator account. This is the only
-   script that needs sudo — the `scripts/sudo/` folder name says so:
+`scripts/setup-server-as-root.sh` is the only script that needs root, and it can
+run both phases for you:
+
+```bash
+# host setup + install the desk to start on every boot, in one command
+sudo scripts/setup-server-as-root.sh maciej --install-service
+```
+
+Without `--install-service` it does Phase 1 only and prints the Phase 2
+command. The manual steps are below.
+
+1. **Phase 1 — one-time host setup, as root.** Installs build tools, Homebrew,
+   rootless prerequisites, and lingering for the operator account:
 
    ```bash
-   sudo scripts/sudo/setup-host.sh maciej
+   sudo scripts/setup-server-as-root.sh maciej
    ```
 
-2. **As the operator, clone and start.** No sudo: Homebrew installs Podman.
+2. **Phase 2 — as the operator, clone and start.** No sudo: Homebrew installs
+   Podman. `--install-service` also enables the unit so the desk starts on
+   every boot (lingering from Phase 1 makes the user unit survive logout and
+   reboot):
 
    ```bash
    git clone git@github.com:MaciejHubisz/rinkdesk-run.git
    cd rinkdesk-run
    ./start.sh --start
    ./start.sh --install-service     # start on boot, survive SSH logout
+   ```
+
+   Verify it will come back after a reboot:
+
+   ```bash
+   loginctl show-user maciej | grep Linger   # → Linger=yes
+   systemctl --user status rinkdesk
    ```
 
 3. **Put nginx in front (optional).** The app listens on `127.0.0.1:8765`
@@ -201,16 +248,17 @@ Auto-refresh lives in `.env` (`RINKDESK_LIVE_REFRESH_SECONDS`). See
 ## Folders and files
 
 ```
-start.sh                      entry point
+start.sh                        run the desk (operator, no sudo)
 scripts/
-  lib/                        shared bash helpers (common, platform, config, engine)
-  sudo/setup-host.sh          one-time admin setup, run as root (Homebrew + linger)
-  linux/start-completion.bash tab completion for bash
-  manual.txt                  text shown by --manual
-docker-compose.yml            pre-built images only
-.env                          image tag + live-page settings
-protocols/                    generated protocol PDFs (default location)
-team-logos/                   logo PNGs the app reads (user-provided)
+  setup-server-as-root.sh       prepare a server once (administrator, sudo);
+                                --install-service also installs the boot service
+  lib/                          shared bash helpers (common, platform, config, engine)
+  linux/start-completion.bash   tab completion for bash
+  manual.txt                    text shown by --manual
+docker-compose.yml              pre-built images only
+.env                            image tag + live-page settings
+protocols/                      generated protocol PDFs (default location)
+team-logos/                     logo PNGs the app reads (user-provided)
 ```
 
 ## Data and folders

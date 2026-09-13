@@ -215,7 +215,7 @@ cmd_update() {
 
 # Install a systemd unit so the desk starts on boot and keeps running after
 # the SSH session ends. Root installs a system unit; a regular user installs
-# a user unit (no sudo needed; requires lingering, which setup-host.sh sets).
+# a user unit (no sudo needed; requires lingering, which setup-server-as-root.sh sets).
 cmd_install_service() {
   have systemctl || die "systemd is required for --install-service"
   ensure_runtime
@@ -284,7 +284,7 @@ EOF
   say "${GREEN}${SERVICE_NAME}.service enabled and started${RESET}"
   say "${DIM}  systemctl --user status ${SERVICE_NAME}${RESET}"
   say "${DIM}  journalctl --user -u ${SERVICE_NAME} -f${RESET}"
-  say "${DIM}  (needs 'loginctl enable-linger $USER' to survive logout — setup-host.sh does it)${RESET}"
+  say "${DIM}  (needs 'loginctl enable-linger $USER' to survive logout — setup-server-as-root.sh does it)${RESET}"
 }
 
 cmd_uninstall_service() {

@@ -1,17 +1,29 @@
 #!/usr/bin/env bash
-# One-time host setup for RinkDesk. An administrator runs this once with
+# Prepare a Linux server to run RinkDesk. An administrator runs this once with
 # root (or sudo). It installs Homebrew for the operator and the few system
 # bits Homebrew/Podman need, then everything else (Podman + the app) is done
 # by ./start.sh without sudo.
 #
-#   sudo scripts/sudo/setup-host.sh              # user = $SUDO_USER
-#   sudo scripts/sudo/setup-host.sh maciej
+# The filename says what it does and who runs it: setup-server-as-root.sh.
+#
+#   sudo scripts/setup-server-as-root.sh                    # user = $SUDO_USER
+#   sudo scripts/setup-server-as-root.sh maciej             # prepare server only
+#   sudo scripts/setup-server-as-root.sh maciej --install-service
+#                                                           # prepare + run on boot
+#
+# Two phases, clearly split by privilege:
+#   Phase 1 (root):   prerequisites, Homebrew, subuid range, userns, lingering.
+#   Phase 2 (USER):   ./start.sh --install-service — installs Podman, starts the
+#                     desk now, and enables it on every boot. Run as the
+#                     operator; never as root.
+# With --install-service this script runs both phases for you (Phase 2 via
+# runuser). Without it, Phase 2 is printed as the next command.
 #
 # Idempotent: safe to re-run. Tuned for Ubuntu/Debian (also tries Fedora,
 # Arch, openSUSE); handles Ubuntu's unprivileged-userns AppArmor restriction.
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck source=scripts/lib/common.sh
 source "$ROOT/scripts/lib/common.sh"
 # shellcheck source=scripts/lib/platform.sh
@@ -19,18 +31,34 @@ source "$ROOT/scripts/lib/platform.sh"
 
 usage() {
   cat <<EOF
-${BOLD}RinkDesk host setup${RESET} (run as root)
+${BOLD}RinkDesk server setup${RESET} (run as root)
 
-  sudo $0 [USER]     install Homebrew prerequisites + Homebrew for USER
+  sudo $0 [USER]                     prepare the server only (Phase 1)
+  sudo $0 [USER] --install-service   prepare the server + run the desk on boot
 
-  USER defaults to \$SUDO_USER. After this, USER runs ./start.sh (no sudo);
-  start.sh installs Podman and the rest with Homebrew.
+  USER defaults to \$SUDO_USER.
+
+  Phase 1 (root):  prerequisites, Homebrew, subuid range, user namespaces,
+                   and lingering for USER.
+  Phase 2 (USER):  ./start.sh --install-service — installs Podman, starts the
+                   desk now, and enables it on every boot. No sudo.
+
+  With --install-service this script runs Phase 2 for you as USER. Without it,
+  run Phase 2 yourself as USER:
+    ./start.sh --install-service
 EOF
 }
 
-case "${1:-}" in
-  -h | --help | help) usage; exit 0 ;;
-esac
+TARGET_USER=""
+INSTALL_SERVICE=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h | --help | help) usage; exit 0 ;;
+    --install-service) INSTALL_SERVICE=1; shift ;;
+    -*) die "unknown argument: $1  (try: $0 --help)" ;;
+    *) TARGET_USER="$1"; shift ;;
+  esac
+done
 
 detect_os
 is_linux || die "this host setup script is Linux only"
@@ -39,7 +67,7 @@ if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
   die "run me as root:  sudo $0 [USER]"
 fi
 
-TARGET_USER="${1:-${SUDO_USER:-}}"
+TARGET_USER="${TARGET_USER:-${SUDO_USER:-}}"
 if [[ -z "$TARGET_USER" ]]; then
   die "specify the operator account:  sudo $0 USER"
 fi
@@ -63,7 +91,27 @@ else
   die "need 'runuser' or 'su' to install Homebrew as ${TARGET_USER}"
 fi
 
-say "${BOLD}Setting up this host for RinkDesk${RESET}  (operator: ${TARGET_USER})"
+# Run a command as the operator with a working systemd --user environment, for
+# Phase 2 after lingering is enabled. Waits briefly for the user manager bus.
+run_as_operator() {
+  local uid runtime_dir
+  uid="$(id -u "$TARGET_USER")"
+  runtime_dir="/run/user/$uid"
+  for _ in $(seq 1 15); do [[ -S "$runtime_dir/bus" ]] && break; sleep 1; done
+  if have runuser; then
+    runuser -u "$TARGET_USER" -- env \
+      HOME="$TARGET_HOME" USER="$TARGET_USER" LOGNAME="$TARGET_USER" \
+      XDG_RUNTIME_DIR="$runtime_dir" \
+      DBUS_SESSION_BUS_ADDRESS="unix:path=$runtime_dir/bus" \
+      RINKDESK_ASSUME_YES=1 \
+      "$@"
+  else
+    su -s /bin/bash "$TARGET_USER" -c \
+      "HOME=$(printf '%q' "$TARGET_HOME") XDG_RUNTIME_DIR=$(printf '%q' "$runtime_dir") DBUS_SESSION_BUS_ADDRESS=unix:path=$runtime_dir/bus RINKDESK_ASSUME_YES=1 $(printf '%q ' "$@")"
+  fi
+}
+
+say "${BOLD}Phase 1 — prepare the server (as root)${RESET}  (operator: ${TARGET_USER})"
 
 install_prereqs() {
   say "${DIM}installing Homebrew/Podman prerequisites…${RESET}"
@@ -173,8 +221,33 @@ install_homebrew
 enable_linger
 
 say ""
-say "${GREEN}Host ready.${RESET}"
-say "The operator should now log in and run:"
-say "  ${BOLD}ssh ${TARGET_USER}@$(hostname)${RESET}"
-say "  cd ${ROOT} && ./start.sh --start"
-say "${DIM}start.sh installs Podman via Homebrew — no sudo needed.${RESET}"
+say "${GREEN}Server ready.${RESET}"
+
+# Phase 2: install the boot service as the operator (never as root), so the
+# unit is a user unit that lives in the operator's systemd manager.
+install_service() {
+  say ""
+  say "${BOLD}Phase 2 — install the boot service as ${TARGET_USER} (no sudo)${RESET}"
+  if ! run_as_operator bash "$ROOT/start.sh" --install-service; then
+    die "could not install the service as ${TARGET_USER}.
+  Log in and run it yourself:
+    cd ${ROOT} && ./start.sh --install-service"
+  fi
+  if run_as_operator systemctl --user is-enabled rinkdesk >/dev/null 2>&1; then
+    say "${GREEN}rinkdesk.service enabled${RESET} — starts on every boot"
+  else
+    warn "could not confirm rinkdesk.service is enabled as ${TARGET_USER}"
+  fi
+}
+
+if [[ "$INSTALL_SERVICE" == 1 ]]; then
+  install_service
+  say ""
+  say "Check it as ${TARGET_USER}:"
+  say "  ${BOLD}systemctl --user status rinkdesk${RESET}"
+else
+  say "Phase 2 — as ${TARGET_USER}, install the boot service (no sudo):"
+  say "  ${BOLD}ssh ${TARGET_USER}@$(hostname)${RESET}"
+  say "  cd ${ROOT} && ./start.sh --install-service"
+  say "${DIM}Or re-run this script with --install-service to do it now.${RESET}"
+fi

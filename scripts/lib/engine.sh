@@ -37,7 +37,7 @@ brew_install_podman() {
   # userns restriction (or a missing uidmap); point at the admin script.
   if ! engine_ready; then
     die "$ENGINE is installed but cannot start rootless containers.
-  Ask an administrator to run once:  sudo scripts/sudo/setup-host.sh $USER
+  Ask an administrator to run once:  sudo scripts/setup-server-as-root.sh $USER
   (it installs uidmap, sets a subuid range, and allows user namespaces)."
   fi
   return 0
@@ -128,7 +128,7 @@ install_engine_linux() {
   elif have apt-get; then
     as_root apt-get update -y || die "apt-get update failed.
   If this account cannot sudo, ask an administrator to run once:
-    sudo scripts/sudo/setup-host.sh $USER
+    sudo scripts/setup-server-as-root.sh $USER
   Then log out and back in, and re-run $0."
     if as_root apt-get install -y docker.io docker-compose-v2; then installed=1; fi
     if [[ "$installed" == 0 ]]; then
@@ -175,14 +175,14 @@ ensure_runtime() {
   for i in $(seq 1 30); do engine_ready && break; sleep 1; done
   engine_ready || die "$ENGINE is installed but the daemon is not running.
   Linux: sudo systemctl start docker   or   systemctl --user start podman.socket
-  No sudo? Ask an administrator to run:  sudo scripts/sudo/setup-host.sh $USER
+  No sudo? Ask an administrator to run:  sudo scripts/setup-server-as-root.sh $USER
   Then re-run $0."
   # Rootless podman needs to create user namespaces; Ubuntu blocks that by
-  # default unless setup-host.sh has allowed it. Warn early instead of failing
+  # default unless setup-server-as-root.sh has allowed it. Warn early instead of failing
   # later with a cryptic "operation not permitted".
   if [[ "$ENGINE" == podman ]] && ! podman unshare true >/dev/null 2>&1; then
     warn "rootless Podman could not create a user namespace.
-  If containers fail, ask an administrator to run:  sudo scripts/sudo/setup-host.sh $USER"
+  If containers fail, ask an administrator to run:  sudo scripts/setup-server-as-root.sh $USER"
   fi
   find_compose || die "no compose for $ENGINE (need: docker compose / podman compose)"
   say "${DIM}engine ${ENGINE}  compose ${COMPOSE[*]}${RESET}"
