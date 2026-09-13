@@ -10,12 +10,17 @@
 #   sudo scripts/setup-server-as-root.sh maciej             # prepare server only
 #   sudo scripts/setup-server-as-root.sh maciej --install-service
 #                                                           # prepare + run on boot
+#   sudo scripts/setup-server-as-root.sh maciej --install-service --install-nginx
+#                                                           # + public HTTPS site
 #
-# Two phases, clearly split by privilege:
-#   Phase 1 (root):   prerequisites, Homebrew, subuid range, userns, lingering.
-#   Phase 2 (USER):   ./start.sh --install-service — installs Podman, starts the
-#                     desk now, and enables it on every boot. Run as the
-#                     operator; never as root.
+# Three phases, clearly split by privilege:
+#   Phase 1 (root):    prerequisites, Homebrew, subuid range, userns, lingering.
+#   Phase 1b (root):   nginx reverse proxy + certbot TLS, driven by
+#                      scripts/admin/admin.env (that folder is the mini-project:
+#                      an env file and a site template; this script runs it).
+#   Phase 2 (USER):    ./start.sh --install-service — installs Podman, starts the
+#                      desk now, and enables it on every boot. Run as the
+#                      operator; never as root.
 # With --install-service this script runs both phases for you (Phase 2 via
 # runuser). Without it, Phase 2 is printed as the next command.
 #
@@ -29,19 +34,39 @@ source "$ROOT/scripts/lib/common.sh"
 # shellcheck source=scripts/lib/platform.sh
 source "$ROOT/scripts/lib/platform.sh"
 
+# Admin-level configuration (nginx site + TLS). This folder is the mini-project;
+# the logic that applies it lives in this one script.
+ADMIN_ENV="$ROOT/scripts/admin/admin.env"
+# shellcheck disable=SC1090
+[[ -f "$ADMIN_ENV" ]] && source "$ADMIN_ENV"
+DOMAIN="${RINKDESK_DOMAIN:-}"
+NGINX_PORT="${RINKDESK_PORT:-8765}"
+TLS_EMAIL="${RINKDESK_TLS_EMAIL:-}"
+ENABLE_TLS="${RINKDESK_ENABLE_TLS:-1}"
+NGINX_TEMPLATE="$ROOT/scripts/admin/nginx-site.conf.template"
+
 usage() {
   cat <<EOF
 ${BOLD}RinkDesk server setup${RESET} (run as root)
 
   sudo $0 [USER]                     prepare the server only (Phase 1)
   sudo $0 [USER] --install-service   prepare the server + run the desk on boot
+  sudo $0 [USER] --install-nginx     also install nginx + TLS (Phase 1b)
 
   USER defaults to \$SUDO_USER.
 
   Phase 1 (root):  prerequisites, Homebrew, subuid range, user namespaces,
                    and lingering for USER.
+  Phase 1b (root): nginx reverse proxy + certbot TLS, configured from
+                   scripts/admin/admin.env.
   Phase 2 (USER):  ./start.sh --install-service — installs Podman, starts the
                    desk now, and enables it on every boot. No sudo.
+
+  Overrides for Phase 1b:
+    --domain HOST    public hostname        (RINKDESK_DOMAIN)
+    --port PORT      local desk port        (RINKDESK_PORT, default ${NGINX_PORT})
+    --email ADDR     Let's Encrypt contact  (RINKDESK_TLS_EMAIL)
+    --no-tls         install nginx HTTP-only, skip certbot
 
   With --install-service this script runs Phase 2 for you as USER. Without it,
   run Phase 2 yourself as USER:
@@ -51,10 +76,22 @@ EOF
 
 TARGET_USER=""
 INSTALL_SERVICE=0
+INSTALL_NGINX=0
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -h | --help | help) usage; exit 0 ;;
     --install-service) INSTALL_SERVICE=1; shift ;;
+    --install-nginx) INSTALL_NGINX=1; shift ;;
+    --domain)
+      [[ $# -ge 2 ]] || die "$1 needs a hostname"
+      DOMAIN="$2"; shift 2 ;;
+    --port)
+      [[ $# -ge 2 ]] || die "$1 needs a port"
+      NGINX_PORT="$2"; shift 2 ;;
+    --email)
+      [[ $# -ge 2 ]] || die "$1 needs an address"
+      TLS_EMAIL="$2"; shift 2 ;;
+    --no-tls) ENABLE_TLS=0; shift ;;
     -*) die "unknown argument: $1  (try: $0 --help)" ;;
     *) TARGET_USER="$1"; shift ;;
   esac
@@ -214,11 +251,107 @@ enable_linger() {
   fi
 }
 
+# --- Phase 1b: nginx reverse proxy + TLS -------------------------------------
+# Reads scripts/admin/admin.env (sourced above) and applies
+# scripts/admin/nginx-site.conf.template. Distro-aware: Debian-style
+# sites-available, or conf.d for Fedora/RHEL/Arch.
+
+install_nginx_pkgs() {
+  if have nginx && have certbot; then
+    say "${DIM}nginx and certbot already installed${RESET}"
+    return 0
+  fi
+  say "${DIM}installing nginx + certbot…${RESET}"
+  if have apt-get; then
+    apt-get update -y
+    apt-get install -y nginx certbot python3-certbot-nginx
+  elif have dnf; then
+    dnf install -y nginx certbot python3-certbot-nginx
+  elif have yum; then
+    yum install -y nginx certbot python3-certbot-nginx
+  elif have pacman; then
+    pacman -S --noconfirm nginx certbot certbot-nginx
+  elif have zypper; then
+    zypper --non-interactive install nginx certbot python3-certbot-nginx
+  else
+    die "unknown package manager — install nginx and certbot manually, then re-run"
+  fi
+}
+
+write_nginx_site() {
+  [[ -f "$NGINX_TEMPLATE" ]] || die "missing nginx template: $NGINX_TEMPLATE"
+  local target
+  if [[ -d /etc/nginx/sites-available ]]; then
+    target=/etc/nginx/sites-available/rinkdesk.conf
+  else
+    target=/etc/nginx/conf.d/rinkdesk.conf
+  fi
+  sed -e "s/__DOMAIN__/${DOMAIN}/g" -e "s/__PORT__/${NGINX_PORT}/g" \
+    "$NGINX_TEMPLATE" >"$target"
+  if [[ -d /etc/nginx/sites-enabled ]]; then
+    ln -sfn "$target" /etc/nginx/sites-enabled/rinkdesk.conf
+  fi
+  say "${GREEN}wrote${RESET} ${target}"
+}
+
+reload_nginx() {
+  nginx -t || die "nginx config test failed"
+  if have systemctl; then
+    systemctl enable nginx >/dev/null 2>&1 || true
+    systemctl restart nginx
+  else
+    nginx -s reload 2>/dev/null || nginx
+  fi
+}
+
+open_firewall() {
+  if have firewall-cmd && systemctl is-active --quiet firewalld 2>/dev/null; then
+    firewall-cmd --permanent --add-service=http >/dev/null 2>&1 || true
+    firewall-cmd --permanent --add-service=https >/dev/null 2>&1 || true
+    firewall-cmd --reload >/dev/null 2>&1 || true
+    say "${GREEN}opened${RESET} http/https in firewalld"
+  fi
+}
+
+allow_selinux_proxy() {
+  if have getenforce && [[ "$(getenforce 2>/dev/null)" == "Enforcing" ]] && have setsebool; then
+    if setsebool -P httpd_can_network_connect 1 2>/dev/null; then
+      say "${GREEN}allowed${RESET} nginx to proxy (SELinux httpd_can_network_connect)"
+    fi
+  fi
+}
+
+setup_nginx() {
+  say ""
+  say "${BOLD}Phase 1b — nginx reverse proxy + TLS (as root)${RESET}"
+  [[ -n "$DOMAIN" ]] || die "set RINKDESK_DOMAIN in scripts/admin/admin.env (or pass --domain)"
+  install_nginx_pkgs
+  write_nginx_site
+  allow_selinux_proxy
+  open_firewall
+  reload_nginx
+  if [[ "$ENABLE_TLS" == 1 ]]; then
+    [[ -n "$TLS_EMAIL" ]] || die "set RINKDESK_TLS_EMAIL in scripts/admin/admin.env (or pass --email) for certbot"
+    say "${DIM}obtaining TLS certificate for ${DOMAIN} (certbot)…${RESET}"
+    if certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos \
+      -m "$TLS_EMAIL" --redirect --keep-until-expiring; then
+      say "${GREEN}https://${DOMAIN}/${RESET} is live"
+    else
+      warn "certbot could not issue a certificate yet.
+  Check that DNS for ${DOMAIN} points here, then run:
+    sudo certbot --nginx -d ${DOMAIN} -m ${TLS_EMAIL} --agree-tos --redirect"
+    fi
+  else
+    warn "TLS disabled — the site is HTTP-only on ${DOMAIN}"
+  fi
+}
+
 install_prereqs
 ensure_subids
 setup_userns
 install_homebrew
 enable_linger
+if [[ "$INSTALL_NGINX" == 1 ]]; then setup_nginx; fi
 
 say ""
 say "${GREEN}Server ready.${RESET}"

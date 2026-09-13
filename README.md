@@ -122,8 +122,8 @@ To confirm it really comes back, `sudo reboot` and check
 
 End-to-end on a fresh Linux host. Deployment has two phases, split by
 privilege: **Phase 1 (root)** prepares the host, **Phase 2 (operator, no
-sudo)** installs Podman and starts the desk on boot. Step 4 (nginx) is also
-root and optional.
+sudo)** installs Podman and starts the desk on boot. Step 3 (nginx + TLS) is
+also root and optional.
 
 `scripts/setup-server-as-root.sh` is the only script that needs root, and it can
 run both phases for you:
@@ -162,75 +162,37 @@ command. The manual steps are below.
    systemctl --user status rinkdesk
    ```
 
-3. **Put nginx in front (optional).** The app listens on `127.0.0.1:8765`
-   (`--port` / `RINKDESK_PORT`). nginx terminates TLS and exposes only the
-   read-only live page; the desk stays local.
-
-4. **Install nginx + Certbot and enable the site, as root:**
-
-   ```bash
-   sudo apt-get install -y nginx certbot python3-certbot-nginx
-   ```
-
-   `/etc/nginx/sites-available/rinklive.conf`:
-
-   ```nginx
-   server {
-       server_name rinklive.nfy.pl;
-
-       location = / {
-           return 301 /live/;
-       }
-
-       location /live {
-           proxy_pass http://127.0.0.1:8765;
-           proxy_http_version 1.1;
-           proxy_set_header Host $host;
-           proxy_set_header X-Real-IP $remote_addr;
-           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-           proxy_set_header X-Forwarded-Proto $scheme;
-       }
-
-       location / {
-           return 404;
-       }
-
-       listen 443 ssl; # managed by Certbot
-       ssl_certificate /etc/letsencrypt/live/rinklive.nfy.pl/fullchain.pem; # managed by Certbot
-       ssl_certificate_key /etc/letsencrypt/live/rinklive.nfy.pl/privkey.pem; # managed by Certbot
-       include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-       ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-   }
-
-   server {
-       if ($host = rinklive.nfy.pl) {
-           return 301 https://$host$request_uri;
-       } # managed by Certbot
-
-       listen 80;
-       server_name rinklive.nfy.pl;
-       return 404; # managed by Certbot
-   }
-   ```
-
-   Enable it and obtain the certificate (Certbot rewrites the `ssl_*` lines
-   and the port 80 redirect on first run):
+3. **Phase 1b — public HTTPS site (optional), as root.** The desk listens on
+   `127.0.0.1:8765`; nginx terminates TLS and exposes only the read-only live
+   page. This is a small config of its own under `scripts/admin/`: edit
+   `admin.env` (hostname, port, Let's Encrypt email), and the setup script
+   applies it from `nginx-site.conf.template`:
 
    ```bash
-   sudo ln -s /etc/nginx/sites-available/rinklive.conf /etc/nginx/sites-enabled/
-   sudo nginx -t && sudo systemctl reload nginx
-   sudo certbot --nginx -d rinklive.nfy.pl
+   # scripts/admin/admin.env:
+   #   RINKDESK_DOMAIN="rinklive.nfy.pl"
+   #   RINKDESK_PORT="8765"
+   #   RINKDESK_TLS_EMAIL="you@example.com"
+
+   sudo scripts/setup-server-as-root.sh maciej --install-nginx
    ```
 
-What the config does:
+   That installs nginx + certbot (apt/dnf/pacman/zypper), writes the site
+   config, opens firewalld, allows nginx to proxy under SELinux, and obtains
+   the certificate. The values can also be passed as flags (`--domain`,
+   `--port`, `--email`, `--no-tls`). Combine everything in one command:
 
-- `location /` returns 404, so nothing except the live page is reachable
-  through the public hostname.
-- `location = /` redirects to `/live/`; `location /live` reverse-proxies to
-  the container port with the usual forwarded headers.
-- TLS is on 443; port 80 only redirects to HTTPS (managed by Certbot).
+   ```bash
+   sudo scripts/setup-server-as-root.sh maciej --install-service --install-nginx
+   ```
 
-Change `rinklive.nfy.pl` and `8765` to match your hostname and `--port`.
+   What the site does (see `scripts/admin/nginx-site.conf.template`):
+
+   - `location /` returns 404, so nothing except the live page is reachable
+     through the public hostname.
+   - `location = /` redirects to `/live/`; `location /live` reverse-proxies to
+     the container port with the usual forwarded headers.
+   - Certbot adds TLS on 443 and makes port 80 redirect to HTTPS.
 
 > The compose file publishes `${RINKDESK_PORT:-8765}:80` on all interfaces, so
 > the desk is also reachable directly on `:8765` unless a firewall blocks it.
@@ -252,6 +214,9 @@ start.sh                        run the desk (operator, no sudo)
 scripts/
   setup-server-as-root.sh       prepare a server once (administrator, sudo);
                                 --install-service also installs the boot service
+  admin/                        public-site config (mini-project):
+    admin.env                     domain, port, Let's Encrypt email
+    nginx-site.conf.template      nginx site, applied by setup-server-as-root.sh
   lib/                          shared bash helpers (common, platform, config, engine)
   linux/start-completion.bash   tab completion for bash
   manual.txt                    text shown by --manual
