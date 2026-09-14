@@ -134,9 +134,16 @@ cmd_start() {
   before_web="$(image_id "${prefix}-web:${tag}")"
 
   say "${DIM}Pulling images…${RESET}"
-  if [[ "$FORCE_PULL" == 1 ]]; then
-    compose pull || die "could not pull images from the registry (--force-pull)"
-  elif ! compose pull; then
+  # Pull through the engine, not `compose pull`: podman-compose skips a tag
+  # that already exists locally, so a moved :latest never reaches the host.
+  # `podman/docker pull` always re-checks the registry and updates the tag.
+  local pull_failed=0
+  "$ENGINE" pull "${prefix}-backend:${tag}" || pull_failed=1
+  "$ENGINE" pull "${prefix}-web:${tag}" || pull_failed=1
+  if [[ "$pull_failed" == 1 ]]; then
+    if [[ "$FORCE_PULL" == 1 ]]; then
+      die "could not pull images from the registry (--force-pull)"
+    fi
     say "${YELLOW}Warning: could not pull images — starting local images if present.${RESET}"
     say "${DIM}  The desk may be stale. Check network, or that the registry images are Public.${RESET}"
   fi
