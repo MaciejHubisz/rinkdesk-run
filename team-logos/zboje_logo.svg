@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <path d="M100 6 L182 32 V102 C182 152 145 186 100 197 C55 186 18 152 18 102 V32 Z" fill="#1B1B1B" stroke="#C8102E" stroke-width="9"/>
+  <path d="M100 20 L168 41 V101 C168 143 138 172 100 182 C62 172 32 143 32 101 V41 Z" fill="none" stroke="#F5F5F5" stroke-width="3" opacity="0.6"/>
+  <text x="100" y="132" font-family="Arial, Helvetica, sans-serif" font-size="104" font-weight="bold" fill="#C8102E" text-anchor="middle">Z</text>
+</svg>
