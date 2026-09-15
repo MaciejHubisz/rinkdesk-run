@@ -4,8 +4,8 @@ No source code and no data dumps. `./start.sh --start` pulls the `:latest`
 Docker images and starts the desk. This is the only `start.sh`.
 
 If a sibling `../rinkdesk` source tree is on disk (or `RINKDESK_SRC` is set),
-`--start` builds and publishes fresh images from it first, then pulls and
-runs. Without it, the script just pulls and runs.
+`--start`, `--update` and `--force-recreate` build and publish fresh images
+from it first, then pull and run. Without it, the script just pulls and runs.
 
 Linux only — this repo is meant to run on a remote Linux host, usually over
 SSH.
@@ -66,8 +66,8 @@ source scripts/linux/start-completion.bash
 | `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
 | `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
 | `./start.sh --start --force-pull` | Skip local build; pull from hub (fail if pull fails) |
-| `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; pull; start empty (only built-in logins, default snapshot import stays available on demand) |
-| `./start.sh --update` | Pull newer images and recreate, keeping data |
+| `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; build or pull; start empty (only built-in logins, default snapshot import stays available on demand) |
+| `./start.sh --update` | Build from the local source (if present) or pull newer images, recreate the app containers, keep data |
 | `./start.sh --status` | Show container status |
 | `./start.sh --logs [SERVICE]` | Follow logs (backend/web/db, all by default) |
 | `./start.sh --stop` | Stop containers (data kept) |
@@ -111,7 +111,7 @@ journalctl --user -u rinkdesk -f
 systemctl status rinkdesk
 journalctl -u rinkdesk -f
 
-./start.sh --update          # pull new images, keep data
+./start.sh --update          # rebuild/pull images, keep data
 ./start.sh --status
 ```
 

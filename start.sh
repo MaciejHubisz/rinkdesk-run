@@ -3,14 +3,16 @@
 #
 #   ./start.sh --start
 #   ./start.sh --stop
+#   ./start.sh --update
 #   ./start.sh --force-recreate
 #   ./start.sh --start --force-pull
 #   ./start.sh --start --export-path /path/to/folder
 #   ./start.sh --start --protocols-path /path/to/folder
 #
 # If a sibling ../rinkdesk source tree is on disk (or RINKDESK_SRC),
-# --start runs that repo's ./build.sh (build + publish) first, then
-# pulls and runs here — same as a machine that only has this repo.
+# --start, --update and --force-recreate run that repo's ./build.sh
+# (build + publish) first, then pull and run here — same as a machine
+# that only has this repo.
 #
 # Linux only. Designed to run unattended over SSH (see --yes, --install-service).
 set -euo pipefail
@@ -77,8 +79,8 @@ print_usage() {
 ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
 
   ${GREEN}./start.sh --start${RESET}             start or resume, applying newer images (keep data)
-  ${GREEN}./start.sh --force-recreate${RESET}    wipe database, pull, start empty
-  ${GREEN}./start.sh --update${RESET}            pull newer images, keep data
+  ${GREEN}./start.sh --force-recreate${RESET}    wipe database, rebuild or pull, start empty
+  ${GREEN}./start.sh --update${RESET}            rebuild or pull, recreate app, keep data
   ${GREEN}./start.sh --status${RESET}            show container status
   ${GREEN}./start.sh --logs [SERVICE]${RESET}    follow logs (backend/web/db, all by default)
   ${GREEN}./start.sh --stop${RESET}              stop (data kept)
@@ -106,7 +108,7 @@ EOF
   if [[ -n "$src" ]]; then
     cat <<EOF
   Source:   ${src}
-            --start builds and publishes, then pulls and runs.
+            --start, --update and --force-recreate build and publish first.
 EOF
   else
     cat <<EOF
@@ -277,11 +279,11 @@ cmd_logs() {
   compose logs -f --tail=200 "${LOG_ARGS[@]}"
 }
 
-# Pull newer images and recreate the containers without touching the database.
+# Rebuild from the local source tree (when present) or pull newer images, then
+# recreate the app containers without touching the database. This is the same
+# as --force-recreate except the data is kept.
 cmd_update() {
-  FORCE_PULL=1
   FORCE_UP=1
-  SKIP_BUILD=1
   cmd_start "$1" 0
 }
 
