@@ -8,26 +8,32 @@ If a sibling `../rinkdesk` source tree is on disk (or `RINKDESK_SRC` is set),
 and run those local images. Without it, the script just pulls and runs.
 
 The images are published by CI from the `rinkdesk` repo to a **private**
-GitHub Container Registry package. On a machine without the source tree, log
-in once so pulls work:
+GitHub Container Registry package. Put a `read:packages` token in
+`registry.env` (gitignored) so pulls work — copy the example and edit it:
+
+```bash
+cp registry.env.example registry.env
+chmod 600 registry.env
+# RINKDESK_REGISTRY_USER=MaciejHubisz
+# RINKDESK_REGISTRY_TOKEN=ghp_...
+```
+
+`--start` and `--update` then log in automatically the first time. To do it by
+hand, or to refresh the token, run:
 
 ```bash
 ./start.sh --login
-# non-interactive:
-RINKDESK_REGISTRY_USER=MaciejHubisz RINKDESK_REGISTRY_TOKEN="$CR_PAT" ./start.sh --login
 ```
 
 Use a token with `read:packages` (classic) or `Packages: read` (fine-grained),
 **not** your GitHub account password — GHCR rejects passwords. On podman the
-login is written to `~/.config/containers/auth.json` so it survives reboots;
-`--start` reuses it automatically.
+login is written to `~/.config/containers/auth.json` so it survives reboots.
 
-The one-time host setup can do this login for you (it skips when already
-logged in):
+The one-time host setup reads `registry.env` too, so a fresh server needs no
+extra flags (it skips when already logged in):
 
 ```bash
-sudo scripts/setup-server-as-root.sh maciej --install-service \
-  --registry-user MaciejHubisz --registry-token-file ~/ghcr-token
+sudo scripts/setup-server-as-root.sh maciej --install-service
 ```
 
 Linux only — this repo is meant to run on a remote Linux host, usually over

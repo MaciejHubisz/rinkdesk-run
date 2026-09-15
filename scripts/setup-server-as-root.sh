@@ -32,6 +32,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # Image prefix (registry host) used by start.sh, for the login step below.
 # shellcheck disable=SC1090
 [[ -f "$ROOT/.env" ]] && source "$ROOT/.env"
+# Registry credentials (gitignored) let the login run unattended.
+# shellcheck disable=SC1090
+[[ -f "$ROOT/registry.env" ]] && source "$ROOT/registry.env"
 # shellcheck source=scripts/lib/common.sh
 source "$ROOT/scripts/lib/common.sh"
 # shellcheck source=scripts/lib/platform.sh

@@ -29,7 +29,7 @@ source "$ROOT/scripts/lib/engine.sh"
 # shellcheck source=scripts/lib/registry.sh
 source "$ROOT/scripts/lib/registry.sh"
 
-load_env "$ROOT/release.env" "$ROOT/.env"
+load_env "$ROOT/release.env" "$ROOT/.env" "$ROOT/registry.env"
 
 CMD=help
 OPEN=1
@@ -195,6 +195,13 @@ cmd_start() {
   else
     before_backend="$(image_id "${prefix}-backend:${tag}")"
     before_web="$(image_id "${prefix}-web:${tag}")"
+
+    # registry.env (or the environment) can carry a read token; use it once so
+    # the pull works without a separate --login.
+    if [[ -n "${RINKDESK_REGISTRY_TOKEN:-}${CR_PAT:-}" ]] && ! registry_logged_in; then
+      say "${DIM}Logging in to $(registry_host)…${RESET}"
+      registry_login >/dev/null || warn "registry login failed — continuing"
+    fi
 
     say "${DIM}Pulling images…${RESET}"
     # Pull through the engine, not `compose pull`: podman-compose skips a tag

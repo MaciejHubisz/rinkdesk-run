@@ -63,10 +63,14 @@ registry_login() {
     mkdir -p "$(dirname "$authfile")"
     args+=(--authfile "$authfile")
   fi
-  [[ -n "$user" ]] && args+=(-u "$user")
+  if [[ -n "$token" ]]; then
+    [[ -n "$user" ]] || die "RINKDESK_REGISTRY_USER is required with a registry token (see registry.env.example)"
+    args+=(-u "$user")
+  fi
   if [[ -n "$token" ]]; then
     printf '%s' "$token" | "$engine" login "$host" "${args[@]}" --password-stdin
   else
+    [[ -n "$user" ]] && args+=(-u "$user")
     "$engine" login "$host" "${args[@]}"
   fi
 }
