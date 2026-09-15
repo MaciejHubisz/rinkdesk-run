@@ -4,8 +4,21 @@ No source code and no data dumps. `./start.sh --start` pulls the `:latest`
 Docker images and starts the desk. This is the only `start.sh`.
 
 If a sibling `../rinkdesk` source tree is on disk (or `RINKDESK_SRC` is set),
-`--start`, `--update` and `--force-recreate` build and publish fresh images
-from it first, then pull and run. Without it, the script just pulls and runs.
+`--start`, `--update` and `--force-recreate` build fresh images from it first
+and run those local images. Without it, the script just pulls and runs.
+
+The images are published by CI from the `rinkdesk` repo to a **private**
+GitHub Container Registry package. On a machine without the source tree, log
+in once so pulls work:
+
+```bash
+./start.sh --login
+# non-interactive:
+RINKDESK_REGISTRY_USER=MaciejHubisz RINKDESK_REGISTRY_TOKEN="$CR_PAT" ./start.sh --login
+```
+
+Use a token with `read:packages` (classic) or `Packages: read` (fine-grained).
+The credential is stored by the container engine and reused by `--start`.
 
 Linux only — this repo is meant to run on a remote Linux host, usually over
 SSH.
@@ -65,10 +78,11 @@ source scripts/linux/start-completion.bash
 | `./start.sh --start` | Pull images, apply newer ones, start or resume, keep data |
 | `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
 | `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
-| `./start.sh --start --force-pull` | Skip local build; pull from hub (fail if pull fails) |
+| `./start.sh --start --force-pull` | Skip local build; pull from ghcr (fail if pull fails) |
 | `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; build or pull; start empty (only built-in logins, default snapshot import stays available on demand) |
 | `./start.sh --update` | Build from the local source (if present) or pull newer images, recreate the app containers, keep data |
 | `./start.sh --status` | Show container status |
+| `./start.sh --login` | Log in to the image registry (needed for the private package) |
 | `./start.sh --logs [SERVICE]` | Follow logs (backend/web/db, all by default) |
 | `./start.sh --stop` | Stop containers (data kept) |
 | `./start.sh --install-service` | Run on boot via systemd (and start now) |
@@ -249,5 +263,5 @@ and no per-team field — a missing file simply shows a neutral "no logo" crest.
 Export bundles those images with the JSON dump; import restores them. See
 `team-logos/README.md`.
 
-If pull fails, the `rinkdesk-backend` and `rinkdesk-web` images may still be
-private in the registry — the publisher must set them Public.
+If pull fails, the `rinkdesk-backend` and `rinkdesk-web` images are private on
+ghcr.io — log in once with a `read:packages` token (see the top of this file).

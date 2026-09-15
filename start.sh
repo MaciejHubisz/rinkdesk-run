@@ -11,8 +11,8 @@
 #
 # If a sibling ../rinkdesk source tree is on disk (or RINKDESK_SRC),
 # --start, --update and --force-recreate run that repo's ./build.sh
-# (build + publish) first, then pull and run here — same as a machine
-# that only has this repo.
+# (build only) first, then run those local images. A machine that only
+# has this repo pulls the images published by CI instead.
 #
 # Linux only. Designed to run unattended over SSH (see --yes, --install-service).
 set -euo pipefail
@@ -39,6 +39,9 @@ EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
 PROTOCOLS_PATH="${RINKDESK_PROTOCOLS_PATH:-}"
 LOG_ARGS=()
 SERVICE_NAME="rinkdesk"
+# Set to 1 when build.sh built fresh images on this machine; they are then
+# used as-is and the registry is not pulled (a pull would overwrite them).
+BUILT_LOCAL=0
 
 # Source tree = app + build.sh. Others clone only this repo, so this is empty.
 find_source_tree() {
@@ -59,17 +62,19 @@ find_source_tree() {
   return 1
 }
 
-# Build + publish from the source repo, then this script pulls those images.
-maybe_publish_from_source() {
+# Build fresh images from the source repo. build.sh never pushes; the local
+# images are used directly by cmd_start.
+maybe_build_from_source() {
   local src
   [[ "$SKIP_BUILD" == 1 ]] && return 0
   src="$(find_source_tree)" || return 0
   say "${BOLD}source${RESET}  ${src}"
-  say "Building and publishing images…"
+  say "Building images locally…"
   # .env sets RINKDESK_IMAGE_TAG=latest for running. Do not leak that into the
-  # build, or build.sh would only tag/push :latest and leave the version tag
-  # stale. Without it build.sh tags both VERSION and :latest.
+  # build, or build.sh would only tag :latest and leave the version tag stale.
+  # Without it build.sh tags both VERSION and :latest.
   env -u RINKDESK_IMAGE_TAG bash "$src/build.sh"
+  BUILT_LOCAL=1
 }
 
 print_usage() {
@@ -82,6 +87,7 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
   ${GREEN}./start.sh --force-recreate${RESET}    wipe database, rebuild or pull, start empty
   ${GREEN}./start.sh --update${RESET}            rebuild or pull, recreate app, keep data
   ${GREEN}./start.sh --status${RESET}            show container status
+  ${GREEN}./start.sh --login${RESET}             log in to the image registry (private images)
   ${GREEN}./start.sh --logs [SERVICE]${RESET}    follow logs (backend/web/db, all by default)
   ${GREEN}./start.sh --stop${RESET}              stop (data kept)
   ${GREEN}./start.sh --manual${RESET}            how the desk works
@@ -92,11 +98,11 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
       --export-path DIR          bind snapshot exports to a local folder
       --protocols-path DIR       bind generated protocol PDFs to a local folder
       --paths                    show where JSON, protocols, and logos live
-      --force-pull               skip local build; pull from hub (fail if pull fails)
+      --force-pull               skip local build; pull from ghcr (fail if pull fails)
 EOF
   if [[ -n "$src" ]]; then
     cat <<EOF
-      --no-build                 skip source build + publish
+      --no-build                 skip source build
 EOF
   fi
   cat <<EOF
@@ -108,7 +114,7 @@ EOF
   if [[ -n "$src" ]]; then
     cat <<EOF
   Source:   ${src}
-            --start, --update and --force-recreate build and publish first.
+            --start, --update and --force-recreate build from it first.
 EOF
   else
     cat <<EOF
@@ -166,7 +172,7 @@ cmd_start() {
   ensure_runtime
   [[ -n "$EXPORT_PATH" ]] && apply_export_path "$EXPORT_PATH"
   [[ -n "$PROTOCOLS_PATH" ]] && apply_protocols_path "$PROTOCOLS_PATH"
-  maybe_publish_from_source
+  maybe_build_from_source
   cd "$ROOT"
   load_env "$ROOT/.env"
   APP_VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION" 2>/dev/null || printf '1.0.0')"
@@ -174,33 +180,41 @@ cmd_start() {
   export RINKDESK_IMAGE_TAG="${RINKDESK_IMAGE_TAG:-latest}"
 
   local prefix tag before_backend before_web after_backend after_web image_changed=0
-  prefix="${RINKDESK_IMAGE_PREFIX:-docker.io/maciejhubisz/rinkdesk}"
+  prefix="${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}"
   tag="${RINKDESK_IMAGE_TAG:-latest}"
-  before_backend="$(image_id "${prefix}-backend:${tag}")"
-  before_web="$(image_id "${prefix}-web:${tag}")"
 
-  say "${DIM}Pulling images…${RESET}"
-  # Pull through the engine, not `compose pull`: podman-compose skips a tag
-  # that already exists locally, so a moved :latest never reaches the host.
-  # `podman/docker pull` always re-checks the registry and updates the tag.
-  local pull_failed=0
-  "$ENGINE" pull "${prefix}-backend:${tag}" || pull_failed=1
-  "$ENGINE" pull "${prefix}-web:${tag}" || pull_failed=1
-  if [[ "$pull_failed" == 1 ]]; then
-    if [[ "$FORCE_PULL" == 1 ]]; then
-      die "could not pull images from the registry (--force-pull)"
-    fi
-    say "${YELLOW}Warning: could not pull images — starting local images if present.${RESET}"
-    say "${DIM}  The desk may be stale. Check network, or that the registry images are Public.${RESET}"
-  fi
-
-  # A re-pull can move :latest without the running containers noticing:
-  # podman-compose does not recreate a container just because its tag moved.
-  # Compare the image ids so --start actually applies a newer build.
-  after_backend="$(image_id "${prefix}-backend:${tag}")"
-  after_web="$(image_id "${prefix}-web:${tag}")"
-  if [[ "$before_backend" != "$after_backend" || "$before_web" != "$after_web" ]]; then
+  if [[ "$BUILT_LOCAL" == 1 ]]; then
+    # Fresh images were just built here; pulling :latest would replace them
+    # with the last CI build. Recreate so the containers use the new images.
     image_changed=1
+    say "${DIM}Using locally built ${prefix}-{backend,web}:${tag}${RESET}"
+  else
+    before_backend="$(image_id "${prefix}-backend:${tag}")"
+    before_web="$(image_id "${prefix}-web:${tag}")"
+
+    say "${DIM}Pulling images…${RESET}"
+    # Pull through the engine, not `compose pull`: podman-compose skips a tag
+    # that already exists locally, so a moved :latest never reaches the host.
+    # `podman/docker pull` always re-checks the registry and updates the tag.
+    local pull_failed=0
+    "$ENGINE" pull "${prefix}-backend:${tag}" || pull_failed=1
+    "$ENGINE" pull "${prefix}-web:${tag}" || pull_failed=1
+    if [[ "$pull_failed" == 1 ]]; then
+      if [[ "$FORCE_PULL" == 1 ]]; then
+        die "could not pull images from the registry (--force-pull)"
+      fi
+      say "${YELLOW}Warning: could not pull images — starting local images if present.${RESET}"
+      say "${DIM}  The desk may be stale. Check network and registry login (docker login ghcr.io).${RESET}"
+    fi
+
+    # A re-pull can move :latest without the running containers noticing:
+    # podman-compose does not recreate a container just because its tag moved.
+    # Compare the image ids so --start actually applies a newer build.
+    after_backend="$(image_id "${prefix}-backend:${tag}")"
+    after_web="$(image_id "${prefix}-web:${tag}")"
+    if [[ "$before_backend" != "$after_backend" || "$before_web" != "$after_web" ]]; then
+      image_changed=1
+    fi
   fi
 
   if [[ "$recreate" == 1 ]]; then
@@ -212,7 +226,7 @@ cmd_start() {
     compose up --force-recreate --no-build -d
   elif [[ "$FORCE_UP" == 1 || "$image_changed" == 1 ]]; then
     if [[ "$image_changed" == 1 ]]; then
-      say "${DIM}New images pulled — recreating app containers.${RESET}"
+      say "${DIM}New images — recreating app containers.${RESET}"
     fi
     # Recreate only the stateless app services; the Postgres volume is kept.
     compose up --force-recreate --no-build -d backend web
@@ -271,6 +285,27 @@ cmd_status() {
   cd "$ROOT"
   load_env "$ROOT/.env"
   compose ps
+}
+
+# Log in to the registry so a private package can be pulled. Interactive by
+# default; set RINKDESK_REGISTRY_TOKEN (or CR_PAT) for unattended setup, with
+# RINKDESK_REGISTRY_USER when the token is not tied to a default username.
+cmd_login() {
+  ensure_runtime
+  local registry user token
+  registry="${RINKDESK_REGISTRY:-${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}}"
+  registry="${registry%%/*}"
+  user="${RINKDESK_REGISTRY_USER:-${GITHUB_ACTOR:-}}"
+  token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
+  say "${BOLD}Logging in to ${registry}${RESET}"
+  if [[ -n "$token" ]]; then
+    local args=()
+    [[ -n "$user" ]] && args=(-u "$user")
+    printf '%s' "$token" | "$ENGINE" login "$registry" "${args[@]}" --password-stdin
+  else
+    "$ENGINE" login "$registry"
+  fi
+  say "${GREEN}logged in to ${registry}${RESET}"
 }
 
 cmd_logs() {
@@ -403,6 +438,7 @@ while [[ $# -gt 0 ]]; do
     --force-recreate | --reset) CMD=start; RECREATE=1; shift ;;
     --update | update) CMD=update; shift ;;
     --status | status) CMD=status; shift ;;
+    --login) CMD=login; shift ;;
     --logs | logs) CMD=logs; shift ;;
     --install-service) CMD=install-service; shift ;;
     --uninstall-service) CMD=uninstall-service; shift ;;
@@ -429,6 +465,7 @@ case "$CMD" in
   update) cmd_update "$OPEN" ;;
   stop) cmd_stop ;;
   status) cmd_status ;;
+  login) cmd_login ;;
   logs) cmd_logs ;;
   install-service) cmd_install_service ;;
   uninstall-service) cmd_uninstall_service ;;
