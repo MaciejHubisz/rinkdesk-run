@@ -12,6 +12,14 @@ registry_host() {
   printf '%s\n' "${prefix%%/*}"
 }
 
+# Namespace that owns the package, e.g. "maciejhubisz". Used as the default
+# registry username.
+registry_owner() {
+  local prefix="${RINKDESK_REGISTRY:-${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}}"
+  prefix="${prefix#*/}"
+  printf '%s\n' "${prefix%%/*}"
+}
+
 # Engine to use: the already-detected one, else docker, else podman.
 registry_engine() {
   if [[ -n "${ENGINE:-}" ]]; then

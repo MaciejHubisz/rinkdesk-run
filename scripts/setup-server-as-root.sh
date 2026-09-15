@@ -52,6 +52,8 @@ NGINX_PORT="${RINKDESK_PORT:-8765}"
 TLS_EMAIL="${RINKDESK_TLS_EMAIL:-}"
 ENABLE_TLS="${RINKDESK_ENABLE_TLS:-1}"
 NGINX_TEMPLATE="$ROOT/scripts/admin/nginx-site.conf.template"
+# Operator-owned registry credentials (written by ensure_registry_login).
+REGISTRY_ENV="$ROOT/registry.env"
 
 usage() {
   cat <<EOF
@@ -82,10 +84,10 @@ ${BOLD}RinkDesk server setup${RESET} (run as root)
                                 (RINKDESK_REGISTRY_TOKEN_FILE)
 
   The images are private, so the operator logs in once. With --install-service
-  the script logs in when a token is available (from the file, the
-  RINKDESK_REGISTRY_TOKEN / CR_PAT environment, or a prompt); otherwise it
-  prints the one-time ./start.sh --login command. Re-running is safe — an
-  existing login is left alone.
+  the script logs in using the token from registry.env, the environment, or
+  --registry-token-file; if none is present it asks for one and saves it to
+  registry.env (mode 600). Re-running is safe — an existing login is left
+  alone.
 
   With --install-service this script runs Phase 2 for you as USER. Without it,
   run Phase 2 yourself as USER:
@@ -177,12 +179,14 @@ run_as_operator() {
 }
 
 # Log the operator in to the private image registry so the boot service can
-# pull. Idempotent: skips when a credential is already present. The token can
-# come from --registry-token-file, RINKDESK_REGISTRY_TOKEN/CR_PAT, or a prompt.
-# It is piped over stdin, never passed on a command line.
+# pull. Idempotent: skips when a credential is already present. The token comes
+# from registry.env, the environment, or --registry-token-file; if none is
+# found it prompts and saves the answer to registry.env for next time. The
+# token is always piped over stdin, never passed on a command line.
 ensure_registry_login() {
-  local host token user env_args=()
+  local host token user env_args=() prompted=0
   host="$(registry_host)"
+  user="$REGISTRY_USER"
 
   if run_as_operator bash "$ROOT/start.sh" --login --check >/dev/null 2>&1; then
     say "${GREEN}already${RESET} logged in to ${host}"
@@ -194,29 +198,60 @@ ensure_registry_login() {
     token="$(tr -d '\r\n' <"$REGISTRY_TOKEN_FILE")"
   else
     token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
-  fi
-  if [[ -z "$token" && -t 0 ]]; then
-    printf 'Registry token for %s (scope read:packages; blank to skip): ' "$host"
-    IFS= read -r -s token || true
-    printf '\n'
-  fi
-  if [[ -z "$token" ]]; then
-    warn "not logged in to ${host}; pulling the private images will fail.
-  As ${TARGET_USER}, run once:
-    cd ${ROOT} && ./start.sh --login"
-    return 0
+    # Ignore the untouched placeholder from registry.env.example.
+    [[ "$token" == "ghp_replace_me" ]] && token=""
   fi
 
-  user="$REGISTRY_USER"
+  if [[ -z "$token" ]]; then
+    if [[ ! -t 0 ]]; then
+      warn "not logged in to ${host} and no token available; skipping registry login"
+      return 0
+    fi
+    say ""
+    say "${BOLD}${host} login${RESET}  (the images are private)"
+    say "  Create a token with the read:packages scope in a browser:"
+    say "    ${BOLD}https://github.com/settings/tokens/new?scopes=read:packages${RESET}"
+    say ""
+    [[ -n "$user" ]] || user="$(registry_owner)"
+    local answer=""
+    printf 'GitHub username [%s]: ' "$user"
+    IFS= read -r answer || true
+    user="${answer:-$user}"
+    printf 'GitHub token (read:packages): '
+    IFS= read -r -s token || true
+    printf '\n'
+    if [[ -z "$token" ]]; then
+      warn "no token entered; skipping registry login.
+  Re-run this script when you have one, or run as ${TARGET_USER}:
+    cd ${ROOT} && ./start.sh --login"
+      return 0
+    fi
+    prompted=1
+  fi
+
   [[ -n "$user" ]] || die "a registry username is required with the token:
   pass --registry-user USER (or set RINKDESK_REGISTRY_USER)"
   env_args=(env "RINKDESK_REGISTRY_USER=$user")
 
   say "${DIM}logging ${TARGET_USER} in to ${host}…${RESET}"
   if ! printf '%s' "$token" | run_as_operator "${env_args[@]}" bash "$ROOT/start.sh" --login; then
-    die "registry login failed for ${TARGET_USER}"
+    die "registry login failed for ${TARGET_USER}.
+  Check that the token has the read:packages scope and was pasted without
+  whitespace, then try again."
   fi
   say "${GREEN}logged in${RESET} to ${host} as ${TARGET_USER}"
+
+  # Save the credential so start.sh --start/--update log in on their own.
+  if [[ "$prompted" == 1 || ! -f "$REGISTRY_ENV" ]]; then
+    {
+      printf '# Written by setup-server-as-root.sh. Keep it private (chmod 600).\n'
+      printf 'RINKDESK_REGISTRY_USER=%s\n' "$user"
+      printf 'RINKDESK_REGISTRY_TOKEN=%s\n' "$token"
+    } >"$REGISTRY_ENV"
+    chown "$TARGET_USER" "$REGISTRY_ENV"
+    chmod 600 "$REGISTRY_ENV"
+    say "${GREEN}wrote${RESET} ${REGISTRY_ENV} (mode 600, owned by ${TARGET_USER})"
+  fi
 }
 
 say "${BOLD}Phase 1 — prepare the server (as root)${RESET}  (operator: ${TARGET_USER})"
@@ -422,9 +457,10 @@ ensure_subids
 setup_userns
 install_homebrew
 enable_linger
-# Log in only when the desk will run here or a token was supplied.
-if [[ "$INSTALL_SERVICE" == 1 || -n "$REGISTRY_TOKEN_FILE" ||
-  -n "${RINKDESK_REGISTRY_TOKEN:-}${CR_PAT:-}" ]]; then
+# Log in only when the desk will run here or a real token was supplied.
+registry_token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
+[[ "$registry_token" == "ghp_replace_me" ]] && registry_token=""
+if [[ "$INSTALL_SERVICE" == 1 || -n "$REGISTRY_TOKEN_FILE" || -n "$registry_token" ]]; then
   ensure_registry_login
 fi
 if [[ "$INSTALL_NGINX" == 1 ]]; then setup_nginx; fi
