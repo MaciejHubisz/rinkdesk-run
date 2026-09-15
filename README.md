@@ -17,8 +17,10 @@ in once so pulls work:
 RINKDESK_REGISTRY_USER=MaciejHubisz RINKDESK_REGISTRY_TOKEN="$CR_PAT" ./start.sh --login
 ```
 
-Use a token with `read:packages` (classic) or `Packages: read` (fine-grained).
-The credential is stored by the container engine and reused by `--start`.
+Use a token with `read:packages` (classic) or `Packages: read` (fine-grained),
+**not** your GitHub account password — GHCR rejects passwords. On podman the
+login is written to `~/.config/containers/auth.json` so it survives reboots;
+`--start` reuses it automatically.
 
 Linux only — this repo is meant to run on a remote Linux host, usually over
 SSH.

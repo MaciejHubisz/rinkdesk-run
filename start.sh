@@ -297,13 +297,21 @@ cmd_login() {
   registry="${registry%%/*}"
   user="${RINKDESK_REGISTRY_USER:-${GITHUB_ACTOR:-}}"
   token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
+  local args=()
+  [[ -n "$user" ]] && args=(-u "$user")
+  if [[ "$ENGINE" == podman ]]; then
+    # Rootless podman writes its default auth file under $XDG_RUNTIME_DIR
+    # (tmpfs), so the login is lost on reboot. Use the persistent
+    # ~/.config/containers/auth.json fallback, which podman also reads on pull.
+    local authfile="${RINKDESK_AUTHFILE:-$HOME/.config/containers/auth.json}"
+    mkdir -p "$(dirname "$authfile")"
+    args+=(--authfile "$authfile")
+  fi
   say "${BOLD}Logging in to ${registry}${RESET}"
   if [[ -n "$token" ]]; then
-    local args=()
-    [[ -n "$user" ]] && args=(-u "$user")
     printf '%s' "$token" | "$ENGINE" login "$registry" "${args[@]}" --password-stdin
   else
-    "$ENGINE" login "$registry"
+    "$ENGINE" login "$registry" "${args[@]}"
   fi
   say "${GREEN}logged in to ${registry}${RESET}"
 }
