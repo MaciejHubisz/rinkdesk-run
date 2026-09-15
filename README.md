@@ -22,6 +22,14 @@ Use a token with `read:packages` (classic) or `Packages: read` (fine-grained),
 login is written to `~/.config/containers/auth.json` so it survives reboots;
 `--start` reuses it automatically.
 
+The one-time host setup can do this login for you (it skips when already
+logged in):
+
+```bash
+sudo scripts/setup-server-as-root.sh maciej --install-service \
+  --registry-user MaciejHubisz --registry-token-file ~/ghcr-token
+```
+
 Linux only — this repo is meant to run on a remote Linux host, usually over
 SSH.
 

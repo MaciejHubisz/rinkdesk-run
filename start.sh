@@ -26,6 +26,8 @@ source "$ROOT/scripts/lib/platform.sh"
 source "$ROOT/scripts/lib/config.sh"
 # shellcheck source=scripts/lib/engine.sh
 source "$ROOT/scripts/lib/engine.sh"
+# shellcheck source=scripts/lib/registry.sh
+source "$ROOT/scripts/lib/registry.sh"
 
 load_env "$ROOT/release.env" "$ROOT/.env"
 
@@ -39,6 +41,8 @@ EXPORT_PATH="${RINKDESK_EXPORTS_PATH:-}"
 PROTOCOLS_PATH="${RINKDESK_PROTOCOLS_PATH:-}"
 LOG_ARGS=()
 SERVICE_NAME="rinkdesk"
+# --check with --login: report whether a registry credential exists, no side effects.
+LOGIN_CHECK=0
 # Set to 1 when build.sh built fresh images on this machine; they are then
 # used as-is and the registry is not pulled (a pull would overwrite them).
 BUILT_LOCAL=0
@@ -287,33 +291,33 @@ cmd_status() {
   compose ps
 }
 
-# Log in to the registry so a private package can be pulled. Interactive by
-# default; set RINKDESK_REGISTRY_TOKEN (or CR_PAT) for unattended setup, with
-# RINKDESK_REGISTRY_USER when the token is not tied to a default username.
+# Log in to the registry so a private package can be pulled. Reads the token
+# from RINKDESK_REGISTRY_TOKEN (or CR_PAT) or from stdin; without one it
+# prompts. Idempotent: skips when already logged in.
 cmd_login() {
+  local host token
+  host="$(registry_host)"
+  if [[ "$LOGIN_CHECK" == 1 ]]; then
+    registry_logged_in
+    return $?
+  fi
   ensure_runtime
-  local registry user token
-  registry="${RINKDESK_REGISTRY:-${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}}"
-  registry="${registry%%/*}"
-  user="${RINKDESK_REGISTRY_USER:-${GITHUB_ACTOR:-}}"
   token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
-  local args=()
-  [[ -n "$user" ]] && args=(-u "$user")
-  if [[ "$ENGINE" == podman ]]; then
-    # Rootless podman writes its default auth file under $XDG_RUNTIME_DIR
-    # (tmpfs), so the login is lost on reboot. Use the persistent
-    # ~/.config/containers/auth.json fallback, which podman also reads on pull.
-    local authfile="${RINKDESK_AUTHFILE:-$HOME/.config/containers/auth.json}"
-    mkdir -p "$(dirname "$authfile")"
-    args+=(--authfile "$authfile")
+  if [[ -z "$token" && ! -t 0 ]]; then
+    IFS= read -r token || true
   fi
-  say "${BOLD}Logging in to ${registry}${RESET}"
-  if [[ -n "$token" ]]; then
-    printf '%s' "$token" | "$ENGINE" login "$registry" "${args[@]}" --password-stdin
+  if [[ -z "$token" ]]; then
+    if registry_logged_in; then
+      say "${DIM}already logged in to ${host}${RESET}"
+      return 0
+    fi
+    [[ -t 0 ]] || die "not logged in to ${host} and no token on stdin"
   else
-    "$ENGINE" login "$registry" "${args[@]}"
+    export RINKDESK_REGISTRY_TOKEN="$token"
   fi
-  say "${GREEN}logged in to ${registry}${RESET}"
+  say "${BOLD}Logging in to ${host}${RESET}"
+  registry_login
+  say "${GREEN}logged in to ${host}${RESET}"
 }
 
 cmd_logs() {
@@ -447,6 +451,7 @@ while [[ $# -gt 0 ]]; do
     --update | update) CMD=update; shift ;;
     --status | status) CMD=status; shift ;;
     --login) CMD=login; shift ;;
+    --check) LOGIN_CHECK=1; shift ;;
     --logs | logs) CMD=logs; shift ;;
     --install-service) CMD=install-service; shift ;;
     --uninstall-service) CMD=uninstall-service; shift ;;
