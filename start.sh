@@ -115,6 +115,50 @@ EOF
   fi
 }
 
+# Named data volumes owned by this stack (see docker-compose.yml).
+DATA_VOLUMES=(rinkdesk-pg rinkdesk-exports)
+# Image used to empty a volume in place. Same image the stack already runs, so
+# it is normally already present.
+WIPE_IMAGE="${RINKDESK_WIPE_IMAGE:-docker.io/library/postgres:16-alpine}"
+
+# Empty one named volume without removing it. Needed when a leftover container
+# from another project still references the volume: podman/docker then refuse to
+# remove it, but mounting it read-write is still allowed.
+empty_volume() {
+  local vol="$1"
+  "$ENGINE" image inspect "$WIPE_IMAGE" >/dev/null 2>&1 ||
+    "$ENGINE" pull "$WIPE_IMAGE" >/dev/null 2>&1 || true
+  # shellcheck disable=SC2016  # $(ls) must run inside the container, not here.
+  "$ENGINE" run --rm -v "${vol}:/wipe${RINKDESK_VOL_OPTS}" "$WIPE_IMAGE" \
+    sh -c 'rm -rf /wipe/* /wipe/.[!.]* /wipe/..?*; [ -z "$(ls -A /wipe 2>/dev/null)" ]' \
+    >/dev/null 2>&1
+}
+
+# Wipe every trace of application data so the desk starts empty: the Postgres
+# database, the JSON snapshot volume, generated protocol PDFs, and a
+# --export-path host folder when one is in use. Shipped team logos are kept —
+# they are app defaults, not tournament data.
+wipe_data() {
+  local vol proto
+  say "Wiping volumes…"
+  compose down --remove-orphans -v >/dev/null 2>&1 || true
+  "$ENGINE" volume rm -f "${DATA_VOLUMES[@]}" >/dev/null 2>&1 || true
+  for vol in "${DATA_VOLUMES[@]}"; do
+    if "$ENGINE" volume inspect "$vol" >/dev/null 2>&1; then
+      empty_volume "$vol" ||
+        die "could not empty volume $vol — stop any other stack using it and retry"
+    fi
+  done
+  if [[ -n "${RINKDESK_EXPORTS_SOURCE:-}" && -d "${RINKDESK_EXPORTS_SOURCE}" ]]; then
+    rm -rf "${RINKDESK_EXPORTS_SOURCE:?}/archive" 2>/dev/null || true
+    find "$RINKDESK_EXPORTS_SOURCE" -maxdepth 1 -type f -name '*.json' -delete 2>/dev/null || true
+  fi
+  proto="${RINKDESK_PROTOCOLS_SOURCE:-$ROOT/protocols}"
+  if [[ -d "$proto" ]]; then
+    find "$proto" -mindepth 1 -delete 2>/dev/null || true
+  fi
+}
+
 cmd_start() {
   local open_it="$1" recreate="$2"
   ensure_runtime
@@ -158,13 +202,11 @@ cmd_start() {
   fi
 
   if [[ "$recreate" == 1 ]]; then
-    say "Wiping volumes…"
-    compose down --remove-orphans -v >/dev/null 2>&1 || true
     # podman-compose's `down -v` only removes volumes labelled with the current
-    # compose project. A named volume created under an older project name
-    # survives it, so drop the named volumes explicitly to guarantee a clean
-    # database (see the volume names in docker-compose.yml).
-    "$ENGINE" volume rm -f rinkdesk-pg rinkdesk-exports >/dev/null 2>&1 || true
+    # compose project, and a volume shared with a leftover container from
+    # another project cannot be removed at all. wipe_data() guarantees the data
+    # is gone either way, so the desk really starts empty.
+    wipe_data
     compose up --force-recreate --no-build -d
   elif [[ "$FORCE_UP" == 1 || "$image_changed" == 1 ]]; then
     if [[ "$image_changed" == 1 ]]; then

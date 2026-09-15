@@ -82,7 +82,13 @@ Commands:  ./start.sh
   ./start.sh --start --export-path DIR  write snapshots into a local folder
   ./start.sh --start --protocols-path DIR
                                         write protocol PDFs into a local folder
-  ./start.sh --force-recreate           wipes the database and starts empty
+  ./start.sh --force-recreate           wipes the database, JSON snapshot
+                                        volume, and protocol PDFs; starts empty
+                                        with only the built-in clerk logins.
+                                        Team logos are kept (app defaults).
+                                        The shipped default snapshot stays
+                                        available to import on demand from the
+                                        login screen.
   ./start.sh --manual                   this manual
 
   Snapshots default to the Docker volume rinkdesk-exports; protocol PDFs go

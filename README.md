@@ -66,7 +66,7 @@ source scripts/linux/start-completion.bash
 | `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
 | `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
 | `./start.sh --start --force-pull` | Skip local build; pull from hub (fail if pull fails) |
-| `./start.sh --force-recreate` | Wipe Postgres, pull, start empty |
+| `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; pull; start empty (only built-in logins, default snapshot import stays available on demand) |
 | `./start.sh --update` | Pull newer images and recreate, keeping data |
 | `./start.sh --status` | Show container status |
 | `./start.sh --logs [SERVICE]` | Follow logs (backend/web/db, all by default) |
