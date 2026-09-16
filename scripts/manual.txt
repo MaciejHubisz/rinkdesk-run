@@ -26,10 +26,10 @@ Commands:  ./start.sh
 ────────────────────────────────────────────────────────
 2. What this is
 
-  A rink clerk’s book: licenses, teams, match lineups, protocols.
-  It is an administrative tool, not a dashboard — it has no statistics.
-  The public live page shows the scoreboard, table and stats. Data lives
-  on the server.
+  A rink clerk’s book: licenses, teams, match lineups, protocols, and
+  a results tab with the table and the game list. It is an administrative
+  tool, not a fan dashboard: player stats live on the public live page.
+  Data lives on the server.
 
 ────────────────────────────────────────────────────────
 3. Screens
@@ -39,6 +39,8 @@ Commands:  ./start.sh
   Teams       club cards, kit colours and logo; open a team to assign
               players (the logo is a PNG in team-logos/, matched by short name)
   Matches     schedule, then open the match desk
+  Results     the table (or cup ladder) and the game list; download a
+              confirmed protocol straight from the list
   Settings    tournament name, period clock, snapshot export/import,
               protocol JSON export
 
