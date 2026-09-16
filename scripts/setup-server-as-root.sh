@@ -12,8 +12,10 @@
 #                                                           # prepare + run on boot
 #   sudo scripts/setup-server-as-root.sh maciej --install-service --install-nginx
 #                                                           # + public HTTPS site
+#   sudo scripts/setup-server-as-root.sh maciej --deploy-key
+#                                                           # let GitHub CI deploy
 #   sudo scripts/setup-server-as-root.sh maciej --deploy-key-file deploy.pub
-#                                                           # allow GitHub CI to deploy
+#                                                           # ...from a key you have
 #
 # Three phases, clearly split by privilege:
 #   Phase 1 (root):    prerequisites, Homebrew, subuid range, userns, a
@@ -118,8 +120,12 @@ ${BOLD}RinkDesk server setup${RESET} (run as root)
                                 (RINKDESK_REGISTRY_TOKEN_FILE)
 
   Continuous deployment (GitHub Actions over SSH):
-    --deploy-key-file FILE      authorize an SSH public key for USER, so the
-                                Deploy workflow can run ./start.sh --update
+    --deploy-key                generate a key pair here, authorize the public
+                                half, and print the private half once for the
+                                DEPLOY_SSH_KEY secret
+    --deploy-key-file FILE      authorize an SSH public key you already have
+    --deploy-key-options OPTS   authorized_keys options for the deploy key,
+                                e.g. 'from="…",command="…"' (optional)
                                 (see rinkdesk/docs/deploy.md)
 
   The images are private, so the operator logs in once. With --install-service
@@ -142,11 +148,19 @@ REGISTRY_USER="${RINKDESK_REGISTRY_USER:-}"
 REGISTRY_TOKEN_FILE="${RINKDESK_REGISTRY_TOKEN_FILE:-}"
 # Public key authorized for the operator so the Deploy workflow can SSH in.
 DEPLOY_KEY_FILE="${RINKDESK_DEPLOY_KEY_FILE:-}"
+# Generate a fresh key pair on the host instead of using a provided public key.
+GENERATE_DEPLOY_KEY=0
+# Extra authorized_keys options for the deploy key (e.g. from=,command=).
+DEPLOY_KEY_OPTIONS="${RINKDESK_DEPLOY_KEY_OPTIONS:-}"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -h | --help | help) usage; exit 0 ;;
     --install-service) INSTALL_SERVICE=1; shift ;;
     --install-nginx) INSTALL_NGINX=1; shift ;;
+    --deploy-key) GENERATE_DEPLOY_KEY=1; shift ;;
+    --deploy-key-options)
+      [[ $# -ge 2 ]] || die "$1 needs options"
+      DEPLOY_KEY_OPTIONS="$2"; shift 2 ;;
     --deploy-key-file)
       [[ $# -ge 2 ]] || die "$1 needs a path"
       DEPLOY_KEY_FILE="$2"; shift 2 ;;
@@ -454,30 +468,68 @@ enable_linger() {
 }
 
 # Authorize a public key so the Deploy GitHub Actions job can SSH in as the
-# operator and run ./start.sh --update. The private half stays in the GitHub
-# secret store; only the public key touches the host. See rinkdesk/docs/deploy.md.
-install_deploy_key() {
-  step "Deploy key for ${TARGET_USER}"
-  [[ -r "$DEPLOY_KEY_FILE" ]] || die "cannot read deploy key file: $DEPLOY_KEY_FILE"
-  local key dir auth
-  key="$(tr -d '\r' <"$DEPLOY_KEY_FILE")"
-  case "$key" in
-    ssh-ed25519\ * | ssh-rsa\ * | ecdsa-sha2-*\ *) ;;
-    *) die "$DEPLOY_KEY_FILE does not look like an SSH public key" ;;
-  esac
+# operator and run ./start.sh --update. Returns 0 when the key was added, 1 when
+# it was already there. The private half belongs in the GitHub secret store.
+authorize_deploy_key() {
+  local key="$1" dir auth line
   dir="$TARGET_HOME/.ssh"
   auth="$dir/authorized_keys"
+  line="$key"
+  [[ -n "$DEPLOY_KEY_OPTIONS" ]] && line="$DEPLOY_KEY_OPTIONS $key"
   mkdir -p "$dir"
   touch "$auth"
   chown "$TARGET_USER" "$dir" "$auth"
   chmod 700 "$dir"
   chmod 600 "$auth"
   if grep -qF "$key" "$auth" 2>/dev/null; then
-    step_ok "already authorized in ${auth}"
-    return 0
+    return 1
   fi
-  printf '%s\n' "$key" >>"$auth"
-  step_ok "authorized in ${auth}"
+  printf '%s\n' "$line" >>"$auth"
+  return 0
+}
+
+# Authorize a public key file the admin already has (e.g. generated on their
+# laptop). See rinkdesk/docs/deploy.md.
+install_deploy_key_file() {
+  step "Deploy key for ${TARGET_USER}"
+  [[ -r "$DEPLOY_KEY_FILE" ]] || die "cannot read deploy key file: $DEPLOY_KEY_FILE"
+  local key
+  key="$(tr -d '\r' <"$DEPLOY_KEY_FILE")"
+  case "$key" in
+    ssh-ed25519\ * | ssh-rsa\ * | ecdsa-sha2-*\ *) ;;
+    *) die "$DEPLOY_KEY_FILE does not look like an SSH public key" ;;
+  esac
+  if authorize_deploy_key "$key"; then
+    step_ok "authorized in ${TARGET_HOME}/.ssh/authorized_keys"
+  else
+    step_ok "already authorized in ${TARGET_HOME}/.ssh/authorized_keys"
+  fi
+}
+
+# Generate a fresh deploy key on the host, authorize the public half, and print
+# the private half once for the DEPLOY_SSH_KEY secret. Nothing private is kept
+# on the host: the file is deleted before the step ends.
+generate_deploy_key() {
+  step "Deploy key for ${TARGET_USER}"
+  have ssh-keygen || die "ssh-keygen is required to generate a deploy key"
+  local tmp pub
+  tmp="$(mktemp -d)"
+  chmod 700 "$tmp"
+  ssh-keygen -q -t ed25519 -N '' -C 'github-actions' -f "$tmp/rinkdesk-deploy"
+  pub="$(cat "$tmp/rinkdesk-deploy.pub")"
+  if authorize_deploy_key "$pub"; then
+    step_ok "generated and authorized"
+  else
+    step_ok "authorized"
+  fi
+  say ""
+  say "${BOLD}Copy the private key below into the GitHub secret DEPLOY_SSH_KEY${RESET}"
+  say "${DIM}(Settings → Secrets and variables → Actions). It is shown once and"
+  say "is not stored on this host.${RESET}"
+  say ""
+  cat "$tmp/rinkdesk-deploy"
+  say ""
+  rm -rf "$tmp"
 }
 
 # --- Phase 1b: nginx reverse proxy + TLS -------------------------------------
@@ -606,7 +658,11 @@ setup_userns
 install_homebrew
 install_alias
 enable_linger
-if [[ -n "$DEPLOY_KEY_FILE" ]]; then install_deploy_key; fi
+if [[ "$GENERATE_DEPLOY_KEY" == 1 ]]; then
+  generate_deploy_key
+elif [[ -n "$DEPLOY_KEY_FILE" ]]; then
+  install_deploy_key_file
+fi
 # Log in only when the desk will run here or a real token was supplied.
 registry_token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
 [[ "$registry_token" == "ghp_replace_me" ]] && registry_token=""

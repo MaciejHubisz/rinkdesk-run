@@ -123,10 +123,14 @@ reaches the desk without a manual step. It is off until configured; the host
 side is one command:
 
 ```bash
-sudo scripts/setup-server-as-root.sh maciej --deploy-key-file /path/to/rinkdesk-deploy.pub
+sudo scripts/setup-server-as-root.sh maciej --deploy-key
 ```
 
-Full setup (key pair, GitHub secrets and variables): `rinkdesk/docs/deploy.md`.
+It generates the key pair, authorizes the public half, and prints the private
+half once for the GitHub secret. Already have a key?
+`--deploy-key-file /path/to/key.pub`.
+
+Full setup (GitHub secrets and variables): `rinkdesk/docs/deploy.md`.
 
 ## Running over SSH
 
@@ -142,13 +146,9 @@ log out. Root gets a system unit; a regular user gets a user unit (no sudo).
 
 **A user unit only starts at boot if lingering is enabled.** Without it, your
 systemd user manager is started on login, so after a reboot the desk stays
-down until someone SSHes in. `scripts/setup-server-as-root.sh` enables lingering
-for the operator; if you installed the service some other way, do it yourself:
-
-```bash
-sudo loginctl enable-linger maciej
-loginctl show-user maciej | grep Linger   # → Linger=yes
-```
+down until someone SSHes in. The host script enables lingering for the operator
+(`sudo scripts/setup-server-as-root.sh maciej`); re-run it if you are unsure.
+Check it with `loginctl show-user maciej | grep Linger` (→ `Linger=yes`).
 
 Manage the service with:
 
