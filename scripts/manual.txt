@@ -26,8 +26,10 @@ Commands:  ./start.sh
 ────────────────────────────────────────────────────────
 2. What this is
 
-  A rink clerk’s book: licenses, teams, match lineups, protocols,
-  standings. Not a live scoreboard. Data lives on the server.
+  A rink clerk’s book: licenses, teams, match lineups, protocols.
+  It is an administrative tool, not a dashboard — it has no statistics.
+  The public live page shows the scoreboard, table and stats. Data lives
+  on the server.
 
 ────────────────────────────────────────────────────────
 3. Screens
@@ -37,8 +39,12 @@ Commands:  ./start.sh
   Teams       club cards, kit colours and logo; open a team to assign
               players (the logo is a PNG in team-logos/, matched by short name)
   Matches     schedule, then open the match desk
-  Standings   table (with team logos), goal leaders, assists, penalties
-  Settings    tournament name, snapshot export/import, protocol JSON export
+  Settings    tournament name, period clock, snapshot export/import,
+              protocol JSON export
+
+  The public live page is separate and not linked as a screen: open
+  http://<host>:8765/live/ (the LIVE button in the top bar does this).
+  It shows the table, games, goal leaders, assists and penalties to fans.
 
 ────────────────────────────────────────────────────────
 4. Official workflow — no skips
@@ -51,7 +57,9 @@ Commands:  ./start.sh
     3. Schedule a match. Home ≠ away.
     4. Match desk → pick players → Save draft → Submit.
     5. Approve both sides. Protocol stays locked until then.
-    6. Enter goals and penalties. Score is the goal count.
+    6. Enter goals and penalties. Score is the goal count. Type the time the
+       way the tournament reads its clock; Settings → Period clock decides
+       whether the desk and live page read it counting up or counting down.
     7. Confirm protocol. Only then does it hit the table.
     8. Save the protocol: the match desk writes the match PDF to disk.
        Every match keeps one file; saving again replaces it. The protocol
@@ -101,7 +109,7 @@ Commands:  ./start.sh
   Team logos: there is no upload and no per-team setting. Drop a PNG into
   team-logos/ next to start.sh, named {short}_logo.png with the ASCII slug of
   the short name (ORŁY → orly_logo.png). A missing file just shows a neutral
-  crest. The logo appears in the standings table and on the printed protocol.
+  crest. The logo appears on the live page and on the printed protocol.
   Snapshot export copies these files next to the JSON; import restores them.
   See team-logos/README.md.
 
