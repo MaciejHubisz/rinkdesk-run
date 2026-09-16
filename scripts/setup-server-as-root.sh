@@ -43,6 +43,37 @@ source "$ROOT/scripts/lib/platform.sh"
 # shellcheck source=scripts/lib/registry.sh
 source "$ROOT/scripts/lib/registry.sh"
 
+# --- Presentation -----------------------------------------------------------
+# The setup is long and package managers are noisy. Each step prints one header
+# and one result line; the command output only appears when a step fails.
+STEP=0
+step() {
+  STEP=$((STEP + 1))
+  say ""
+  say "${BOLD}[${STEP}] $*${RESET}"
+}
+step_ok() { say "  ${GREEN}ok${RESET}  $*"; }
+step_info() { say "  ${DIM}$*${RESET}"; }
+
+# Run a command quietly, printing its output only when it fails. Set
+# RINKDESK_SETUP_LOG to also keep the full output in a file.
+run_quiet() {
+  local log status=0
+  log="$(mktemp)"
+  "$@" >"$log" 2>&1 || status=$?
+  if [[ "$status" -eq 0 ]]; then
+    rm -f "$log"
+    return 0
+  fi
+  warn "command failed: $*"
+  sed 's/^/    /' "$log" >&2
+  if [[ -n "${RINKDESK_SETUP_LOG:-}" ]]; then
+    cat "$log" >>"$RINKDESK_SETUP_LOG"
+  fi
+  rm -f "$log"
+  return "$status"
+}
+
 # Admin-level configuration (nginx site + TLS). This folder is the mini-project;
 # the logic that applies it lives in this one script.
 ADMIN_ENV="$ROOT/scripts/admin/admin.env"
@@ -188,9 +219,10 @@ ensure_registry_login() {
   local host token user env_args=() prompted=0
   host="$(registry_host)"
   user="$REGISTRY_USER"
+  step "Private image registry (${host})"
 
   if run_as_operator bash "$ROOT/start.sh" --login --check >/dev/null 2>&1; then
-    say "${GREEN}already${RESET} logged in to ${host}"
+    step_ok "already logged in as ${TARGET_USER}"
     return 0
   fi
 
@@ -209,16 +241,15 @@ ensure_registry_login() {
       return 0
     fi
     say ""
-    say "${BOLD}${host} login${RESET}  (the images are private)"
-    say "  Create a token with the read:packages scope in a browser:"
+    say "  Create a token with the read:packages scope:"
     say "    ${BOLD}https://github.com/settings/tokens/new?scopes=read:packages${RESET}"
     say ""
     [[ -n "$user" ]] || user="$(registry_owner)"
     local answer=""
-    printf 'GitHub username [%s]: ' "$user"
+    printf '  GitHub username [%s]: ' "$user"
     IFS= read -r answer || true
     user="${answer:-$user}"
-    printf 'GitHub token (read:packages): '
+    printf '  GitHub token (read:packages): '
     IFS= read -r -s token || true
     printf '\n'
     if [[ -z "$token" ]]; then
@@ -234,13 +265,18 @@ ensure_registry_login() {
   pass --registry-user USER (or set RINKDESK_REGISTRY_USER)"
   env_args=(env "RINKDESK_REGISTRY_USER=$user")
 
-  say "${DIM}logging ${TARGET_USER} in to ${host}…${RESET}"
-  if ! printf '%s' "$token" | run_as_operator "${env_args[@]}" bash "$ROOT/start.sh" --login; then
+  local log
+  log="$(mktemp)"
+  if ! printf '%s' "$token" | run_as_operator "${env_args[@]}" bash "$ROOT/start.sh" --login >"$log" 2>&1; then
+    warn "registry login failed; output:"
+    sed 's/^/    /' "$log" >&2
+    rm -f "$log"
     die "registry login failed for ${TARGET_USER}.
   Check that the token has the read:packages scope and was pasted without
   whitespace, then try again."
   fi
-  say "${GREEN}logged in${RESET} to ${host} as ${TARGET_USER}"
+  rm -f "$log"
+  step_ok "logged in as ${user}"
 
   # Save the credential so start.sh --start/--update log in on their own.
   if [[ "$prompted" == 1 || ! -f "$REGISTRY_ENV" ]]; then
@@ -251,40 +287,53 @@ ensure_registry_login() {
     } >"$REGISTRY_ENV"
     chown "$TARGET_USER" "$REGISTRY_ENV"
     chmod 600 "$REGISTRY_ENV"
-    say "${GREEN}wrote${RESET} ${REGISTRY_ENV} (mode 600, owned by ${TARGET_USER})"
+    step_ok "saved ${REGISTRY_ENV} (mode 600, ${TARGET_USER})"
   fi
 }
 
-say "${BOLD}Phase 1 — prepare the server (as root)${RESET}  (operator: ${TARGET_USER})"
+say "${BOLD}RinkDesk server setup${RESET}  ${DIM}(run as root)${RESET}"
+say "  operator : ${BOLD}${TARGET_USER}${RESET}"
+say "  host     : $(hostname)"
+say "  root     : ${ROOT}"
 
 install_prereqs() {
-  say "${DIM}installing Homebrew/Podman prerequisites…${RESET}"
+  step "Prerequisites (build tools, curl, file, git, python3, uidmap, fuse3)"
   if have apt-get; then
-    apt-get update -y
-    apt-get install -y build-essential procps curl file git python3 uidmap fuse3
+    run_quiet apt-get update -y || die "apt-get update failed"
+    run_quiet apt-get install -y build-essential procps curl file git python3 uidmap fuse3 ||
+      die "installing prerequisites failed"
   elif have dnf; then
-    dnf install -y @development-tools procps-ng curl file git python3 shadow-utils fuse3
+    run_quiet dnf install -y @development-tools procps-ng curl file git python3 shadow-utils fuse3 ||
+      die "installing prerequisites failed"
   elif have yum; then
-    yum install -y gcc gcc-c++ make procps-ng curl file git python3 shadow-utils fuse3
+    run_quiet yum install -y gcc gcc-c++ make procps-ng curl file git python3 shadow-utils fuse3 ||
+      die "installing prerequisites failed"
   elif have pacman; then
-    pacman -S --noconfirm base-devel procps-ng curl file git python3 shadow fuse3
+    run_quiet pacman -S --noconfirm base-devel procps-ng curl file git python3 shadow fuse3 ||
+      die "installing prerequisites failed"
   elif have zypper; then
-    zypper --non-interactive install -t pattern devel_basis
-    zypper --non-interactive install procps curl file git python3 shadow fuse3
+    run_quiet zypper --non-interactive install -t pattern devel_basis ||
+      die "installing prerequisites failed"
+    run_quiet zypper --non-interactive install procps curl file git python3 shadow fuse3 ||
+      die "installing prerequisites failed"
   else
     warn "unknown package manager — install build tools, curl, file, git, python3, uidmap, fuse3 manually"
+    return 0
   fi
+  step_ok "installed"
 }
 
 # Rootless containers need a subordinate UID/GID range for the operator.
 ensure_subids() {
+  step "Subordinate UID/GID range for ${TARGET_USER}"
   if grep -qE "^(${TARGET_USER}|$(id -u "$TARGET_USER")):" /etc/subuid 2>/dev/null &&
     grep -qE "^(${TARGET_USER}|$(id -u "$TARGET_USER")):" /etc/subgid 2>/dev/null; then
+    step_ok "already configured"
     return 0
   fi
   if have usermod; then
     usermod --add-subuids 100000-165535 --add-subgids 100000-165535 "$TARGET_USER" &&
-      say "${GREEN}added${RESET} subordinate UID/GID range for ${TARGET_USER}"
+      step_ok "added 100000-165535"
   else
     warn "no subuid/subgid range for ${TARGET_USER}; rootless Podman may fail"
   fi
@@ -294,10 +343,14 @@ ensure_subids() {
 # rootless Podman. Grant it for the Homebrew Podman binary (fall back to
 # relaxing the sysctl if the profile cannot be loaded).
 setup_userns() {
+  step "Unprivileged user namespaces (Ubuntu AppArmor)"
   local sysctl=/proc/sys/kernel/apparmor_restrict_unprivileged_userns
-  if [[ -e "$sysctl" && "$(cat "$sysctl" 2>/dev/null)" == 1 ]]; then
-    local profile=/etc/apparmor.d/rinkdesk-homebrew
-    cat >"$profile" <<'EOF'
+  if [[ ! -e "$sysctl" || "$(cat "$sysctl" 2>/dev/null)" != 1 ]]; then
+    step_ok "not restricted"
+    return 0
+  fi
+  local profile=/etc/apparmor.d/rinkdesk-homebrew
+  cat >"$profile" <<'EOF'
 abi <abi/4.0>,
 include <tunables/global>
 
@@ -309,40 +362,46 @@ profile rinkdesk-homebrew-podman-cellar /home/*/.linuxbrew/Cellar/podman/*/bin/p
   userns,
 }
 EOF
-    if have apparmor_parser && apparmor_parser -r "$profile" 2>/dev/null; then
-      say "${GREEN}allowed${RESET} unprivileged user namespaces for Homebrew Podman (AppArmor)"
-      return 0
-    fi
-    warn "could not load the AppArmor profile — relaxing the userns sysctl instead"
-    printf 'kernel.apparmor_restrict_unprivileged_userns=0\n' \
-      >/etc/sysctl.d/99-rinkdesk-userns.conf
-    have sysctl && sysctl --system >/dev/null 2>&1 || true
+  if have apparmor_parser && apparmor_parser -r "$profile" 2>/dev/null; then
+    step_ok "allowed Homebrew Podman via AppArmor"
+    return 0
   fi
+  warn "could not load the AppArmor profile — relaxing the userns sysctl instead"
+  printf 'kernel.apparmor_restrict_unprivileged_userns=0\n' \
+    >/etc/sysctl.d/99-rinkdesk-userns.conf
+  have sysctl && sysctl --system >/dev/null 2>&1 || true
+  step_ok "relaxed kernel.apparmor_restrict_unprivileged_userns"
 }
 
 # Install Homebrew into the supported prefix (owned by the operator) without
 # sudo, then make the shell pick it up on the next login.
 install_homebrew() {
+  step "Homebrew (${BREW_PREFIX})"
   mkdir -p "$(dirname "$BREW_PREFIX")"
   chown "$TARGET_USER" "$(dirname "$BREW_PREFIX")"
   if [[ -x "$BREW_PREFIX/bin/brew" ]]; then
-    say "${DIM}Homebrew already present at ${BREW_PREFIX}${RESET}"
+    step_ok "already installed"
   else
-    say "${DIM}installing Homebrew into ${BREW_PREFIX}…${RESET}"
+    step_info "cloning Homebrew…"
     mkdir -p "$BREW_PREFIX"
     chown "$TARGET_USER" "$BREW_PREFIX"
-    as_user git clone --depth=1 https://github.com/Homebrew/brew "$BREW_PREFIX/Homebrew"
+    as_user git clone --depth=1 https://github.com/Homebrew/brew "$BREW_PREFIX/Homebrew" ||
+      die "could not clone Homebrew into ${BREW_PREFIX}"
     as_user mkdir -p "$BREW_PREFIX/bin"
     as_user ln -sfn ../Homebrew/bin/brew "$BREW_PREFIX/bin/brew"
+    step_ok "installed"
   fi
 
   local rc="$TARGET_HOME/.bashrc"
-  if ! grep -qs 'linuxbrew/bin/brew shellenv' "$rc" 2>/dev/null; then
+  if grep -qs 'linuxbrew/bin/brew shellenv' "$rc" 2>/dev/null; then
+    step_ok "shell environment already in ${rc}"
+  else
     {
       printf '\n# Homebrew (RinkDesk host setup)\n'
       printf 'eval "$(%s/bin/brew shellenv)"\n' "$BREW_PREFIX"
     } >>"$rc"
     chown "$TARGET_USER" "$rc"
+    step_ok "shell environment added to ${rc}"
   fi
 }
 
@@ -350,28 +409,35 @@ install_homebrew() {
 # from anywhere on the host. The alias is just this checkout's start.sh, so it
 # takes the same flags (rinkdesk --update, rinkdesk --status, …).
 install_alias() {
+  step "'rinkdesk' shell alias"
   local rc="$TARGET_HOME/.bashrc"
+  local alias_line
+  alias_line="$(printf 'alias rinkdesk=%q' "$ROOT/start.sh")"
   if grep -qs 'alias rinkdesk=' "$rc" 2>/dev/null; then
-    say "${DIM}rinkdesk alias already present in ${rc}${RESET}"
-    return 0
+    step_ok "already present in ${rc}"
+  else
+    {
+      printf '\n# RinkDesk (host setup)\n'
+      printf '%s\n' "$alias_line"
+    } >>"$rc"
+    chown "$TARGET_USER" "$rc"
+    step_ok "added to ${rc}"
   fi
-  {
-    printf '\n# RinkDesk (host setup)\n'
-    printf 'alias rinkdesk=%q\n' "$ROOT/start.sh"
-  } >>"$rc"
-  chown "$TARGET_USER" "$rc"
-  say "${GREEN}added${RESET} 'rinkdesk' alias to ${rc}"
+  step_info "${alias_line}"
 }
 
 # Let the operator's systemd user manager keep running after logout, so the
 # user-level RinkDesk service survives an SSH session ending.
 enable_linger() {
-  if have loginctl; then
-    if loginctl enable-linger "$TARGET_USER" >/dev/null 2>&1; then
-      say "${GREEN}enabled${RESET} lingering for ${TARGET_USER}"
-    else
-      warn "could not enable-linger; the user service may stop at logout"
-    fi
+  step "Lingering for ${TARGET_USER}"
+  if ! have loginctl; then
+    step_info "loginctl not available; skipped"
+    return 0
+  fi
+  if loginctl enable-linger "$TARGET_USER" >/dev/null 2>&1; then
+    step_ok "user service keeps running after logout"
+  else
+    warn "could not enable-linger; the user service may stop at logout"
   fi
 }
 
@@ -381,28 +447,35 @@ enable_linger() {
 # sites-available, or conf.d for Fedora/RHEL/Arch.
 
 install_nginx_pkgs() {
+  step "nginx + certbot"
   if have nginx && have certbot; then
-    say "${DIM}nginx and certbot already installed${RESET}"
+    step_ok "already installed"
     return 0
   fi
-  say "${DIM}installing nginx + certbot…${RESET}"
   if have apt-get; then
-    apt-get update -y
-    apt-get install -y nginx certbot python3-certbot-nginx
+    run_quiet apt-get update -y || die "apt-get update failed"
+    run_quiet apt-get install -y nginx certbot python3-certbot-nginx ||
+      die "installing nginx and certbot failed"
   elif have dnf; then
-    dnf install -y nginx certbot python3-certbot-nginx
+    run_quiet dnf install -y nginx certbot python3-certbot-nginx ||
+      die "installing nginx and certbot failed"
   elif have yum; then
-    yum install -y nginx certbot python3-certbot-nginx
+    run_quiet yum install -y nginx certbot python3-certbot-nginx ||
+      die "installing nginx and certbot failed"
   elif have pacman; then
-    pacman -S --noconfirm nginx certbot certbot-nginx
+    run_quiet pacman -S --noconfirm nginx certbot certbot-nginx ||
+      die "installing nginx and certbot failed"
   elif have zypper; then
-    zypper --non-interactive install nginx certbot python3-certbot-nginx
+    run_quiet zypper --non-interactive install nginx certbot python3-certbot-nginx ||
+      die "installing nginx and certbot failed"
   else
     die "unknown package manager — install nginx and certbot manually, then re-run"
   fi
+  step_ok "installed"
 }
 
 write_nginx_site() {
+  step "nginx site for ${DOMAIN}:${NGINX_PORT}"
   [[ -f "$NGINX_TEMPLATE" ]] || die "missing nginx template: $NGINX_TEMPLATE"
   local target
   if [[ -d /etc/nginx/sites-available ]]; then
@@ -415,59 +488,77 @@ write_nginx_site() {
   if [[ -d /etc/nginx/sites-enabled ]]; then
     ln -sfn "$target" /etc/nginx/sites-enabled/rinkdesk.conf
   fi
-  say "${GREEN}wrote${RESET} ${target}"
+  step_ok "wrote ${target}"
 }
 
 reload_nginx() {
-  nginx -t || die "nginx config test failed"
+  step "Reload nginx"
+  if ! nginx -t >/dev/null 2>&1; then
+    nginx -t
+    die "nginx config test failed"
+  fi
   if have systemctl; then
     systemctl enable nginx >/dev/null 2>&1 || true
     systemctl restart nginx
   else
     nginx -s reload 2>/dev/null || nginx
   fi
+  step_ok "reloaded"
 }
 
 open_firewall() {
+  step "Firewall"
   if have firewall-cmd && systemctl is-active --quiet firewalld 2>/dev/null; then
     firewall-cmd --permanent --add-service=http >/dev/null 2>&1 || true
     firewall-cmd --permanent --add-service=https >/dev/null 2>&1 || true
     firewall-cmd --reload >/dev/null 2>&1 || true
-    say "${GREEN}opened${RESET} http/https in firewalld"
+    step_ok "opened http/https in firewalld"
+  else
+    step_info "firewalld not active; skipped"
   fi
 }
 
 allow_selinux_proxy() {
+  step "SELinux proxy permission"
   if have getenforce && [[ "$(getenforce 2>/dev/null)" == "Enforcing" ]] && have setsebool; then
     if setsebool -P httpd_can_network_connect 1 2>/dev/null; then
-      say "${GREEN}allowed${RESET} nginx to proxy (SELinux httpd_can_network_connect)"
+      step_ok "allowed nginx to proxy (httpd_can_network_connect)"
+      return 0
     fi
+    warn "could not set httpd_can_network_connect"
+    return 0
   fi
+  step_info "not enforcing; skipped"
 }
 
 setup_nginx() {
   say ""
-  say "${BOLD}Phase 1b — nginx reverse proxy + TLS (as root)${RESET}"
+  say "${BOLD}nginx reverse proxy + TLS${RESET}"
   [[ -n "$DOMAIN" ]] || die "set RINKDESK_DOMAIN in scripts/admin/admin.env (or pass --domain)"
   install_nginx_pkgs
   write_nginx_site
   allow_selinux_proxy
   open_firewall
   reload_nginx
-  if [[ "$ENABLE_TLS" == 1 ]]; then
-    [[ -n "$TLS_EMAIL" ]] || die "set RINKDESK_TLS_EMAIL in scripts/admin/admin.env (or pass --email) for certbot"
-    say "${DIM}obtaining TLS certificate for ${DOMAIN} (certbot)…${RESET}"
-    if certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos \
-      -m "$TLS_EMAIL" --redirect --keep-until-expiring; then
-      say "${GREEN}https://${DOMAIN}/${RESET} is live"
-    else
-      warn "certbot could not issue a certificate yet.
+  step "TLS certificate for ${DOMAIN} (certbot)"
+  if [[ "$ENABLE_TLS" != 1 ]]; then
+    step_info "disabled — HTTP-only"
+    return 0
+  fi
+  [[ -n "$TLS_EMAIL" ]] || die "set RINKDESK_TLS_EMAIL in scripts/admin/admin.env (or pass --email) for certbot"
+  local log
+  log="$(mktemp)"
+  if certbot --nginx -d "$DOMAIN" --non-interactive --agree-tos \
+    -m "$TLS_EMAIL" --redirect --keep-until-expiring >"$log" 2>&1; then
+    rm -f "$log"
+    step_ok "https://${DOMAIN}/ is live"
+    return 0
+  fi
+  sed 's/^/    /' "$log" >&2
+  rm -f "$log"
+  warn "certbot could not issue a certificate yet.
   Check that DNS for ${DOMAIN} points here, then run:
     sudo certbot --nginx -d ${DOMAIN} -m ${TLS_EMAIL} --agree-tos --redirect"
-    fi
-  else
-    warn "TLS disabled — the site is HTTP-only on ${DOMAIN}"
-  fi
 }
 
 install_prereqs
@@ -486,20 +577,21 @@ if [[ "$INSTALL_NGINX" == 1 ]]; then setup_nginx; fi
 
 say ""
 say "${GREEN}Server ready.${RESET}"
-say "${DIM}  New shells on this host can run the desk as 'rinkdesk' (e.g. rinkdesk --update).${RESET}"
+say ""
+say "  ${BOLD}rinkdesk${RESET}  ->  ${ROOT}/start.sh"
+say "  ${DIM}Alias written to ${TARGET_HOME}/.bashrc — open a new shell, or run: source ~/.bashrc${RESET}"
 
 # Phase 2: install the boot service as the operator (never as root), so the
 # unit is a user unit that lives in the operator's systemd manager.
 install_service() {
-  say ""
-  say "${BOLD}Phase 2 — install the boot service as ${TARGET_USER} (no sudo)${RESET}"
+  step "Boot service (systemd user unit for ${TARGET_USER})"
   if ! run_as_operator bash "$ROOT/start.sh" --install-service; then
     die "could not install the service as ${TARGET_USER}.
   Log in and run it yourself:
     cd ${ROOT} && ./start.sh --install-service"
   fi
   if run_as_operator systemctl --user is-enabled rinkdesk >/dev/null 2>&1; then
-    say "${GREEN}rinkdesk.service enabled${RESET} — starts on every boot"
+    step_ok "rinkdesk.service enabled — starts on every boot"
   else
     warn "could not confirm rinkdesk.service is enabled as ${TARGET_USER}"
   fi
@@ -511,8 +603,9 @@ if [[ "$INSTALL_SERVICE" == 1 ]]; then
   say "Check it as ${TARGET_USER}:"
   say "  ${BOLD}systemctl --user status rinkdesk${RESET}"
 else
-  say "Phase 2 — as ${TARGET_USER}, install the boot service (no sudo):"
-  say "  ${BOLD}ssh ${TARGET_USER}@$(hostname)${RESET}"
+  say ""
+  say "${BOLD}Next — install the boot service as ${TARGET_USER} (no sudo)${RESET}"
+  say "  ssh ${TARGET_USER}@$(hostname)"
   say "  cd ${ROOT} && ./start.sh --install-service"
-  say "${DIM}Or re-run this script with --install-service to do it now.${RESET}"
+  say "  ${DIM}or re-run this script with --install-service${RESET}"
 fi
