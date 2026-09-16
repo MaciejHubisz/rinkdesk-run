@@ -512,16 +512,20 @@ install_deploy_key_file() {
 generate_deploy_key() {
   step "Deploy key for ${TARGET_USER}"
   have ssh-keygen || die "ssh-keygen is required to generate a deploy key"
-  local tmp pub
+  local auth="$TARGET_HOME/.ssh/authorized_keys" tmp pub
+  # Idempotent: a re-run (e.g. to fix nginx) must not add a second key or print
+  # a new private key. The private half only lives in the GitHub secret.
+  if [[ -f "$auth" ]] && grep -q ' github-actions$' "$auth"; then
+    step_ok "a deploy key is already authorized"
+    step_info "remove that line and re-run to issue a new one"
+    return 0
+  fi
   tmp="$(mktemp -d)"
   chmod 700 "$tmp"
   ssh-keygen -q -t ed25519 -N '' -C 'github-actions' -f "$tmp/rinkdesk-deploy"
   pub="$(cat "$tmp/rinkdesk-deploy.pub")"
-  if authorize_deploy_key "$pub"; then
-    step_ok "generated and authorized"
-  else
-    step_ok "authorized"
-  fi
+  authorize_deploy_key "$pub" || true
+  step_ok "generated and authorized"
   say ""
   say "${BOLD}Copy the private key below into the GitHub secret DEPLOY_SSH_KEY${RESET}"
   say "${DIM}(Settings → Secrets and variables → Actions). It is shown once and"
