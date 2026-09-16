@@ -20,7 +20,7 @@ _start_sh_complete() {
         --manual --data manual
         --port -p --host -H
         --export-path --protocols-path
-        --force-pull --from-hub --no-build
+        --force-pull --from-hub --no-build --no-self-update
         --yes -y --no-open -n
         --version -V --help -h help"
 

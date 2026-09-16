@@ -89,7 +89,8 @@ Commands:  ./start.sh
     team-logos  image files you drop in yourself (no upload in the app)
 
   ./start.sh --start                    keeps current Postgres data
-  ./start.sh --update                   rebuild from the local source (if
+  ./start.sh --update                   fast-forward this git checkout, then
+                                        rebuild from the local source (if
                                         present) or pull newer images, then
                                         recreate the app containers; keeps data
   ./start.sh --start --export-path DIR  write snapshots into a local folder

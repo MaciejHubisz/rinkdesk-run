@@ -60,9 +60,17 @@ sudo scripts/setup-server-as-root.sh maciej
 
 That installs Homebrew for `maciej` (plus the system tools it needs), sets up
 rootless prerequisites (`uidmap`, a subuid range, Ubuntu's AppArmor user-namespace
-rule), and enables lingering. Then, with no sudo at all, `./start.sh` installs
-Podman + Compose from Homebrew and runs the desk rootless. On Fedora atomic
-desktops (Bazzite/Silverblue), `podman` is already there.
+rule), enables lingering, and adds a `rinkdesk` alias to `~/.bashrc`. Then, with
+no sudo at all, `./start.sh` installs Podman + Compose from Homebrew and runs the
+desk rootless. On Fedora atomic desktops (Bazzite/Silverblue), `podman` is
+already there.
+
+The `rinkdesk` alias points at this checkout's `start.sh`, so in a new shell you
+can run the desk from anywhere with the same flags:
+
+```bash
+rinkdesk --start      # or --update, --status, --logs, …
+```
 
 Tab completion for the flags works like any other Linux command. Enable it
 once by sourcing the completion script (add the line to your `~/.bashrc` to
@@ -82,7 +90,8 @@ source scripts/linux/start-completion.bash
 | `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
 | `./start.sh --start --force-pull` | Skip local build; pull from ghcr (fail if pull fails) |
 | `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; build or pull; start empty (only built-in logins, default snapshot import stays available on demand) |
-| `./start.sh --update` | Build from the local source (if present) or pull newer images, recreate the app containers, keep data |
+| `./start.sh --update` | Fast-forward the run repo, build from the local source (if present) or pull newer images, recreate the app containers, keep data |
+| `./start.sh --no-self-update` | Do not git-pull this checkout before start/update |
 | `./start.sh --status` | Show container status |
 | `./start.sh --login` | Log in to the image registry (needed for the private package) |
 | `./start.sh --logs [SERVICE]` | Follow logs (backend/web/db, all by default) |
@@ -93,6 +102,18 @@ source scripts/linux/start-completion.bash
 
 Global `-y` / `--yes` answers every prompt (unattended installs and updates
 over SSH). You can also set `RINKDESK_ASSUME_YES=1`.
+
+## Updating the run repo itself
+
+`--start` and `--update` first fast-forward this checkout from `origin` (when it
+is a clean git clone with a tracking branch and there is no sibling `../rinkdesk`
+source tree), then re-exec the updated script. So after changing `start.sh` or
+`docker-compose.yml` on a run-only host you no longer `git pull` by hand — just
+run the same command. It fails soft when offline or when there are local
+changes, and never touches a dirty tree.
+
+Skip it for one run with `--no-self-update`, or disable it entirely with
+`RINKDESK_NO_SELF_UPDATE=1`.
 
 ## Running over SSH
 

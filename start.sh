@@ -103,6 +103,7 @@ ${BOLD}RinkDesk${RESET} ${APP_VERSION}  rink-clerk desk
       --protocols-path DIR       bind generated protocol PDFs to a local folder
       --paths                    show where JSON, protocols, and logos live
       --force-pull               skip local build; pull from ghcr (fail if pull fails)
+      --no-self-update           do not git-pull this checkout before start/update
 EOF
   if [[ -n "$src" ]]; then
     cat <<EOF
@@ -341,6 +342,42 @@ cmd_update() {
   cmd_start "$1" 0
 }
 
+# Pull this run repo before starting, so an updated start.sh / compose file takes
+# effect without a manual `git pull`. Fast-forward only and re-exec once. Soft-
+# fails when offline or dirty. Disable with RINKDESK_NO_SELF_UPDATE=1.
+self_update() {
+  [[ "${RINKDESK_NO_SELF_UPDATE:-0}" == 1 ]] && return 0
+  # Guard against a re-exec loop: only the first process may pull.
+  [[ "${RINKDESK_SELF_UPDATED:-0}" == 1 ]] && return 0
+  # A machine with the source tree builds locally and owns its own git; only a
+  # run-only host (no sibling source) auto-updates the checkout.
+  [[ -x "$ROOT/../rinkdesk/build.sh" ]] && return 0
+  [[ -d "$ROOT/.git" ]] || return 0
+  have git || return 0
+  # No tracking branch (detached HEAD, tarball clone) → nothing to update from.
+  git -C "$ROOT" rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1 || return 0
+  say "${DIM}Checking for run-repo updates…${RESET}"
+  if ! git -C "$ROOT" fetch --quiet 2>/dev/null; then
+    warn "could not reach the git remote — using the current checkout"
+    return 0
+  fi
+  local local_rev remote_rev
+  local_rev="$(git -C "$ROOT" rev-parse '@')"
+  remote_rev="$(git -C "$ROOT" rev-parse '@{u}')"
+  [[ "$local_rev" == "$remote_rev" ]] && return 0
+  if [[ -n "$(git -C "$ROOT" status --porcelain)" ]]; then
+    warn "local changes in $ROOT — skipping self-update (commit or stash them)"
+    return 0
+  fi
+  say "${BOLD}Updating run repo${RESET} ${local_rev:0:7} → ${remote_rev:0:7}"
+  if ! git -C "$ROOT" merge --ff-only --quiet '@{u}' 2>/dev/null; then
+    warn "could not fast-forward — run git pull by hand"
+    return 0
+  fi
+  export RINKDESK_SELF_UPDATED=1
+  exec "$ROOT/start.sh" "${ORIG_ARGS[@]}"
+}
+
 # Install a systemd unit so the desk starts on boot and keeps running after
 # the SSH session ends. Root installs a system unit; a regular user installs
 # a user unit (no sudo needed; requires lingering, which setup-server-as-root.sh sets).
@@ -431,6 +468,9 @@ cmd_uninstall_service() {
   say "${GREEN}${SERVICE_NAME}.service removed${RESET}"
 }
 
+# Keep the original argv so self_update can re-exec the script unchanged.
+ORIG_ARGS=("$@")
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -p | --port)
@@ -450,6 +490,7 @@ while [[ $# -gt 0 ]]; do
       FORCE_PULL=1
       SKIP_BUILD=1
       shift ;;
+    --no-self-update) export RINKDESK_NO_SELF_UPDATE=1; shift ;;
     -y | --yes) export RINKDESK_ASSUME_YES=1; shift ;;
     -n | --no-open) OPEN=0; shift ;;
     --start | start) CMD=start; shift ;;
@@ -477,6 +518,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ "$FORCE_PULL" == 1 ]] && SKIP_BUILD=1
+
+# Refresh the run repo itself before start/update (see self_update).
+case "$CMD" in
+  start | update) self_update ;;
+esac
 
 case "$CMD" in
   help) print_usage ;;

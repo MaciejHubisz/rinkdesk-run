@@ -14,7 +14,8 @@
 #                                                           # + public HTTPS site
 #
 # Three phases, clearly split by privilege:
-#   Phase 1 (root):    prerequisites, Homebrew, subuid range, userns, lingering.
+#   Phase 1 (root):    prerequisites, Homebrew, subuid range, userns, a
+#                      'rinkdesk' shell alias, lingering.
 #   Phase 1b (root):   nginx reverse proxy + certbot TLS, driven by
 #                      scripts/admin/admin.env (that folder is the mini-project:
 #                      an env file and a site template; this script runs it).
@@ -66,7 +67,7 @@ ${BOLD}RinkDesk server setup${RESET} (run as root)
   USER defaults to \$SUDO_USER.
 
   Phase 1 (root):  prerequisites, Homebrew, subuid range, user namespaces,
-                   and lingering for USER.
+                   a 'rinkdesk' shell alias, and lingering for USER.
   Phase 1b (root): nginx reverse proxy + certbot TLS, configured from
                    scripts/admin/admin.env.
   Phase 2 (USER):  ./start.sh --install-service — installs Podman, starts the
@@ -345,6 +346,23 @@ install_homebrew() {
   fi
 }
 
+# Add a `rinkdesk` alias to the operator's shell so the desk is one word away
+# from anywhere on the host. The alias is just this checkout's start.sh, so it
+# takes the same flags (rinkdesk --update, rinkdesk --status, …).
+install_alias() {
+  local rc="$TARGET_HOME/.bashrc"
+  if grep -qs 'alias rinkdesk=' "$rc" 2>/dev/null; then
+    say "${DIM}rinkdesk alias already present in ${rc}${RESET}"
+    return 0
+  fi
+  {
+    printf '\n# RinkDesk (host setup)\n'
+    printf 'alias rinkdesk=%q\n' "$ROOT/start.sh"
+  } >>"$rc"
+  chown "$TARGET_USER" "$rc"
+  say "${GREEN}added${RESET} 'rinkdesk' alias to ${rc}"
+}
+
 # Let the operator's systemd user manager keep running after logout, so the
 # user-level RinkDesk service survives an SSH session ending.
 enable_linger() {
@@ -456,6 +474,7 @@ install_prereqs
 ensure_subids
 setup_userns
 install_homebrew
+install_alias
 enable_linger
 # Log in only when the desk will run here or a real token was supplied.
 registry_token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
@@ -467,6 +486,7 @@ if [[ "$INSTALL_NGINX" == 1 ]]; then setup_nginx; fi
 
 say ""
 say "${GREEN}Server ready.${RESET}"
+say "${DIM}  New shells on this host can run the desk as 'rinkdesk' (e.g. rinkdesk --update).${RESET}"
 
 # Phase 2: install the boot service as the operator (never as root), so the
 # unit is a user unit that lives in the operator's systemd manager.
