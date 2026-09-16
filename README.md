@@ -115,6 +115,19 @@ changes, and never touches a dirty tree.
 Skip it for one run with `--no-self-update`, or disable it entirely with
 `RINKDESK_NO_SELF_UPDATE=1`.
 
+## Deploying from GitHub
+
+The `rinkdesk` repo's **Deploy** workflow can SSH here and run
+`./start.sh --update` after a successful image publish, so a push to `main`
+reaches the desk without a manual step. It is off until configured; the host
+side is one command:
+
+```bash
+sudo scripts/setup-server-as-root.sh maciej --deploy-key-file /path/to/rinkdesk-deploy.pub
+```
+
+Full setup (key pair, GitHub secrets and variables): `rinkdesk/docs/deploy.md`.
+
 ## Running over SSH
 
 The desk is a long-running service, so run it on the host rather than in an

@@ -12,10 +12,12 @@
 #                                                           # prepare + run on boot
 #   sudo scripts/setup-server-as-root.sh maciej --install-service --install-nginx
 #                                                           # + public HTTPS site
+#   sudo scripts/setup-server-as-root.sh maciej --deploy-key-file deploy.pub
+#                                                           # allow GitHub CI to deploy
 #
 # Three phases, clearly split by privilege:
 #   Phase 1 (root):    prerequisites, Homebrew, subuid range, userns, a
-#                      'rinkdesk' shell alias, lingering.
+#                      'rinkdesk' shell alias, lingering, an optional CI deploy key.
 #   Phase 1b (root):   nginx reverse proxy + certbot TLS, driven by
 #                      scripts/admin/admin.env (that folder is the mini-project:
 #                      an env file and a site template; this script runs it).
@@ -115,6 +117,11 @@ ${BOLD}RinkDesk server setup${RESET} (run as root)
     --registry-token-file FILE  file with a read:packages token
                                 (RINKDESK_REGISTRY_TOKEN_FILE)
 
+  Continuous deployment (GitHub Actions over SSH):
+    --deploy-key-file FILE      authorize an SSH public key for USER, so the
+                                Deploy workflow can run ./start.sh --update
+                                (see rinkdesk/docs/deploy.md)
+
   The images are private, so the operator logs in once. With --install-service
   the script logs in using the token from registry.env, the environment, or
   --registry-token-file; if none is present it asks for one and saves it to
@@ -133,11 +140,16 @@ INSTALL_NGINX=0
 # Registry login for the private images (optional; also read from the env).
 REGISTRY_USER="${RINKDESK_REGISTRY_USER:-}"
 REGISTRY_TOKEN_FILE="${RINKDESK_REGISTRY_TOKEN_FILE:-}"
+# Public key authorized for the operator so the Deploy workflow can SSH in.
+DEPLOY_KEY_FILE="${RINKDESK_DEPLOY_KEY_FILE:-}"
 while [[ $# -gt 0 ]]; do
   case "$1" in
     -h | --help | help) usage; exit 0 ;;
     --install-service) INSTALL_SERVICE=1; shift ;;
     --install-nginx) INSTALL_NGINX=1; shift ;;
+    --deploy-key-file)
+      [[ $# -ge 2 ]] || die "$1 needs a path"
+      DEPLOY_KEY_FILE="$2"; shift 2 ;;
     --registry-user)
       [[ $# -ge 2 ]] || die "$1 needs a username"
       REGISTRY_USER="$2"; shift 2 ;;
@@ -441,6 +453,33 @@ enable_linger() {
   fi
 }
 
+# Authorize a public key so the Deploy GitHub Actions job can SSH in as the
+# operator and run ./start.sh --update. The private half stays in the GitHub
+# secret store; only the public key touches the host. See rinkdesk/docs/deploy.md.
+install_deploy_key() {
+  step "Deploy key for ${TARGET_USER}"
+  [[ -r "$DEPLOY_KEY_FILE" ]] || die "cannot read deploy key file: $DEPLOY_KEY_FILE"
+  local key dir auth
+  key="$(tr -d '\r' <"$DEPLOY_KEY_FILE")"
+  case "$key" in
+    ssh-ed25519\ * | ssh-rsa\ * | ecdsa-sha2-*\ *) ;;
+    *) die "$DEPLOY_KEY_FILE does not look like an SSH public key" ;;
+  esac
+  dir="$TARGET_HOME/.ssh"
+  auth="$dir/authorized_keys"
+  mkdir -p "$dir"
+  touch "$auth"
+  chown "$TARGET_USER" "$dir" "$auth"
+  chmod 700 "$dir"
+  chmod 600 "$auth"
+  if grep -qF "$key" "$auth" 2>/dev/null; then
+    step_ok "already authorized in ${auth}"
+    return 0
+  fi
+  printf '%s\n' "$key" >>"$auth"
+  step_ok "authorized in ${auth}"
+}
+
 # --- Phase 1b: nginx reverse proxy + TLS -------------------------------------
 # Reads scripts/admin/admin.env (sourced above) and applies
 # scripts/admin/nginx-site.conf.template. Distro-aware: Debian-style
@@ -567,6 +606,7 @@ setup_userns
 install_homebrew
 install_alias
 enable_linger
+if [[ -n "$DEPLOY_KEY_FILE" ]]; then install_deploy_key; fi
 # Log in only when the desk will run here or a real token was supplied.
 registry_token="${RINKDESK_REGISTRY_TOKEN:-${CR_PAT:-}}"
 [[ "$registry_token" == "ghp_replace_me" ]] && registry_token=""
