@@ -3,6 +3,9 @@
 No source code and no data dumps. `./start.sh --start` pulls the `:latest`
 Docker images and starts the desk. This is the only `start.sh`.
 
+`common/` is a git submodule (the shared framework the scripts run from).
+Clone with `--recurse-submodules`, or run `git submodule update --init`.
+
 If a sibling `../rinkdesk` source tree is on disk (or `RINKDESK_SRC` is set),
 `--start`, `--update` and `--force-recreate` build fresh images from it first
 and run those local images. Without it, the script just pulls and runs.
@@ -260,14 +263,14 @@ Auto-refresh lives in `.env` (`RINKDESK_LIVE_REFRESH_SECONDS`). See
 ## Folders and files
 
 ```
-start.sh                        run the desk (operator, no sudo)
+app.conf                        app identity read by the shared scripts
+start.sh                        run the desk; wraps common/ops/start.sh
+common/                         submodule: reusable backend, web and ops framework
 scripts/
-  setup-server-as-root.sh       prepare a server once (administrator, sudo);
-                                --install-service also installs the boot service
+  setup-server-as-root.sh       wraps common/ops/setup-server-as-root.sh
   admin/                        public-site config (mini-project):
     admin.env                     domain, port, Let's Encrypt email
     nginx-site.conf.template      nginx site, applied by setup-server-as-root.sh
-  lib/                          shared bash helpers (common, platform, config, engine)
   linux/start-completion.bash   tab completion for bash
   manual.txt                    text shown by --manual
 docker-compose.yml              pre-built images only
