@@ -32,6 +32,8 @@ services:
       RINKDESK_CUSTOM_LICENSES: /app/exports/licenses-export.json
       RINKDESK_PROTOCOLS_PATH: /app/protocols
       RINKDESK_TEAM_LOGOS: /app/team-logos
+      # Bundled defaults baked into the image; ./team-logos overrides per file.
+      RINKDESK_TEAM_LOGOS_FALLBACK: /app/team-logos-default
     volumes:
       # Scoring and table-ordering rules, editable on the host without a rebuild.
       - ./rules.properties:/app/backend/rules.properties:ro${RINKDESK_VOL_OPTS_RO:-}

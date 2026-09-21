@@ -15,6 +15,9 @@ Rules:
     name’s slug.
   - PNG, JPG/JPEG, WEBP, GIF, BMP, AVIF and SVG are accepted.
   - Small, roughly square files look best (e.g. 200×200 px).
+  - The app ships with a set of default logos baked into the image. A file here
+    overrides the default for that team; teams without a file here keep using
+    the bundled default.
   - Put the file in this folder — no restart or data edit is needed.
   - If no file matches, the web shows a neutral “no logo” crest and the printed
     protocol draws a placeholder box.

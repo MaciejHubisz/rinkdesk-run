@@ -276,7 +276,7 @@ scripts/
 docker-compose.yml              pre-built images only
 .env                            image tag + live-page settings
 protocols/                      generated protocol PDFs (default location)
-team-logos/                     logo PNGs the app reads (user-provided)
+team-logos/                     logo overrides the app reads (user-provided)
 ```
 
 ## Data and folders
@@ -296,11 +296,13 @@ the same file per match, overwritten on every save. Pass `--protocols-path DIR`
 ./start.sh --start --protocols-path ~/rinkdesk-protocols
 ```
 
-Team logos: drop a PNG into the `team-logos/` folder next to `start.sh`, named
-after the team short name (e.g. `orly_logo.png` for `ORŁY`). There is no upload
-and no per-team field — a missing file simply shows a neutral "no logo" crest.
-Export bundles those images with the JSON dump; import restores them. See
-`team-logos/README.md`.
+Team logos: the app ships with a set of default logos baked into the image. To
+change one, drop a PNG into the `team-logos/` folder next to `start.sh`, named
+after the team short name (e.g. `orly_logo.png` for `ORŁY`). A file here overrides
+the bundled default for that team; teams without a file here keep the default.
+There is no upload and no per-team field — a missing file simply shows a neutral
+"no logo" crest. Export bundles those images with the JSON dump; import restores
+them. See `team-logos/README.md`.
 
 If pull fails, the `rinkdesk-backend` and `rinkdesk-web` images are private on
 ghcr.io — log in once with a `read:packages` token (see the top of this file).

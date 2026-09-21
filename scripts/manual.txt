@@ -86,7 +86,7 @@ Commands:  ./start.sh
 
     snapshots   whole-app export (Settings → Export); newest is imported
     protocols   one PDF per confirmed match, replaced on every save
-    team-logos  image files you drop in yourself (no upload in the app)
+    team-logos  image overrides you drop in yourself (no upload in the app)
 
   ./start.sh --start                    keeps current Postgres data
   ./start.sh --update                   fast-forward this git checkout, then
@@ -109,12 +109,13 @@ Commands:  ./start.sh
   to the protocols/ folder next to start.sh. Pass the flags on every start,
   or set RINKDESK_EXPORTS_PATH / RINKDESK_PROTOCOLS_PATH for another folder.
 
-  Team logos: there is no upload and no per-team setting. Drop a PNG into
+  Team logos: the app ships with default logos baked into the image. There is
+  no upload and no per-team setting. To override one, drop a PNG into
   team-logos/ next to start.sh, named {short}_logo.png with the ASCII slug of
-  the short name (ORŁY → orly_logo.png). A missing file just shows a neutral
-  crest. The logo appears on the live page and on the printed protocol.
-  Snapshot export copies these files next to the JSON; import restores them.
-  See team-logos/README.md.
+  the short name (ORŁY → orly_logo.png); a file here replaces the default for
+  that team only. A missing file just shows a neutral crest. The logo appears
+  on the live page and on the printed protocol. Snapshot export copies these
+  files next to the JSON; import restores them. See team-logos/README.md.
 
 ────────────────────────────────────────────────────────
 7. Refusals (the API will reject these)
