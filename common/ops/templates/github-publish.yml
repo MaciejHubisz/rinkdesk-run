@@ -15,8 +15,6 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
       - name: Resolve image prefix
         run: |
           echo "MYAPP_IMAGE_PREFIX=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/myapp" >> "$GITHUB_ENV"

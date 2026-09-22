@@ -18,7 +18,7 @@ ENV PYTHONUNBUFFERED=1 \
 COPY app/backend/requirements.txt /app/backend/requirements.txt
 RUN pip install --no-cache-dir -r /app/backend/requirements.txt
 
-# Shared framework package (the common/ submodule).
+# Shared framework package (vendored common/).
 COPY common/backend/appcore /app/appcore
 
 COPY VERSION /app/VERSION
