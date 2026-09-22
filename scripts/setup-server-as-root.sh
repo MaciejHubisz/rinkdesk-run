@@ -14,7 +14,6 @@ export APP_CONFIG="${APP_CONFIG:-$ROOT/app.conf}"
 # common/ empty, so initialize it before handing over.
 ensure_common() {
   local entry="$ROOT/common/ops/setup-server-as-root.sh"
-  [[ -f "$entry" ]] && return 0
   bash "$ROOT/scripts/ensure-common.sh"
   [[ -f "$entry" ]] ||
     { echo "common/ops/setup-server-as-root.sh still missing after submodule update" >&2; exit 1; }

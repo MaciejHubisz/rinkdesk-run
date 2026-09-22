@@ -51,7 +51,12 @@ git_use_token() {
 
 token="$(read_token)"
 if [[ -f "$ENTRY" ]]; then
-  [[ -n "$token" ]] && git_use_token "$token" || true
+  # Already checked out: keep git auth configured and the submodule on the
+  # pinned commit. No network when it is already current.
+  if command -v git >/dev/null 2>&1; then
+    [[ -n "$token" ]] && git_use_token "$token" || true
+    git -C "$ROOT" submodule update --init --recursive 2>/dev/null || true
+  fi
   exit 0
 fi
 
