@@ -8,14 +8,13 @@ here (see [`../rinkdesk/AGENTS.md`](../rinkdesk/AGENTS.md) for the app).
 | `app.conf` | App identity (name, prefix, services, volumes, paths) read by the shared scripts |
 | `start.sh` | Thin wrapper: runs `common/ops/start.sh` for this checkout |
 | `scripts/setup-server-as-root.sh` | Thin wrapper: runs `common/ops/setup-server-as-root.sh` |
-| `scripts/ensure-common.sh` | Bootstrap: clone the private `common/` submodule using a GitHub token |
-| `common/` | Submodule with the shared backend, web and ops framework |
+| `common/` | Vendored shared ops framework (source commit in `common/VENDORED_FROM`) |
 | `scripts/admin/` | nginx site template + `admin.env` for the host script |
 | `docker-compose.yml` | The stack the images run as |
 
-The lifecycle and host logic live in `common/ops/` (a git submodule), parameterized
-by `app.conf`. Edit `common/`, not copies in this repo; there are no local
-`scripts/lib/` duplicates any more.
+The lifecycle and host logic live in `common/ops/`, parameterized by `app.conf`.
+`common/` is vendored from the framework repo with `common/tools/vendor.sh`
+(run there); edit it in the framework repo, not here.
 
 ## The hard rule: host operations live in the host script
 
@@ -38,8 +37,9 @@ key, nginx/TLS, and installing the boot service (Phase 2). Read-only checks
 
 ## Conventions
 
-- Every host setup or lifecycle change belongs in `common/ops/` (then bump the
-  submodule), not in the wrappers here. Point at the wrapper commands in docs.
+- Every host setup or lifecycle change belongs in `common/ops/` (then re-vendor
+  with `common/tools/vendor.sh`), not in the wrappers here. Point at the wrapper
+  commands in docs.
 - App-specific values (names, services, volumes, paths) go in `app.conf`, never
   hardcoded in a script.
 - Commit messages are short and lower-case, with a prefix: `start:`, `setup:`,

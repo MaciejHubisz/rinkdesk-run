@@ -3,17 +3,15 @@
 No source code and no data dumps. `./start.sh --start` pulls the `:latest`
 Docker images and starts the desk. This is the only `start.sh`.
 
-`common/` is a git submodule (the shared framework the scripts run from). It is
-a **private** repo, so cloning it needs a GitHub token. `./start.sh` (and the
-host script) will ask for one the first time and remember it in the operator's
-git config; `registry.env` can supply it up front.
+`common/` is vendored from the shared framework repo (the source commit is in
+`common/VENDORED_FROM`), so this repo is self-contained: clone it and run.
 
 If a sibling `../rinkdesk` source tree is on disk (or `RINKDESK_SRC` is set),
 `--start`, `--update` and `--force-recreate` build fresh images from it first
 and run those local images. Without it, the script just pulls and runs.
 
-The images are also private. The host setup logs the operator in when you run
-it with `--install-service`: if no token is configured it asks for one (with a
+The images are private. The host setup logs the operator in when you run it
+with `--install-service`: if no token is configured it asks for one (with a
 link to create it), logs in, and saves it to `registry.env` (gitignored, mode
 600) so later `--start`/`--update` log in automatically.
 
@@ -21,9 +19,8 @@ link to create it), logs in, and saves it to `registry.env` (gitignored, mode
 sudo scripts/setup-server-as-root.sh maciej --install-service
 ```
 
-Use one classic token with the `repo` and `read:packages` scopes — it covers
-both the submodule clone and the image pull. It is a token, **not** your GitHub
-account password. On podman the registry login is written to
+Use a token with the `read:packages` scope — **not** your GitHub account
+password. On podman the registry login is written to
 `~/.config/containers/auth.json` so it survives reboots.
 
 Linux only — this repo is meant to run on a remote Linux host, usually over

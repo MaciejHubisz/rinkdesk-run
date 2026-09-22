@@ -10,15 +10,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export APP_RUN_ROOT="$ROOT"
 export APP_CONFIG="${APP_CONFIG:-$ROOT/app.conf}"
 
-# The host operations live in the common submodule. A fresh clone leaves
-# common/ empty, so initialize it before handing over.
-ensure_common() {
-  local entry="$ROOT/common/ops/setup-server-as-root.sh"
-  bash "$ROOT/scripts/ensure-common.sh"
-  [[ -f "$entry" ]] ||
-    { echo "common/ops/setup-server-as-root.sh still missing after submodule update" >&2; exit 1; }
+entry="$ROOT/common/ops/setup-server-as-root.sh"
+[[ -f "$entry" ]] || {
+  echo "common/ops/setup-server-as-root.sh is missing (vendor common with tools/vendor.sh)" >&2
+  exit 1
 }
-
-ensure_common
-
-exec "$ROOT/common/ops/setup-server-as-root.sh" "$@"
+exec "$entry" "$@"
