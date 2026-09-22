@@ -8,6 +8,7 @@ here (see [`../rinkdesk/AGENTS.md`](../rinkdesk/AGENTS.md) for the app).
 | `app.conf` | App identity (name, prefix, services, volumes, paths) read by the shared scripts |
 | `start.sh` | Thin wrapper: runs `common/ops/start.sh` for this checkout |
 | `scripts/setup-server-as-root.sh` | Thin wrapper: runs `common/ops/setup-server-as-root.sh` |
+| `scripts/ensure-common.sh` | Bootstrap: clone the private `common/` submodule using a GitHub token |
 | `common/` | Submodule with the shared backend, web and ops framework |
 | `scripts/admin/` | nginx site template + `admin.env` for the host script |
 | `docker-compose.yml` | The stack the images run as |
