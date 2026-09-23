@@ -31,9 +31,9 @@ services:
       RINKDESK_DEFAULT_LICENSES: /app/database/default-licenses.json
       RINKDESK_CUSTOM_LICENSES: /app/exports/licenses-export.json
       RINKDESK_PROTOCOLS_PATH: /app/protocols
-      RINKDESK_TEAM_LOGOS: /app/team-logos
-      # Bundled defaults baked into the image; ./team-logos overrides per file.
-      RINKDESK_TEAM_LOGOS_FALLBACK: /app/team-logos-default
+      RINKDESK_TEAM_LOGOS: /app/graphics/logos
+      # Bundled defaults baked into the image; ./graphics/logos overrides per file.
+      RINKDESK_TEAM_LOGOS_FALLBACK: /app/graphics-default/logos
     volumes:
       # Scoring and table-ordering rules, editable on the host without a rebuild.
       - ./rules.properties:/app/backend/rules.properties:ro${RINKDESK_VOL_OPTS_RO:-}
@@ -44,8 +44,8 @@ services:
       - "${RINKDESK_EXPORTS_SOURCE:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
       # Host ./protocols by default; --protocols-path picks another host folder.
       - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
-      # Team logo images live in ./team-logos; export/import writes them here too.
-      - ./team-logos:/app/team-logos${RINKDESK_VOL_OPTS:-}
+      # Team logo images live in ./graphics/logos; export/import writes them here too.
+      - ./graphics/logos:/app/graphics/logos${RINKDESK_VOL_OPTS:-}
     depends_on:
       db:
         condition: service_healthy

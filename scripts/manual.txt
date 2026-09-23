@@ -37,7 +37,7 @@ Commands:  ./start.sh
   Desk        today’s matches and the next required action
   Licenses    master register — a person is entered once
   Teams       club cards, kit colours and logo; open a team to assign
-              players (the logo is a PNG in team-logos/, matched by short name)
+              players (the logo is a PNG in graphics/logos/, matched by short name)
   Matches     schedule, then open the match desk
   Results     the table (or cup ladder) and the game list; download a
               confirmed protocol straight from the list
@@ -86,7 +86,7 @@ Commands:  ./start.sh
 
     snapshots   whole-app export (Settings → Export); newest is imported
     protocols   one PDF per confirmed match, replaced on every save
-    team-logos  image overrides you drop in yourself (no upload in the app)
+    graphics/logos  image overrides you drop in yourself (no upload in the app)
 
   ./start.sh --start                    keeps current Postgres data
   ./start.sh --update                   fast-forward this git checkout, then
@@ -111,11 +111,12 @@ Commands:  ./start.sh
 
   Team logos: the app ships with default logos baked into the image. There is
   no upload and no per-team setting. To override one, drop a PNG into
-  team-logos/ next to start.sh, named {short}_logo.png with the ASCII slug of
-  the short name (ORŁY → orly_logo.png); a file here replaces the default for
-  that team only. A missing file just shows a neutral crest. The logo appears
-  on the live page and on the printed protocol. Snapshot export copies these
-  files next to the JSON; import restores them. See team-logos/README.md.
+  graphics/logos/ next to start.sh, named {short}_logo.png with the ASCII slug
+  of the short name (ORŁY → orly_logo.png); a file here replaces the default
+  for that team only. A missing file just shows a neutral crest. The logo
+  appears on the live page and on the printed protocol. Snapshot export copies
+  these files next to the JSON; import restores them. See
+  graphics/logos/README.md.
 
 ────────────────────────────────────────────────────────
 7. Refusals (the API will reject these)
