@@ -23,17 +23,11 @@ services:
       DATABASE_URL: postgresql://rinkdesk:rinkdesk@db:5432/rinkdesk
       RINKDESK_HOST: 0.0.0.0
       RINKDESK_PORT: "8765"
-      RINKDESK_LIVE_REFRESH_SECONDS: "${RINKDESK_LIVE_REFRESH_SECONDS:-5}"
-      RINKDESK_LIVE_CACHE_SECONDS: "${RINKDESK_LIVE_CACHE_SECONDS:-5}"
-      RINKDESK_DEFAULT_SNAPSHOT: /app/database/default-snapshot.json
-      RINKDESK_CUSTOM_SNAPSHOT: /app/exports/whole-application-data-export.json
-      RINKDESK_SNAPSHOT_ARCHIVE: /app/exports/archive
-      RINKDESK_DEFAULT_LICENSES: /app/database/default-licenses.json
-      RINKDESK_CUSTOM_LICENSES: /app/exports/licenses-export.json
-      RINKDESK_PROTOCOLS_PATH: /app/protocols
-      RINKDESK_TEAM_LOGOS: /app/graphics/logos
-      # Bundled defaults baked into the image; ./graphics/logos overrides per file.
-      RINKDESK_TEAM_LOGOS_FALLBACK: /app/graphics-default/logos
+    # App configuration (Uno overlay ids, live refresh, viewer stats, file
+    # paths, ...) ships with defaults baked into the image; drop a RINKDESK_*
+    # override in .env to change one without rebuilding.
+    env_file:
+      - .env
     volumes:
       # Scoring and table-ordering rules, editable on the host without a rebuild.
       - ./rules.properties:/app/backend/rules.properties:ro${RINKDESK_VOL_OPTS_RO:-}

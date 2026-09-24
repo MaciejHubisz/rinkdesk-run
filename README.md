@@ -272,7 +272,7 @@ scripts/
   linux/start-completion.bash   tab completion for bash
   manual.txt                    text shown by --manual
 docker-compose.yml              pre-built images only
-.env                            image tag + live-page settings
+.env                            optional RINKDESK_* overrides (empty by default)
 protocols/                      generated protocol PDFs (default location)
 graphics/logos/                  logo overrides the app reads (user-provided)
 ```
