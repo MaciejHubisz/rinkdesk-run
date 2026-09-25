@@ -13,8 +13,10 @@ refresh_url() { URL="http://${HOST}:${PORT}/"; }
 # Bind-mount relabel suffix shared with docker-compose (see volume_opts).
 app_export_default VOL_OPTS "$(volume_opts)"
 app_export_default VOL_OPTS_RO "$(volume_opts_ro)"
-# The default protocols mount is a host bind, so it wants the same suffix.
+# The default protocols and exports mounts are host binds, so they want the
+# same relabel suffix.
 app_export_default PROTOCOLS_OPTS "$(app_env VOL_OPTS)"
+app_export_default EXPORTS_OPTS "$(app_env VOL_OPTS)"
 
 # Source one or more env files (later files win) and re-read port/host.
 load_env() {

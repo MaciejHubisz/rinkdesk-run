@@ -19,8 +19,7 @@ APP_REGISTRY="ghcr.io"
 
 # Compose services and data volumes owned by the stack.
 APP_SERVICES="backend web"
-APP_DATA_VOLUMES="myapp-pg myapp-exports"
-APP_EXPORTS_VOLUME="myapp-exports"
+APP_DATA_VOLUMES="myapp-pg"
 APP_COMPOSE_FILE="docker-compose.yml"
 
 # Host defaults.

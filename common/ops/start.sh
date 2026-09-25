@@ -156,8 +156,8 @@ empty_volume() {
 }
 
 # Wipe every trace of application data so the app starts empty: the database,
-# the JSON exports, generated files, and an --export-path host folder when one is
-# in use. Shipped static assets are kept — they are app defaults, not data.
+# the JSON exports, and generated files. Shipped static assets are kept — they
+# are app defaults, not data.
 wipe_data() {
   local vol proto exports
   say "Wiping volumes…"
@@ -169,10 +169,9 @@ wipe_data() {
         die "could not empty volume $vol — stop any other stack using it and retry"
     fi
   done
-  exports="$(app_env EXPORTS_SOURCE)"
-  if [[ -n "$exports" && -d "$exports" ]]; then
-    rm -rf "${exports:?}/archive" 2>/dev/null || true
-    find "$exports" -maxdepth 1 -type f -name '*.json' -delete 2>/dev/null || true
+  exports="$(app_env EXPORTS_SOURCE)"; exports="${exports:-$ROOT/${APP_EXPORTS_DIR:-exports}}"
+  if [[ -d "$exports" ]]; then
+    find "$exports" -mindepth 1 -delete 2>/dev/null || true
   fi
   proto="$(app_env PROTOCOLS_SOURCE)"; proto="${proto:-$ROOT/${APP_PROTOCOLS_DIR:-protocols}}"
   if [[ -d "$proto" ]]; then
@@ -260,12 +259,11 @@ cmd_start() {
 }
 
 print_paths() {
-  local json protocols logos exports_volume
-  exports_volume="${APP_EXPORTS_VOLUME:-${APP_SLUG:-app}-exports}"
+  local json protocols logos
   if [[ -n "$(app_env EXPORTS_SOURCE)" ]]; then
     json="host    $(app_env EXPORTS_SOURCE)   (--export-path)"
   else
-    json="volume  ${exports_volume}   (default, not a host folder)"
+    json="host    ${ROOT}/${APP_EXPORTS_DIR:-exports}   (default)"
   fi
   if [[ -n "$(app_env PROTOCOLS_SOURCE)" ]]; then
     protocols="host    $(app_env PROTOCOLS_SOURCE)   (--protocols-path)"
