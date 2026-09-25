@@ -273,17 +273,17 @@ scripts/
   manual.txt                    text shown by --manual
 docker-compose.yml              pre-built images only
 .env                            optional RINKDESK_* overrides (empty by default)
+exports/                        generated snapshot JSON (default location)
 protocols/                      generated protocol PDFs (default location)
 graphics/logos/                  logo overrides the app reads (user-provided)
 ```
 
 ## Data and folders
 
-Without `--export-path`, snapshot JSON lives in the Docker volume
-`rinkdesk-exports`. With it, Settings → export writes into that folder
-(`archive/` plus the latest file) and copies each team's logo PNG next to the
-JSON; import restores both. Pass the flag each time you start, or set
-`RINKDESK_EXPORTS_PATH`.
+Snapshot JSON lives in the `exports/` folder next to `start.sh`. Settings →
+export writes `archive/` plus the latest file there, and copies each team's logo
+PNG next to the JSON; import restores both. Pass `--export-path DIR` (or set
+`RINKDESK_EXPORTS_PATH`) to put exports in another folder instead.
 
 Protocol PDFs are written to the `protocols/` folder next to `start.sh` — always
 the same file per match, overwritten on every save. Pass `--protocols-path DIR`

@@ -96,8 +96,8 @@ Commands:  ./start.sh
   ./start.sh --start --export-path DIR  write snapshots into a local folder
   ./start.sh --start --protocols-path DIR
                                         write protocol PDFs into a local folder
-  ./start.sh --force-recreate           wipes the database, JSON snapshot
-                                        volume, and protocol PDFs; starts empty
+  ./start.sh --force-recreate           wipes the database, JSON snapshots,
+                                        and protocol PDFs; starts empty
                                         with only the built-in clerk logins.
                                         Team logos are kept (app defaults).
                                         The shipped default snapshot stays
@@ -105,9 +105,10 @@ Commands:  ./start.sh
                                         login screen.
   ./start.sh --manual                   this manual
 
-  Snapshots default to the Docker volume rinkdesk-exports; protocol PDFs go
-  to the protocols/ folder next to start.sh. Pass the flags on every start,
-  or set RINKDESK_EXPORTS_PATH / RINKDESK_PROTOCOLS_PATH for another folder.
+  Snapshots default to the exports/ folder next to start.sh (whole-app export
+  in Settings → Export); protocol PDFs go to the protocols/ folder next to
+  start.sh. Pass the flags on every start, or set RINKDESK_EXPORTS_PATH /
+  RINKDESK_PROTOCOLS_PATH for another folder.
 
   Team logos: the app ships with default logos baked into the image. There is
   no upload and no per-team setting. To override one, drop a PNG into

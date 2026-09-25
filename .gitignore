@@ -3,3 +3,4 @@ logs/*.log
 .env.local
 registry.env
 protocols/
+exports/

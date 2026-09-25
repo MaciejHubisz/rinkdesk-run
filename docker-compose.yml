@@ -31,11 +31,11 @@ services:
     volumes:
       # Scoring and table-ordering rules, editable on the host without a rebuild.
       - ./rules.properties:/app/backend/rules.properties:ro${RINKDESK_VOL_OPTS_RO:-}
-      # Named volume by default; --export-path bind-mounts a host folder instead.
+      # Host ./exports by default; --export-path picks another host folder.
       # SOURCE vars are set by start.sh; named *_SOURCE so podman-compose does
       # not confuse them with the in-container RINKDESK_*_PATH app variables.
       # RINKDESK_VOL_OPTS is ":z" for SELinux relabelling on Linux.
-      - "${RINKDESK_EXPORTS_SOURCE:-exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
+      - "${RINKDESK_EXPORTS_SOURCE:-./exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
       # Host ./protocols by default; --protocols-path picks another host folder.
       - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
       # Team logo images live in ./graphics/logos; export/import writes them here too.
@@ -68,5 +68,3 @@ services:
 volumes:
   pgdata:
     name: rinkdesk-pg
-  exports:
-    name: rinkdesk-exports
