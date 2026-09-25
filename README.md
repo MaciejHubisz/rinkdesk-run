@@ -23,8 +23,10 @@ Use a token with the `read:packages` scope — **not** your GitHub account
 password. On podman the registry login is written to
 `~/.config/containers/auth.json` so it survives reboots.
 
-Linux only — this repo is meant to run on a remote Linux host, usually over
-SSH.
+Linux is the target (a remote host, usually over SSH). It also runs on macOS:
+`start.sh` sources `scripts/macos.sh` on Darwin to start Homebrew's PATH and a
+container runtime (Colima / Docker Desktop / OrbStack / Podman machine) first.
+`--install-service` installs a launchd agent there instead of a systemd unit.
 
 Proprietary — © Maciej Hubisz. All rights reserved. Use, modify, fork, or
 redistribute only with the author's written permission. See `LICENSE`.
@@ -97,8 +99,8 @@ source scripts/linux/start-completion.bash
 | `./start.sh --login` | Log in to the image registry (needed for the private package) |
 | `./start.sh --logs [SERVICE]` | Follow logs (backend/web/db, all by default) |
 | `./start.sh --stop` | Stop containers (data kept) |
-| `./start.sh --install-service` | Run on boot via systemd (and start now) |
-| `./start.sh --uninstall-service` | Remove the systemd unit |
+| `./start.sh --install-service` | Run on boot via systemd (launchd on macOS), and start now |
+| `./start.sh --uninstall-service` | Remove the systemd unit / launchd agent |
 | `./start.sh --manual` | How the desk works |
 
 Global `-y` / `--yes` answers every prompt (unattended installs and updates
@@ -266,6 +268,7 @@ start.sh                        run the desk; wraps common/ops/start.sh
 common/                         submodule: reusable backend, web and ops framework
 scripts/
   setup-server-as-root.sh       wraps common/ops/setup-server-as-root.sh
+  macos.sh                      macOS runtime bootstrap, sourced by start.sh
   admin/                        public-site config (mini-project):
     admin.env                     domain, port, Let's Encrypt email
     nginx-site.conf.template      nginx site, applied by setup-server-as-root.sh

@@ -17,4 +17,14 @@ entry="$ROOT/common/ops/start.sh"
   echo "common/ops/start.sh is missing (vendor common with tools/vendor.sh)" >&2
   exit 1
 }
+
+# The shared lifecycle is Linux-only. On macOS bring up Homebrew + a container
+# runtime (Colima / Docker Desktop / OrbStack / Podman machine) first, and let
+# it own --install-service via launchd. Linux is unaffected.
+if [[ "$(uname -s)" == Darwin ]]; then
+  # shellcheck source=scripts/macos.sh
+  source "$ROOT/scripts/macos.sh"
+  macos_main "$@"
+fi
+
 exec "$entry" "$@"
