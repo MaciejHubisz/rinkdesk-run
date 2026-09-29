@@ -254,8 +254,11 @@ command. The manual steps are below.
 
 ## Read-only live page
 
-A standalone scoring page (table + games, auto-refresh, light/dark, PL/EN/CS) is
-served at `http://127.0.0.1:8765/live/` and is not linked to the desk.
+A standalone scoring page (table + games, sortable statistics, and a read-only
+player profile reached by tapping a player name) is served at
+`http://127.0.0.1:8765/live/` and is not linked to the desk. It needs no extra
+host route — the profile and its `/live/api/player/…` endpoint ride the same
+`/live` reverse-proxy as the page itself.
 
 Auto-refresh lives in `.env` (`RINKDESK_LIVE_REFRESH_SECONDS`). See
 `rinkdesk/docs/live-page.md` in the source repo.
