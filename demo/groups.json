@@ -1,0 +1,74 @@
+[
+  {
+    "id": "wk_grupa_a",
+    "name": "Grupa A",
+    "seasonId": "sea_swidnica_2026",
+    "discipline": "roller",
+    "type": "league",
+    "startDate": "2026-09-26",
+    "endDate": "2026-09-26",
+    "teamIds": [
+      "team_wataha",
+      "team_odynce",
+      "team_bombers",
+      "team_luce"
+    ],
+    "roundId": "rnd_finalowy"
+  },
+  {
+    "id": "wk_grupa_b",
+    "name": "Grupa B",
+    "seasonId": "sea_swidnica_2026",
+    "discipline": "roller",
+    "type": "league",
+    "startDate": "2026-09-26",
+    "endDate": "2026-09-26",
+    "teamIds": [
+      "team_wth",
+      "team_zboje",
+      "team_jets"
+    ],
+    "roundId": "rnd_finalowy"
+  },
+  {
+    "id": "wk_swidnica_2026_final",
+    "name": "Finał",
+    "seasonId": "sea_swidnica_2026",
+    "discipline": "roller",
+    "type": "cup",
+    "startDate": "2026-09-27",
+    "endDate": "2026-09-27",
+    "teamIds": [
+      "team_zboje",
+      "team_lodz",
+      "team_odynce",
+      "team_luce",
+      "team_mariners",
+      "team_jets",
+      "team_wataha",
+      "team_bombers",
+      "team_wth"
+    ],
+    "ladder": [
+      {
+        "stage": "F",
+        "slot": 0,
+        "homeTeamId": "team_odynce",
+        "awayTeamId": "team_zboje"
+      },
+      {
+        "stage": "3P",
+        "slot": 0,
+        "homeTeamId": "team_wth",
+        "awayTeamId": "team_luce"
+      },
+      {
+        "stage": "5P",
+        "slot": 0,
+        "homeTeamId": "team_wataha",
+        "awayTeamId": "team_jets"
+      }
+    ],
+    "roundId": "rnd_finalowy"
+  }
+]

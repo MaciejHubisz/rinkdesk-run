@@ -1,0 +1,90 @@
+[
+  {
+    "id": "acc_admin",
+    "username": "admin",
+    "password": "admin",
+    "role": "admin",
+    "teamId": null,
+    "displayName": "Admin"
+  },
+  {
+    "id": "acc_ref",
+    "username": "ref",
+    "password": "ref",
+    "role": "ref",
+    "teamId": null,
+    "displayName": "Referee"
+  },
+  {
+    "id": "acc_team_zboje",
+    "username": "zboje",
+    "password": "zboje",
+    "role": "team",
+    "teamId": "team_zboje",
+    "displayName": "Amatorski Klub Hokejowy \"Zbóje\""
+  },
+  {
+    "id": "acc_team_lodz",
+    "username": "lodz",
+    "password": "lodz",
+    "role": "team",
+    "teamId": "team_lodz",
+    "displayName": "Hockey Team Łódź \"Łosie\""
+  },
+  {
+    "id": "acc_team_odynce",
+    "username": "odynce",
+    "password": "odynce",
+    "role": "team",
+    "teamId": "team_odynce",
+    "displayName": "Klub Sportowy Odynce Świdnica"
+  },
+  {
+    "id": "acc_team_luce",
+    "username": "luce",
+    "password": "luce",
+    "role": "team",
+    "teamId": "team_luce",
+    "displayName": "KS LUCE Bielsko-Biała"
+  },
+  {
+    "id": "acc_team_mariners",
+    "username": "mariners",
+    "password": "mariners",
+    "role": "team",
+    "teamId": "team_mariners",
+    "displayName": "Mariners Hockey Team Kosakowo"
+  },
+  {
+    "id": "acc_team_jets",
+    "username": "jets",
+    "password": "jets",
+    "role": "team",
+    "teamId": "team_jets",
+    "displayName": "Stowarzyszenie Hokejowy Klub Sportowy Mińsk Jets"
+  },
+  {
+    "id": "acc_team_wataha",
+    "username": "wataha",
+    "password": "wataha",
+    "role": "team",
+    "teamId": "team_wataha",
+    "displayName": "Uczniowski Klub Sportowy 71 Hokej"
+  },
+  {
+    "id": "acc_team_bombers",
+    "username": "bombers",
+    "password": "bombers",
+    "role": "team",
+    "teamId": "team_bombers",
+    "displayName": "UKS Bombek"
+  },
+  {
+    "id": "acc_team_wth",
+    "username": "wth",
+    "password": "wth",
+    "role": "team",
+    "teamId": "team_wth",
+    "displayName": "WTH Wrocławskie Towarzystwo Hokejowe"
+  }
+]

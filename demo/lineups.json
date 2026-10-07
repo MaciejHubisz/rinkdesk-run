@@ -1,0 +1,2390 @@
+[
+  {
+    "id": "lu_match_sw_1_home",
+    "matchId": "match_sw_1",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_171",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_159",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_160",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_169",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_154",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_158",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_162",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_153",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_156",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_167",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_174",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_173",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_170",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_157",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_161",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_1_away",
+    "matchId": "match_sw_1",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_442",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_420",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_432",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_423",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_428",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_435",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_436",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_425",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_443",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_446",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_430",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_426",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_427",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_444",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_448",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_2_home",
+    "matchId": "match_sw_2",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_337",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_347",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_343",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_352",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_340",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_336",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_350",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_345",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_349",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_338",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_328",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_344",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_339",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_335",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_331",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_2_away",
+    "matchId": "match_sw_2",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_513",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_511",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_510",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_530",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_531",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_540",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_506",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_525",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_524",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_532",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_507",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_534",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_533",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_535",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_536",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_3_home",
+    "matchId": "match_sw_3",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_197",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_188",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_189",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_185",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_183",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_177",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_194",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_176",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_180",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_187",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_192",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_181",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_196",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_198",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_199",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_3_away",
+    "matchId": "match_sw_3",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_464",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_474",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_471",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_454",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_469",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_470",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_449",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_480",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_461",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_472",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_476",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_462",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_463",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_473",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_452",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_4_home",
+    "matchId": "match_sw_4",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_337",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_347",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_343",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_352",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_340",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_336",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_350",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_345",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_349",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_338",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_328",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_344",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_339",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_335",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_331",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_4_away",
+    "matchId": "match_sw_4",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_4",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_12",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_9",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_3",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_5",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_10",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_7",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_13",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_2",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_1",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_16",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_15",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_14",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_8",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6028",
+        "number": 5,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6031",
+        "number": 45,
+        "position": "G",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_5_home",
+    "matchId": "match_sw_5",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_442",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_420",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_432",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_423",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_428",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_435",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_436",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_425",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_443",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_446",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_430",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_426",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_427",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_444",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_448",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_5_away",
+    "matchId": "match_sw_5",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_464",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_474",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_471",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_454",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_469",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_470",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_449",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_480",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_461",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_472",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_476",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_462",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_463",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_473",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_452",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_6_home",
+    "matchId": "match_sw_6",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_171",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_159",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_160",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_169",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_154",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_158",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_162",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_153",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_156",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_167",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_174",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_173",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_170",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_157",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_161",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_6_away",
+    "matchId": "match_sw_6",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_197",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_188",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_189",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_185",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_183",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_177",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_194",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_176",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_180",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_187",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_192",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_181",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_196",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_198",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_199",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_7_home",
+    "matchId": "match_sw_7",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_513",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_511",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_510",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_530",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_531",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_540",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_506",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_525",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_524",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_532",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_507",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_534",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_533",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_535",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_536",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_7_away",
+    "matchId": "match_sw_7",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_4",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_12",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_9",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_3",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_5",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_10",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_7",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_13",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_2",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_1",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_16",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_15",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_14",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_8",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6028",
+        "number": 5,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6031",
+        "number": 45,
+        "position": "G",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_8_home",
+    "matchId": "match_sw_8",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_171",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_159",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_160",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_169",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_154",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_158",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_162",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_153",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_156",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_167",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_174",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_173",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_170",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_157",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_161",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_8_away",
+    "matchId": "match_sw_8",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_464",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_474",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_471",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_454",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_469",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_470",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_449",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_480",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_461",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_472",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_476",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_462",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_463",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_473",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_452",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_9_home",
+    "matchId": "match_sw_9",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_197",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_188",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_189",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_185",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_183",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_177",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_194",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_176",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_180",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_187",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_192",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_181",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_196",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_198",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_199",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_sw_9_away",
+    "matchId": "match_sw_9",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_442",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_420",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_432",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_423",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_428",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_435",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_436",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_425",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_443",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_446",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_430",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_426",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_427",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_444",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_448",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_cup_f_home",
+    "matchId": "match_cup_f",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_171",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_159",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_160",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_169",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_154",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_158",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_162",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_153",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_156",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_167",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_174",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_173",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_170",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_157",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_161",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_cup_f_away",
+    "matchId": "match_cup_f",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_4",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_12",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_9",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_3",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_5",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_10",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_7",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_13",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_2",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_1",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_16",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_15",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_14",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_8",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6028",
+        "number": 5,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_6031",
+        "number": 45,
+        "position": "G",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_cup_3p_home",
+    "matchId": "match_cup_3p",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_513",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_511",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_510",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_530",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_531",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_540",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_506",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_525",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_524",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_532",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_507",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_534",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_533",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_535",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_536",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_cup_3p_away",
+    "matchId": "match_cup_3p",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_197",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_188",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_189",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_185",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_183",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_177",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_194",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_176",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_180",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_187",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_192",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_181",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_196",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_198",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_199",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_cup_5p_home",
+    "matchId": "match_cup_5p",
+    "side": "home",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_442",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_420",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_432",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_423",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_428",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_435",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_436",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_425",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_443",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_446",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_430",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_426",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_427",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_444",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_448",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  },
+  {
+    "id": "lu_match_cup_5p_away",
+    "matchId": "match_cup_5p",
+    "side": "away",
+    "status": "approved",
+    "players": [
+      {
+        "licenseId": "lic_337",
+        "number": 1,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_347",
+        "number": 30,
+        "position": "G",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_343",
+        "number": 2,
+        "position": "D",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_352",
+        "number": 4,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_340",
+        "number": 5,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_336",
+        "number": 7,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_350",
+        "number": 8,
+        "position": "D",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_345",
+        "number": 9,
+        "position": "F",
+        "letter": "C"
+      },
+      {
+        "licenseId": "lic_349",
+        "number": 10,
+        "position": "F",
+        "letter": "A"
+      },
+      {
+        "licenseId": "lic_338",
+        "number": 11,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_328",
+        "number": 13,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_344",
+        "number": 16,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_339",
+        "number": 19,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_335",
+        "number": 21,
+        "position": "F",
+        "letter": null
+      },
+      {
+        "licenseId": "lic_331",
+        "number": 24,
+        "position": "F",
+        "letter": null
+      }
+    ]
+  }
+]

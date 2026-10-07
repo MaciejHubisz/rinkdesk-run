@@ -1,0 +1,12 @@
+{
+  "tournamentName": "I liga rolkowa",
+  "defaultDiscipline": "roller",
+  "defaultVenue": "Świdnica",
+  "clockDirection": "up",
+  "periodCount": 2,
+  "periodMinutes": 20,
+  "rollerPeriodName": "halves",
+  "icePeriodName": "periods",
+  "currentSeasonId": "sea_swidnica_2026",
+  "currentLeagueId": "lg_rolkowa"
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "team_zboje",
+    "name": "Amatorski Klub Hokejowy \"Zbóje\"",
+    "short": "Zbóje",
+    "nickname": "",
+    "city": "",
+    "homeKit": "#1B1B1B",
+    "awayKit": "#F5F5F5",
+    "accent": "#C8102E"
+  },
+  {
+    "id": "team_lodz",
+    "name": "Hockey Team Łódź \"Łosie\"",
+    "short": "Łódź",
+    "nickname": "",
+    "city": "Łódź",
+    "homeKit": "#DD6B20",
+    "awayKit": "#FEFCBF",
+    "accent": "#2B6CB0"
+  },
+  {
+    "id": "team_odynce",
+    "name": "Klub Sportowy Odynce Świdnica",
+    "short": "Odyńce",
+    "nickname": "",
+    "city": "Świdnica",
+    "homeKit": "#1B4332",
+    "awayKit": "#F4E3B2",
+    "accent": "#C9A227"
+  },
+  {
+    "id": "team_luce",
+    "name": "KS LUCE Bielsko-Biała",
+    "short": "LUCE",
+    "nickname": "",
+    "city": "Bielsko-Biała",
+    "homeKit": "#123456",
+    "awayKit": "#FFFFFF",
+    "accent": "#E10600"
+  },
+  {
+    "id": "team_mariners",
+    "name": "Mariners Hockey Team Kosakowo",
+    "short": "Mariners",
+    "nickname": "",
+    "city": "Kosakowo",
+    "homeKit": "#023E8A",
+    "awayKit": "#CAF0F8",
+    "accent": "#0096C7"
+  },
+  {
+    "id": "team_jets",
+    "name": "Stowarzyszenie Hokejowy Klub Sportowy Mińsk Jets",
+    "short": "Jets",
+    "nickname": "",
+    "city": "Mińsk Mazowiecki",
+    "homeKit": "#4A5568",
+    "awayKit": "#E2E8F0",
+    "accent": "#D69E2E"
+  },
+  {
+    "id": "team_wataha",
+    "name": "Uczniowski Klub Sportowy 71 Hokej",
+    "short": "Wataha",
+    "nickname": "",
+    "city": "",
+    "homeKit": "#2D3748",
+    "awayKit": "#EDF2F7",
+    "accent": "#38A169"
+  },
+  {
+    "id": "team_bombers",
+    "name": "UKS Bombek",
+    "short": "Bombers",
+    "nickname": "",
+    "city": "",
+    "homeKit": "#742A2A",
+    "awayKit": "#FFF5F5",
+    "accent": "#E53E3E"
+  },
+  {
+    "id": "team_wth",
+    "name": "WTH Wrocławskie Towarzystwo Hokejowe",
+    "short": "WTH",
+    "nickname": "",
+    "city": "Wrocław",
+    "homeKit": "#5A189A",
+    "awayKit": "#E8E8E8",
+    "accent": "#C77DFF"
+  }
+]

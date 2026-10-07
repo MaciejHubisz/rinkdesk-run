@@ -1,0 +1,116 @@
+[
+  {
+    "id": "match_sw_1",
+    "homeTeamId": "team_odynce",
+    "awayTeamId": "team_wataha",
+    "datetime": "2026-09-26T09:40",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_a"
+  },
+  {
+    "id": "match_sw_2",
+    "homeTeamId": "team_jets",
+    "awayTeamId": "team_wth",
+    "datetime": "2026-09-26T11:00",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_b"
+  },
+  {
+    "id": "match_sw_3",
+    "homeTeamId": "team_luce",
+    "awayTeamId": "team_bombers",
+    "datetime": "2026-09-26T12:20",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_a"
+  },
+  {
+    "id": "match_sw_4",
+    "homeTeamId": "team_jets",
+    "awayTeamId": "team_zboje",
+    "datetime": "2026-09-26T13:40",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_b"
+  },
+  {
+    "id": "match_sw_5",
+    "homeTeamId": "team_wataha",
+    "awayTeamId": "team_bombers",
+    "datetime": "2026-09-26T15:00",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_a"
+  },
+  {
+    "id": "match_sw_6",
+    "homeTeamId": "team_odynce",
+    "awayTeamId": "team_luce",
+    "datetime": "2026-09-26T16:20",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_a"
+  },
+  {
+    "id": "match_sw_7",
+    "homeTeamId": "team_wth",
+    "awayTeamId": "team_zboje",
+    "datetime": "2026-09-26T17:40",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_b"
+  },
+  {
+    "id": "match_sw_8",
+    "homeTeamId": "team_odynce",
+    "awayTeamId": "team_bombers",
+    "datetime": "2026-09-26T19:00",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_a"
+  },
+  {
+    "id": "match_sw_9",
+    "homeTeamId": "team_luce",
+    "awayTeamId": "team_wataha",
+    "datetime": "2026-09-26T20:20",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_grupa_a"
+  },
+  {
+    "id": "match_cup_f",
+    "homeTeamId": "team_odynce",
+    "awayTeamId": "team_zboje",
+    "datetime": "2026-09-27T11:00",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_swidnica_2026_final",
+    "stage": "F",
+    "slot": 0
+  },
+  {
+    "id": "match_cup_3p",
+    "homeTeamId": "team_wth",
+    "awayTeamId": "team_luce",
+    "datetime": "2026-09-27T13:00",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_swidnica_2026_final",
+    "stage": "3P",
+    "slot": 0
+  },
+  {
+    "id": "match_cup_5p",
+    "homeTeamId": "team_wataha",
+    "awayTeamId": "team_jets",
+    "datetime": "2026-09-27T15:00",
+    "venue": "Świdnica",
+    "discipline": "roller",
+    "groupId": "wk_swidnica_2026_final",
+    "stage": "5P",
+    "slot": 0
+  }
+]

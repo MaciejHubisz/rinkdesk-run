@@ -1,0 +1,1262 @@
+[
+  {
+    "id": "ros_1",
+    "teamId": "team_zboje",
+    "licenseId": "lic_4",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_2",
+    "teamId": "team_zboje",
+    "licenseId": "lic_12",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_3",
+    "teamId": "team_zboje",
+    "licenseId": "lic_9",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_4",
+    "teamId": "team_zboje",
+    "licenseId": "lic_3",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_5",
+    "teamId": "team_zboje",
+    "licenseId": "lic_5",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_6",
+    "teamId": "team_zboje",
+    "licenseId": "lic_10",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_7",
+    "teamId": "team_zboje",
+    "licenseId": "lic_7",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_8",
+    "teamId": "team_zboje",
+    "licenseId": "lic_13",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_9",
+    "teamId": "team_zboje",
+    "licenseId": "lic_2",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_10",
+    "teamId": "team_zboje",
+    "licenseId": "lic_1",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_11",
+    "teamId": "team_zboje",
+    "licenseId": "lic_16",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_12",
+    "teamId": "team_zboje",
+    "licenseId": "lic_15",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_13",
+    "teamId": "team_zboje",
+    "licenseId": "lic_14",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_14",
+    "teamId": "team_zboje",
+    "licenseId": "lic_6",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_15",
+    "teamId": "team_zboje",
+    "licenseId": "lic_8",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_16",
+    "teamId": "team_zboje",
+    "licenseId": "lic_6028",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": null,
+    "position": "F"
+  },
+  {
+    "id": "ros_17",
+    "teamId": "team_zboje",
+    "licenseId": "lic_6031",
+    "roundId": "rnd_finalowy",
+    "number": 45,
+    "numberAway": null,
+    "position": "G"
+  },
+  {
+    "id": "ros_18",
+    "teamId": "team_lodz",
+    "licenseId": "lic_97",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_19",
+    "teamId": "team_lodz",
+    "licenseId": "lic_71",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_20",
+    "teamId": "team_lodz",
+    "licenseId": "lic_91",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_21",
+    "teamId": "team_lodz",
+    "licenseId": "lic_88",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_22",
+    "teamId": "team_lodz",
+    "licenseId": "lic_108",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_23",
+    "teamId": "team_lodz",
+    "licenseId": "lic_101",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_24",
+    "teamId": "team_lodz",
+    "licenseId": "lic_106",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_25",
+    "teamId": "team_lodz",
+    "licenseId": "lic_75",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_26",
+    "teamId": "team_lodz",
+    "licenseId": "lic_83",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_27",
+    "teamId": "team_lodz",
+    "licenseId": "lic_79",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_28",
+    "teamId": "team_lodz",
+    "licenseId": "lic_92",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_29",
+    "teamId": "team_lodz",
+    "licenseId": "lic_85",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_30",
+    "teamId": "team_lodz",
+    "licenseId": "lic_98",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_31",
+    "teamId": "team_lodz",
+    "licenseId": "lic_86",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_32",
+    "teamId": "team_lodz",
+    "licenseId": "lic_94",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_33",
+    "teamId": "team_odynce",
+    "licenseId": "lic_171",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_34",
+    "teamId": "team_odynce",
+    "licenseId": "lic_159",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_35",
+    "teamId": "team_odynce",
+    "licenseId": "lic_160",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_36",
+    "teamId": "team_odynce",
+    "licenseId": "lic_169",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_37",
+    "teamId": "team_odynce",
+    "licenseId": "lic_154",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_38",
+    "teamId": "team_odynce",
+    "licenseId": "lic_158",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_39",
+    "teamId": "team_odynce",
+    "licenseId": "lic_162",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_40",
+    "teamId": "team_odynce",
+    "licenseId": "lic_153",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_41",
+    "teamId": "team_odynce",
+    "licenseId": "lic_156",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_42",
+    "teamId": "team_odynce",
+    "licenseId": "lic_167",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_43",
+    "teamId": "team_odynce",
+    "licenseId": "lic_174",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_44",
+    "teamId": "team_odynce",
+    "licenseId": "lic_173",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_45",
+    "teamId": "team_odynce",
+    "licenseId": "lic_170",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_46",
+    "teamId": "team_odynce",
+    "licenseId": "lic_157",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_47",
+    "teamId": "team_odynce",
+    "licenseId": "lic_161",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_48",
+    "teamId": "team_luce",
+    "licenseId": "lic_197",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_49",
+    "teamId": "team_luce",
+    "licenseId": "lic_188",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_50",
+    "teamId": "team_luce",
+    "licenseId": "lic_189",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_51",
+    "teamId": "team_luce",
+    "licenseId": "lic_185",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_52",
+    "teamId": "team_luce",
+    "licenseId": "lic_183",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_53",
+    "teamId": "team_luce",
+    "licenseId": "lic_177",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_54",
+    "teamId": "team_luce",
+    "licenseId": "lic_194",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_55",
+    "teamId": "team_luce",
+    "licenseId": "lic_176",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_56",
+    "teamId": "team_luce",
+    "licenseId": "lic_180",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_57",
+    "teamId": "team_luce",
+    "licenseId": "lic_187",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_58",
+    "teamId": "team_luce",
+    "licenseId": "lic_192",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_59",
+    "teamId": "team_luce",
+    "licenseId": "lic_181",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_60",
+    "teamId": "team_luce",
+    "licenseId": "lic_196",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_61",
+    "teamId": "team_luce",
+    "licenseId": "lic_198",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_62",
+    "teamId": "team_luce",
+    "licenseId": "lic_199",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_63",
+    "teamId": "team_mariners",
+    "licenseId": "lic_254",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_64",
+    "teamId": "team_mariners",
+    "licenseId": "lic_259",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_65",
+    "teamId": "team_mariners",
+    "licenseId": "lic_269",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_66",
+    "teamId": "team_mariners",
+    "licenseId": "lic_265",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_67",
+    "teamId": "team_mariners",
+    "licenseId": "lic_268",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_68",
+    "teamId": "team_mariners",
+    "licenseId": "lic_266",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_69",
+    "teamId": "team_mariners",
+    "licenseId": "lic_263",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_70",
+    "teamId": "team_mariners",
+    "licenseId": "lic_267",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_71",
+    "teamId": "team_mariners",
+    "licenseId": "lic_264",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_72",
+    "teamId": "team_mariners",
+    "licenseId": "lic_258",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_73",
+    "teamId": "team_mariners",
+    "licenseId": "lic_256",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_74",
+    "teamId": "team_mariners",
+    "licenseId": "lic_252",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_75",
+    "teamId": "team_mariners",
+    "licenseId": "lic_262",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_76",
+    "teamId": "team_mariners",
+    "licenseId": "lic_257",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_77",
+    "teamId": "team_mariners",
+    "licenseId": "lic_260",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_78",
+    "teamId": "team_jets",
+    "licenseId": "lic_337",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_79",
+    "teamId": "team_jets",
+    "licenseId": "lic_347",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_80",
+    "teamId": "team_jets",
+    "licenseId": "lic_343",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_81",
+    "teamId": "team_jets",
+    "licenseId": "lic_352",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_82",
+    "teamId": "team_jets",
+    "licenseId": "lic_340",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_83",
+    "teamId": "team_jets",
+    "licenseId": "lic_336",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_84",
+    "teamId": "team_jets",
+    "licenseId": "lic_350",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_85",
+    "teamId": "team_jets",
+    "licenseId": "lic_345",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_86",
+    "teamId": "team_jets",
+    "licenseId": "lic_349",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_87",
+    "teamId": "team_jets",
+    "licenseId": "lic_338",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_88",
+    "teamId": "team_jets",
+    "licenseId": "lic_328",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_89",
+    "teamId": "team_jets",
+    "licenseId": "lic_344",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_90",
+    "teamId": "team_jets",
+    "licenseId": "lic_339",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_91",
+    "teamId": "team_jets",
+    "licenseId": "lic_335",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_92",
+    "teamId": "team_jets",
+    "licenseId": "lic_331",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_93",
+    "teamId": "team_wataha",
+    "licenseId": "lic_442",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_94",
+    "teamId": "team_wataha",
+    "licenseId": "lic_420",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_95",
+    "teamId": "team_wataha",
+    "licenseId": "lic_432",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_96",
+    "teamId": "team_wataha",
+    "licenseId": "lic_423",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_97",
+    "teamId": "team_wataha",
+    "licenseId": "lic_428",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_98",
+    "teamId": "team_wataha",
+    "licenseId": "lic_435",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_99",
+    "teamId": "team_wataha",
+    "licenseId": "lic_436",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_100",
+    "teamId": "team_wataha",
+    "licenseId": "lic_425",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_101",
+    "teamId": "team_wataha",
+    "licenseId": "lic_443",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_102",
+    "teamId": "team_wataha",
+    "licenseId": "lic_446",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_103",
+    "teamId": "team_wataha",
+    "licenseId": "lic_430",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_104",
+    "teamId": "team_wataha",
+    "licenseId": "lic_426",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_105",
+    "teamId": "team_wataha",
+    "licenseId": "lic_427",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_106",
+    "teamId": "team_wataha",
+    "licenseId": "lic_444",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_107",
+    "teamId": "team_wataha",
+    "licenseId": "lic_448",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_108",
+    "teamId": "team_bombers",
+    "licenseId": "lic_464",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_109",
+    "teamId": "team_bombers",
+    "licenseId": "lic_474",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_110",
+    "teamId": "team_bombers",
+    "licenseId": "lic_471",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_111",
+    "teamId": "team_bombers",
+    "licenseId": "lic_454",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_112",
+    "teamId": "team_bombers",
+    "licenseId": "lic_469",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_113",
+    "teamId": "team_bombers",
+    "licenseId": "lic_470",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_114",
+    "teamId": "team_bombers",
+    "licenseId": "lic_449",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_115",
+    "teamId": "team_bombers",
+    "licenseId": "lic_480",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_116",
+    "teamId": "team_bombers",
+    "licenseId": "lic_461",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_117",
+    "teamId": "team_bombers",
+    "licenseId": "lic_472",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_118",
+    "teamId": "team_bombers",
+    "licenseId": "lic_476",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_119",
+    "teamId": "team_bombers",
+    "licenseId": "lic_462",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_120",
+    "teamId": "team_bombers",
+    "licenseId": "lic_463",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_121",
+    "teamId": "team_bombers",
+    "licenseId": "lic_473",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_122",
+    "teamId": "team_bombers",
+    "licenseId": "lic_452",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  },
+  {
+    "id": "ros_123",
+    "teamId": "team_wth",
+    "licenseId": "lic_513",
+    "roundId": "rnd_finalowy",
+    "number": 1,
+    "numberAway": 1,
+    "position": "G"
+  },
+  {
+    "id": "ros_124",
+    "teamId": "team_wth",
+    "licenseId": "lic_511",
+    "roundId": "rnd_finalowy",
+    "number": 30,
+    "numberAway": 30,
+    "position": "G"
+  },
+  {
+    "id": "ros_125",
+    "teamId": "team_wth",
+    "licenseId": "lic_510",
+    "roundId": "rnd_finalowy",
+    "number": 2,
+    "numberAway": 2,
+    "position": "D",
+    "letter": "A"
+  },
+  {
+    "id": "ros_126",
+    "teamId": "team_wth",
+    "licenseId": "lic_530",
+    "roundId": "rnd_finalowy",
+    "number": 4,
+    "numberAway": 4,
+    "position": "D"
+  },
+  {
+    "id": "ros_127",
+    "teamId": "team_wth",
+    "licenseId": "lic_531",
+    "roundId": "rnd_finalowy",
+    "number": 5,
+    "numberAway": 5,
+    "position": "D"
+  },
+  {
+    "id": "ros_128",
+    "teamId": "team_wth",
+    "licenseId": "lic_540",
+    "roundId": "rnd_finalowy",
+    "number": 7,
+    "numberAway": 27,
+    "position": "D"
+  },
+  {
+    "id": "ros_129",
+    "teamId": "team_wth",
+    "licenseId": "lic_506",
+    "roundId": "rnd_finalowy",
+    "number": 8,
+    "numberAway": 8,
+    "position": "D"
+  },
+  {
+    "id": "ros_130",
+    "teamId": "team_wth",
+    "licenseId": "lic_525",
+    "roundId": "rnd_finalowy",
+    "number": 9,
+    "numberAway": 9,
+    "position": "F",
+    "letter": "C"
+  },
+  {
+    "id": "ros_131",
+    "teamId": "team_wth",
+    "licenseId": "lic_524",
+    "roundId": "rnd_finalowy",
+    "number": 10,
+    "numberAway": 10,
+    "position": "F",
+    "letter": "A"
+  },
+  {
+    "id": "ros_132",
+    "teamId": "team_wth",
+    "licenseId": "lic_532",
+    "roundId": "rnd_finalowy",
+    "number": 11,
+    "numberAway": 17,
+    "position": "F"
+  },
+  {
+    "id": "ros_133",
+    "teamId": "team_wth",
+    "licenseId": "lic_507",
+    "roundId": "rnd_finalowy",
+    "number": 13,
+    "numberAway": 13,
+    "position": "F"
+  },
+  {
+    "id": "ros_134",
+    "teamId": "team_wth",
+    "licenseId": "lic_534",
+    "roundId": "rnd_finalowy",
+    "number": 16,
+    "numberAway": 16,
+    "position": "F"
+  },
+  {
+    "id": "ros_135",
+    "teamId": "team_wth",
+    "licenseId": "lic_533",
+    "roundId": "rnd_finalowy",
+    "number": 19,
+    "numberAway": 19,
+    "position": "F"
+  },
+  {
+    "id": "ros_136",
+    "teamId": "team_wth",
+    "licenseId": "lic_535",
+    "roundId": "rnd_finalowy",
+    "number": 21,
+    "numberAway": 21,
+    "position": "F"
+  },
+  {
+    "id": "ros_137",
+    "teamId": "team_wth",
+    "licenseId": "lic_536",
+    "roundId": "rnd_finalowy",
+    "number": 24,
+    "numberAway": 24,
+    "position": "F"
+  }
+]

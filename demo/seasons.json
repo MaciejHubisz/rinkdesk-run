@@ -1,0 +1,21 @@
+[
+  {
+    "id": "sea_swidnica_2026",
+    "name": "2026",
+    "discipline": "roller",
+    "startDate": "2026-09-26",
+    "endDate": "2026-09-27",
+    "teamIds": [
+      "team_zboje",
+      "team_lodz",
+      "team_odynce",
+      "team_luce",
+      "team_mariners",
+      "team_jets",
+      "team_wataha",
+      "team_bombers",
+      "team_wth"
+    ],
+    "leagueId": "lg_rolkowa"
+  }
+]

@@ -1,0 +1,2541 @@
+[
+  {
+    "id": "lic_1",
+    "licenseNo": "Z/2341/2026/HO",
+    "first": "Janusz",
+    "last": "Gontarek",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_2",
+    "licenseNo": "Z/2340/2026/HO",
+    "first": "Marcin",
+    "last": "Gontarek",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_3",
+    "licenseNo": "Z/2335/2026/HO",
+    "first": "Andrzej",
+    "last": "Janik",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_4",
+    "licenseNo": "Z/2332/2026/HO",
+    "first": "Filip",
+    "last": "Jędrzejkiewicz",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_5",
+    "licenseNo": "Z/2336/2026/HO",
+    "first": "Dariusz",
+    "last": "Mosiołek",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_6",
+    "licenseNo": "Z/2345/2026/HO",
+    "first": "Michał",
+    "last": "Możdźeń",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_7",
+    "licenseNo": "Z/2338/2026/HO",
+    "first": "Michał",
+    "last": "Nowak",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_8",
+    "licenseNo": "Z/2346/2026/HO",
+    "first": "Marcin",
+    "last": "Obrał",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_9",
+    "licenseNo": "Z/2334/2026/HO",
+    "first": "Marek",
+    "last": "Plichta",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_10",
+    "licenseNo": "Z/2337/2026/HO",
+    "first": "Sebastian",
+    "last": "Rokicki",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_11",
+    "licenseNo": "Z/2347/2026/HO",
+    "first": "Grzegorz",
+    "last": "Rusnek",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_12",
+    "licenseNo": "Z/2333/2026/HO",
+    "first": "Krzysztof",
+    "last": "Szeniawski",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_13",
+    "licenseNo": "Z/2339/2026/HO",
+    "first": "Krzysztof",
+    "last": "Szykuła",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_14",
+    "licenseNo": "Z/2344/2026/HO",
+    "first": "Maciej",
+    "last": "Więckowski",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_15",
+    "licenseNo": "Z/2343/2026/HO",
+    "first": "Paweł",
+    "last": "Wierzbicki",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_16",
+    "licenseNo": "Z/2342/2026/HO",
+    "first": "Wojciech",
+    "last": "Wośkowiak",
+    "team": "Zbóje",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_70",
+    "licenseNo": "Z/2117/2026/HO",
+    "first": "Kacper",
+    "last": "Buczek",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_71",
+    "licenseNo": "Z/2078/2026/HO",
+    "first": "Marcin",
+    "last": "Budnik",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_72",
+    "licenseNo": "Z/2315/2026/HO",
+    "first": "Jules",
+    "last": "Caillat",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_73",
+    "licenseNo": "Z/2293/2026/HO",
+    "first": "Jules",
+    "last": "Caillat",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_74",
+    "licenseNo": "Z/2116/2026/HO",
+    "first": "Michał",
+    "last": "Ciepłucha",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_75",
+    "licenseNo": "Z/2107/2026/HO",
+    "first": "Rafał",
+    "last": "Dobrosz",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_76",
+    "licenseNo": "Z/2131/2026/HO",
+    "first": "Kajetan",
+    "last": "Domalewski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_77",
+    "licenseNo": "Z/2127/2026/HO",
+    "first": "Marcin",
+    "last": "Gawin",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_78",
+    "licenseNo": "Z/2118/2026/HO",
+    "first": "Bartłomiej",
+    "last": "Gawrysiak",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_79",
+    "licenseNo": "Z/2109/2026/HO",
+    "first": "Adrian",
+    "last": "Hanzel",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_80",
+    "licenseNo": "Z/2119/2026/HO",
+    "first": "Grzegorz",
+    "last": "Jakóbczyk",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_81",
+    "licenseNo": "Z/2134/2026/HO",
+    "first": "Jakub",
+    "last": "Jaroń",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_82",
+    "licenseNo": "Z/2132/2026/HO",
+    "first": "Kiril",
+    "last": "Kasianchuk",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_83",
+    "licenseNo": "Z/2108/2026/HO",
+    "first": "Nathan",
+    "last": "Kłoszewski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_84",
+    "licenseNo": "Z/2429/2026/HO",
+    "first": "Paweł",
+    "last": "Kołodziej",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_85",
+    "licenseNo": "Z/2111/2026/HO",
+    "first": "Juliusz",
+    "last": "Kowalewski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_86",
+    "licenseNo": "Z/2113/2026/HO",
+    "first": "Maciej",
+    "last": "Kowalewski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_87",
+    "licenseNo": "Z/2133/2026/HO",
+    "first": "Mateusz",
+    "last": "Kubiak",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_88",
+    "licenseNo": "Z/2103/2026/HO",
+    "first": "Artur",
+    "last": "Kucharczyk",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_89",
+    "licenseNo": "Z/2121/2026/HO",
+    "first": "Marcin",
+    "last": "Kułak",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_90",
+    "licenseNo": "Z/2122/2026/HO",
+    "first": "Tomasz",
+    "last": "Kurowski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_91",
+    "licenseNo": "Z/2102/2026/HO",
+    "first": "Paweł",
+    "last": "Łapczyński",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_92",
+    "licenseNo": "Z/2110/2026/HO",
+    "first": "Łukasz",
+    "last": "Ławniczak",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_93",
+    "licenseNo": "Z/2154/2026/HO",
+    "first": "Szymon",
+    "last": "Makarski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_94",
+    "licenseNo": "Z/2114/2026/HO",
+    "first": "Antek",
+    "last": "Matuszewski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_95",
+    "licenseNo": "Z/2120/2026/HO",
+    "first": "Piotr",
+    "last": "Matuszewski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_96",
+    "licenseNo": "Z/2115/2026/HO",
+    "first": "Mateusz",
+    "last": "Myszka",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_97",
+    "licenseNo": "Z/1852/2026/HO",
+    "first": "Kamil",
+    "last": "Ostrowski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_98",
+    "licenseNo": "Z/2112/2026/HO",
+    "first": "Wiktor",
+    "last": "Paciorek",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_99",
+    "licenseNo": "Z/2128/2026/HO",
+    "first": "Vaclav",
+    "last": "Riha",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_100",
+    "licenseNo": "Z/2123/2026/HO",
+    "first": "Jakub",
+    "last": "Śmiechowicz",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_101",
+    "licenseNo": "Z/2105/2026/HO",
+    "first": "Wojciech",
+    "last": "Tarała",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_102",
+    "licenseNo": "Z/2126/2026/HO",
+    "first": "Igor",
+    "last": "Tumchenko",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_103",
+    "licenseNo": "Z/2129/2026/HO",
+    "first": "Paweł",
+    "last": "Wachowiak",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_104",
+    "licenseNo": "Z/2130/2026/HO",
+    "first": "Tymoteusz",
+    "last": "Wiktorski",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_105",
+    "licenseNo": "Z/2124/2026/HO",
+    "first": "Arkadiusz",
+    "last": "Witczak",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_106",
+    "licenseNo": "Z/2106/2026/HO",
+    "first": "Kalina",
+    "last": "Wybrańska",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_107",
+    "licenseNo": "Z/2125/2026/HO",
+    "first": "Yury",
+    "last": "Ziankou",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_108",
+    "licenseNo": "Z/2104/2026/HO",
+    "first": "Artur",
+    "last": "Zieliński",
+    "team": "Łódź",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_153",
+    "licenseNo": "Z/2178/2026/HO",
+    "first": "Dawid",
+    "last": "Antkowiak",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_154",
+    "licenseNo": "Z/2175/2026/HO",
+    "first": "Karol",
+    "last": "Balasa",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_155",
+    "licenseNo": "Z/2641/2026/HO",
+    "first": "Cezary",
+    "last": "Bogucki",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_156",
+    "licenseNo": "Z/2179/2026/HO",
+    "first": "Michał",
+    "last": "Czech",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_157",
+    "licenseNo": "Z/2533/2026/HO",
+    "first": "Krystian",
+    "last": "Fogel",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": 10,
+    "defaultPosition": "F"
+  },
+  {
+    "id": "lic_158",
+    "licenseNo": "Z/2176/2026/HO",
+    "first": "Bartlomiej",
+    "last": "Gawas",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_159",
+    "licenseNo": "Z/2172/2026/HO",
+    "first": "Krystian",
+    "last": "Golkowski",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_160",
+    "licenseNo": "Z/2173/2026/HO",
+    "first": "Maciej",
+    "last": "Hubisz",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_161",
+    "licenseNo": "Z/2534/2026/HO",
+    "first": "Rafał",
+    "last": "Kowalski",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_162",
+    "licenseNo": "Z/2177/2026/HO",
+    "first": "Jakub",
+    "last": "Kropielnicki",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_163",
+    "licenseNo": "Z/2644/2026/HO",
+    "first": "Krzysztof",
+    "last": "Kujon",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_164",
+    "licenseNo": "Z/2535/2026/HO",
+    "first": "Lukasz",
+    "last": "Labus",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_165",
+    "licenseNo": "Z/2643/2026/HO",
+    "first": "Lubomir",
+    "last": "Masar",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_166",
+    "licenseNo": "Z/2645/2026/HO",
+    "first": "Marcin",
+    "last": "Matysek",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_167",
+    "licenseNo": "Z/2180/2026/HO",
+    "first": "Sebastian",
+    "last": "Mielcarek",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_168",
+    "licenseNo": "Z/2537/2026/HO",
+    "first": "Karol",
+    "last": "Morawski",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_169",
+    "licenseNo": "Z/2174/2026/HO",
+    "first": "Wojciech",
+    "last": "Napierala",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_170",
+    "licenseNo": "Z/2183/2026/HO",
+    "first": "Krzysztof",
+    "last": "Patron",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_171",
+    "licenseNo": "Z/2171/2026/HO",
+    "first": "Radoslaw",
+    "last": "Roznicki",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_172",
+    "licenseNo": "Z/2536/2026/HO",
+    "first": "Lukasz",
+    "last": "Szychowiak",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_173",
+    "licenseNo": "Z/2182/2026/HO",
+    "first": "Bartosz",
+    "last": "Turek",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_174",
+    "licenseNo": "Z/2181/2026/HO",
+    "first": "Franciszek",
+    "last": "Wilkosz",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_175",
+    "licenseNo": "Z/2642/2026/HO",
+    "first": "Piotr",
+    "last": "Wilkosz",
+    "team": "Odyńce",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_176",
+    "licenseNo": "Z/2086/2026/HO",
+    "first": "Konrad",
+    "last": "Babiński",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_177",
+    "licenseNo": "Z/2084/2026/HO",
+    "first": "Artur",
+    "last": "Boryń",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_178",
+    "licenseNo": "Z/2094/2026/HO",
+    "first": "Krzysztof",
+    "last": "Bryniarski",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_179",
+    "licenseNo": "Z/2095/2026/HO",
+    "first": "Marek",
+    "last": "Dudkiewicz",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_180",
+    "licenseNo": "Z/2087/2026/HO",
+    "first": "Mateusz",
+    "last": "Dudkiewicz",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_181",
+    "licenseNo": "Z/2090/2026/HO",
+    "first": "Tobiasz",
+    "last": "Heller",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_182",
+    "licenseNo": "Z/2098/2026/HO",
+    "first": "Michał",
+    "last": "Kaducki",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_183",
+    "licenseNo": "Z/2083/2026/HO",
+    "first": "Patryk",
+    "last": "Karasiński",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_184",
+    "licenseNo": "Z/2099/2026/HO",
+    "first": "Bartłomiej",
+    "last": "Kiryluk",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_185",
+    "licenseNo": "Z/2082/2026/HO",
+    "first": "Łukasz",
+    "last": "Kubisz-Muła",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_186",
+    "licenseNo": "Z/2097/2026/HO",
+    "first": "Bartłomiej",
+    "last": "Kucharski",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_187",
+    "licenseNo": "Z/2088/2026/HO",
+    "first": "Tomasz",
+    "last": "Lesiak",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_188",
+    "licenseNo": "Z/2080/2026/HO",
+    "first": "Wojciech",
+    "last": "Majdak",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_189",
+    "licenseNo": "Z/2081/2026/HO",
+    "first": "Jacek",
+    "last": "Matuła",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_190",
+    "licenseNo": "Z/2096/2026/HO",
+    "first": "Karol",
+    "last": "Matuła",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_191",
+    "licenseNo": "Z/2155/2026/HO",
+    "first": "Wojciech",
+    "last": "Mendakiewicz",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_192",
+    "licenseNo": "Z/2089/2026/HO",
+    "first": "Paweł",
+    "last": "Mius",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_193",
+    "licenseNo": "Z/2100/2026/HO",
+    "first": "Kamil",
+    "last": "Pawelski",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_194",
+    "licenseNo": "Z/2085/2026/HO",
+    "first": "Daniel",
+    "last": "Przewłocki",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_195",
+    "licenseNo": "Z/2101/2026/HO",
+    "first": "Marcin",
+    "last": "Słama",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_196",
+    "licenseNo": "Z/2091/2026/HO",
+    "first": "Dominika",
+    "last": "Szarowska",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_197",
+    "licenseNo": "Z/2079/2026/HO",
+    "first": "Michał",
+    "last": "Szczecina",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_198",
+    "licenseNo": "Z/2092/2026/HO",
+    "first": "Andrzej",
+    "last": "Tkocz",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_199",
+    "licenseNo": "Z/2093/2026/HO",
+    "first": "Szymon",
+    "last": "Wawrzyczek",
+    "team": "LUCE",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_252",
+    "licenseNo": "Z/2246/2026/HO",
+    "first": "Michał",
+    "last": "Bochiński",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_253",
+    "licenseNo": "Z/2250/2026/HO",
+    "first": "Dominik",
+    "last": "Chojnowski",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_254",
+    "licenseNo": "Z/2235/2026/HO",
+    "first": "Krzysztof",
+    "last": "Dyrda",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_255",
+    "licenseNo": "Z/2251/2026/HO",
+    "first": "Oliwer",
+    "last": "Gawenda",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_256",
+    "licenseNo": "Z/2245/2026/HO",
+    "first": "Kamil",
+    "last": "Górecki",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_257",
+    "licenseNo": "Z/2248/2026/HO",
+    "first": "Tomasz",
+    "last": "Górny",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_258",
+    "licenseNo": "Z/2244/2026/HO",
+    "first": "Paweł",
+    "last": "Grzegorczyk",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_259",
+    "licenseNo": "Z/2236/2026/HO",
+    "first": "Przemysław",
+    "last": "Lange",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_260",
+    "licenseNo": "Z/2249/2026/HO",
+    "first": "Bartosz",
+    "last": "Misiuta",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_261",
+    "licenseNo": "Z/2531/2026/HO",
+    "first": "Klaudiusz",
+    "last": "Myszka",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_262",
+    "licenseNo": "Z/2247/2026/HO",
+    "first": "Paweł",
+    "last": "Sińczuk",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_263",
+    "licenseNo": "Z/2241/2026/HO",
+    "first": "Paweł",
+    "last": "Spławski",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_264",
+    "licenseNo": "Z/2243/2026/HO",
+    "first": "Jakub",
+    "last": "Staniszewski",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_265",
+    "licenseNo": "Z/2238/2026/HO",
+    "first": "Rafał",
+    "last": "Strojny",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_266",
+    "licenseNo": "Z/2240/2026/HO",
+    "first": "Dominic",
+    "last": "Świątkiewicz",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_267",
+    "licenseNo": "Z/2242/2026/HO",
+    "first": "Tomasz",
+    "last": "Wojciechowski",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_268",
+    "licenseNo": "Z/2239/2026/HO",
+    "first": "Michał",
+    "last": "Wytulani",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_269",
+    "licenseNo": "Z/2237/2026/HO",
+    "first": "Juliusz",
+    "last": "Żebrowski",
+    "team": "Mariners",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_328",
+    "licenseNo": "Z/1865/2026/HO",
+    "first": "Marek",
+    "last": "Arendt",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_329",
+    "licenseNo": "Z/1956/2026/HO",
+    "first": "Karol",
+    "last": "Białek",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_330",
+    "licenseNo": "Z/1870/2026/HO",
+    "first": "Piotr",
+    "last": "Ciuchciński",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_331",
+    "licenseNo": "Z/1869/2026/HO",
+    "first": "Jarosław",
+    "last": "Drąg",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_332",
+    "licenseNo": "Z/1875/2026/HO",
+    "first": "Igor",
+    "last": "Fabisiak",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_333",
+    "licenseNo": "Z/1871/2026/HO",
+    "first": "Antonii",
+    "last": "Grabowski",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_334",
+    "licenseNo": "Z/1957/2026/HO",
+    "first": "Dawid",
+    "last": "Kronenberger",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_335",
+    "licenseNo": "Z/1868/2026/HO",
+    "first": "Paweł",
+    "last": "Milart",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_336",
+    "licenseNo": "Z/1860/2026/HO",
+    "first": "Owidjusz",
+    "last": "Nicieja",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_337",
+    "licenseNo": "Z/1486/2026/HO",
+    "first": "Kamil",
+    "last": "Ołdak",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_338",
+    "licenseNo": "Z/1864/2026/HO",
+    "first": "Antonii",
+    "last": "Pastwa",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_339",
+    "licenseNo": "Z/1867/2026/HO",
+    "first": "Sebastian",
+    "last": "Płochocki",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_340",
+    "licenseNo": "Z/1859/2026/HO",
+    "first": "Michał",
+    "last": "Pochmara",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_341",
+    "licenseNo": "Z/1874/2026/HO",
+    "first": "Rafał",
+    "last": "Pochmara",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_342",
+    "licenseNo": "Z/1959/2026/HO",
+    "first": "Paweł",
+    "last": "Podlas",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_343",
+    "licenseNo": "Z/1857/2026/HO",
+    "first": "Siemion",
+    "last": "Sakowicz",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_344",
+    "licenseNo": "Z/1866/2026/HO",
+    "first": "Wojciech",
+    "last": "Sobuś",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_345",
+    "licenseNo": "Z/1862/2026/HO",
+    "first": "Roland",
+    "last": "Szylling",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_346",
+    "licenseNo": "Z/1873/2026/HO",
+    "first": "Łukasz",
+    "last": "Trepanowski",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_347",
+    "licenseNo": "Z/1856/2026/HO",
+    "first": "Raman",
+    "last": "Vitviski",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_348",
+    "licenseNo": "Z/1872/2026/HO",
+    "first": "Jarosław",
+    "last": "Wasiluk",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_349",
+    "licenseNo": "Z/1863/2026/HO",
+    "first": "Michał",
+    "last": "Waszkiewicz",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_350",
+    "licenseNo": "Z/1861/2026/HO",
+    "first": "Piotr",
+    "last": "Wróblewski",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_351",
+    "licenseNo": "Z/1958/2026/HO",
+    "first": "Marcin",
+    "last": "Żaboklicki",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_352",
+    "licenseNo": "Z/1858/2026/HO",
+    "first": "Mateusz",
+    "last": "Zych",
+    "team": "Jets",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_420",
+    "licenseNo": "Z/2046/2026/HO",
+    "first": "Grzegorz",
+    "last": "Andryszkiewicz",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_421",
+    "licenseNo": "Z/2187/2026/HO",
+    "first": "Marcin",
+    "last": "Andryszkiewicz",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_422",
+    "licenseNo": "Z/2067/2026/HO",
+    "first": "Michał",
+    "last": "Czech",
+    "team": "Wataha",
+    "active": false,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_423",
+    "licenseNo": "Z/2048/2026/HO",
+    "first": "Mieszko",
+    "last": "Dudkiewicz",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_424",
+    "licenseNo": "Z/2064/2026/HO",
+    "first": "Robert",
+    "last": "Flisak",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_425",
+    "licenseNo": "Z/2052/2026/HO",
+    "first": "Szymon",
+    "last": "Grabowski",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_426",
+    "licenseNo": "Z/2056/2026/HO",
+    "first": "Piotr",
+    "last": "Gworek",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_427",
+    "licenseNo": "Z/2057/2026/HO",
+    "first": "Marcin",
+    "last": "Kąkalec",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_428",
+    "licenseNo": "Z/2049/2026/HO",
+    "first": "Tytus",
+    "last": "Kąkalec",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_429",
+    "licenseNo": "Z/2066/2026/HO",
+    "first": "Bernard",
+    "last": "Kamiński",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_430",
+    "licenseNo": "Z/2055/2026/HO",
+    "first": "Mikalai",
+    "last": "Kavalenka",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_431",
+    "licenseNo": "Z/2068/2026/HO",
+    "first": "Jakub",
+    "last": "Kaźmierczak",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_432",
+    "licenseNo": "Z/2047/2026/HO",
+    "first": "Łukasz",
+    "last": "Komar",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_433",
+    "licenseNo": "Z/2058/2026/HO",
+    "first": "Krzysztof",
+    "last": "Kujon",
+    "team": "Wataha",
+    "active": false,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_434",
+    "licenseNo": "Z/2069/2026/HO",
+    "first": "Przemysław",
+    "last": "Kwilecki",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_435",
+    "licenseNo": "Z/2050/2026/HO",
+    "first": "Kacper",
+    "last": "Ładowski",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_436",
+    "licenseNo": "Z/2051/2026/HO",
+    "first": "Maciek",
+    "last": "Mosiołek",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_437",
+    "licenseNo": "Z/2061/2026/HO",
+    "first": "Miłosz",
+    "last": "Pogoda",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_438",
+    "licenseNo": "Z/2062/2026/HO",
+    "first": "Krzysztof",
+    "last": "Połetek",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_439",
+    "licenseNo": "Z/2072/2026/HO",
+    "first": "Ines",
+    "last": "Schramm",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_440",
+    "licenseNo": "Z/2071/2026/HO",
+    "first": "Krzysztof",
+    "last": "Seroka",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_441",
+    "licenseNo": "Z/2070/2026/HO",
+    "first": "Paweł",
+    "last": "Sokołowski",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_442",
+    "licenseNo": "Z/2045/2026/HO",
+    "first": "Igor",
+    "last": "Sroka",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_443",
+    "licenseNo": "Z/2053/2026/HO",
+    "first": "Oleksandr",
+    "last": "Sushko",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_444",
+    "licenseNo": "Z/2059/2026/HO",
+    "first": "Artur",
+    "last": "Toboła",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_445",
+    "licenseNo": "Z/2065/2026/HO",
+    "first": "Dawid",
+    "last": "Twardoń",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_446",
+    "licenseNo": "Z/2054/2026/HO",
+    "first": "Ilya",
+    "last": "Voitkus",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_447",
+    "licenseNo": "Z/2063/2026/HO",
+    "first": "Monika",
+    "last": "Wierzbicka",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_448",
+    "licenseNo": "Z/2060/2026/HO",
+    "first": "Kacper",
+    "last": "Wiszczuk",
+    "team": "Wataha",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_449",
+    "licenseNo": "Z/2162/2026/HO",
+    "first": "Szymon",
+    "last": "Cyganowski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_450",
+    "licenseNo": "Z/2329/2026/HO",
+    "first": "Marcin",
+    "last": "Czapp",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_451",
+    "licenseNo": "Z/2356/2026/HO",
+    "first": "Mariusz",
+    "last": "Czapp",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_452",
+    "licenseNo": "Z/2280/2026/HO",
+    "first": "Radosław",
+    "last": "Czerniewski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_453",
+    "licenseNo": "Z/2281/2026/HO",
+    "first": "Wojciech",
+    "last": "Czerniewski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_454",
+    "licenseNo": "Z/2159/2026/HO",
+    "first": "Bartosz",
+    "last": "Dobrzyński",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_455",
+    "licenseNo": "Z/2285/2026/HO",
+    "first": "Miłosz",
+    "last": "Dobrzyński",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_456",
+    "licenseNo": "Z/2327/2026/HO",
+    "first": "Mirosław",
+    "last": "Godek",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_457",
+    "licenseNo": "Z/2286/2026/HO",
+    "first": "Bartosz",
+    "last": "Grabara",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_458",
+    "licenseNo": "Z/2283/2026/HO",
+    "first": "Wojciech",
+    "last": "Jóźwiak",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_459",
+    "licenseNo": "Z/2289/2026/HO",
+    "first": "Jonatan",
+    "last": "Kaczmarek",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_460",
+    "licenseNo": "Z/2328/2026/HO",
+    "first": "Damian",
+    "last": "Kamiński",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_461",
+    "licenseNo": "Z/2164/2026/HO",
+    "first": "Michał",
+    "last": "Kłosiński",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_462",
+    "licenseNo": "Z/2167/2026/HO",
+    "first": "Michał",
+    "last": "Król",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_463",
+    "licenseNo": "Z/2168/2026/HO",
+    "first": "Filip",
+    "last": "Kujawa",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_464",
+    "licenseNo": "Z/2156/2026/HO",
+    "first": "Piotr",
+    "last": "Malicki",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_465",
+    "licenseNo": "Z/2291/2026/HO",
+    "first": "Szymon",
+    "last": "Marzec",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_466",
+    "licenseNo": "Z/2290/2026/HO",
+    "first": "Michał",
+    "last": "Sadowski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_467",
+    "licenseNo": "Z/2292/2026/HO",
+    "first": "Michał",
+    "last": "Michałkiewicz",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_468",
+    "licenseNo": "Z/2282/2026/HO",
+    "first": "Michał",
+    "last": "Nawrocki",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_469",
+    "licenseNo": "Z/2160/2026/HO",
+    "first": "Nikodem",
+    "last": "Orbik",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_470",
+    "licenseNo": "Z/2161/2026/HO",
+    "first": "Paweł",
+    "last": "Badziong",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_471",
+    "licenseNo": "Z/2158/2026/HO",
+    "first": "Paweł",
+    "last": "Dobrzyński",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_472",
+    "licenseNo": "Z/2165/2026/HO",
+    "first": "Wiktorian",
+    "last": "Pawłowski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_473",
+    "licenseNo": "Z/2279/2026/HO",
+    "first": "Dariusz",
+    "last": "Piątek",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_474",
+    "licenseNo": "Z/2157/2026/HO",
+    "first": "Piotr",
+    "last": "Sadowski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_475",
+    "licenseNo": "Z/2288/2026/HO",
+    "first": "Marceli",
+    "last": "Stańczyk",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_476",
+    "licenseNo": "Z/2166/2026/HO",
+    "first": "Oliwier",
+    "last": "Szopa",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_477",
+    "licenseNo": "Z/2355/2026/HO",
+    "first": "Jakub",
+    "last": "Vitek",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_478",
+    "licenseNo": "Z/2354/2026/HO",
+    "first": "Josef",
+    "last": "Vitek",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_479",
+    "licenseNo": "Z/2287/2026/HO",
+    "first": "Jakub",
+    "last": "Wala",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_480",
+    "licenseNo": "Z/2163/2026/HO",
+    "first": "Patryk",
+    "last": "Wojciechowski",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_481",
+    "licenseNo": "Z/2284/2026/HO",
+    "first": "Marek",
+    "last": "Wróbel",
+    "team": "Bombers",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_497",
+    "licenseNo": "Z/2442/2026/HO",
+    "first": "Hubert",
+    "last": "Adamski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_498",
+    "licenseNo": "Z/2440/2026/HO",
+    "first": "Filip",
+    "last": "Anuszko",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_499",
+    "licenseNo": "Z/2437/2026/HO",
+    "first": "Eryk",
+    "last": "Baron",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_500",
+    "licenseNo": "Z/2436/2026/HO",
+    "first": "Olaf",
+    "last": "Baron",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_501",
+    "licenseNo": "Z/2448/2026/HO",
+    "first": "Nikolas",
+    "last": "Butter",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_502",
+    "licenseNo": "Z/2439/2026/HO",
+    "first": "Olaf",
+    "last": "Choma",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_503",
+    "licenseNo": "Z/2441/2026/HO",
+    "first": "Felix",
+    "last": "Dolinny",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_504",
+    "licenseNo": "Z/2451/2026/HO",
+    "first": "Maciej",
+    "last": "Dydek",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_505",
+    "licenseNo": "Z/2152/2026/HO",
+    "first": "Grzegorz",
+    "last": "Górski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_506",
+    "licenseNo": "Z/2142/2026/HO",
+    "first": "Tymon",
+    "last": "Górski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_507",
+    "licenseNo": "Z/2146/2026/HO",
+    "first": "Tomasz",
+    "last": "Helemejko",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_508",
+    "licenseNo": "Z/2153/2026/HO",
+    "first": "Uladzimir",
+    "last": "Holub",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_509",
+    "licenseNo": "Z/2447/2026/HO",
+    "first": "Antonina",
+    "last": "Kaczmarek",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_510",
+    "licenseNo": "Z/2138/2026/HO",
+    "first": "Kacper",
+    "last": "Komorski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_511",
+    "licenseNo": "Z/2137/2026/HO",
+    "first": "Wojciech",
+    "last": "Komorski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_512",
+    "licenseNo": "Z/2151/2026/HO",
+    "first": "Artur",
+    "last": "Kopania",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_513",
+    "licenseNo": "Z/2136/2026/HO",
+    "first": "Tomasz",
+    "last": "Kruła",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_514",
+    "licenseNo": "Z/2445/2026/HO",
+    "first": "Mikołaj",
+    "last": "Leimann",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_515",
+    "licenseNo": "Z/2527/2026/HO",
+    "first": "Kajetan",
+    "last": "Leśkiewicz",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_516",
+    "licenseNo": "Z/2430/2026/HO",
+    "first": "Jan",
+    "last": "Libner",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_517",
+    "licenseNo": "Z/2446/2026/HO",
+    "first": "Eugeniusz",
+    "last": "Lipnicki",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_518",
+    "licenseNo": "Z/2443/2026/HO",
+    "first": "Jakub",
+    "last": "Lubicz-Wojciechowski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_519",
+    "licenseNo": "Z/2432/2026/HO",
+    "first": "Krzysztof",
+    "last": "Matlak",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_520",
+    "licenseNo": "Z/2438/2026/HO",
+    "first": "Danuta",
+    "last": "Minta",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_521",
+    "licenseNo": "Z/2435/2026/HO",
+    "first": "Kazimierz",
+    "last": "Minta",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_522",
+    "licenseNo": "Z/2431/2026/HO",
+    "first": "Michał",
+    "last": "Mosiołek",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_523",
+    "licenseNo": "Z/2526/2026/HO",
+    "first": "Franciszek",
+    "last": "Owczarek",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_524",
+    "licenseNo": "Z/2144/2026/HO",
+    "first": "Antoni",
+    "last": "Piasecki",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_525",
+    "licenseNo": "Z/2143/2026/HO",
+    "first": "Tomasz",
+    "last": "Piasecki",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_526",
+    "licenseNo": "Z/2528/2026/HO",
+    "first": "Łukasz",
+    "last": "Pieron",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_527",
+    "licenseNo": "Z/2433/2026/HO",
+    "first": "Aleksander",
+    "last": "Płaczewski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_528",
+    "licenseNo": "Z/2450/2026/HO",
+    "first": "Jan",
+    "last": "Przechrzta",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_529",
+    "licenseNo": "Z/2434/2026/HO",
+    "first": "Karol",
+    "last": "Róg",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_530",
+    "licenseNo": "Z/2139/2026/HO",
+    "first": "Radosław",
+    "last": "Rongiers",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_531",
+    "licenseNo": "Z/2140/2026/HO",
+    "first": "Jarosław",
+    "last": "Rybarczyk",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_532",
+    "licenseNo": "Z/2145/2026/HO",
+    "first": "Tomas",
+    "last": "Sisolak",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_533",
+    "licenseNo": "Z/2148/2026/HO",
+    "first": "Tomasz",
+    "last": "Snarski",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_534",
+    "licenseNo": "Z/2147/2026/HO",
+    "first": "Eramis",
+    "last": "Speranza",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_535",
+    "licenseNo": "Z/2149/2026/HO",
+    "first": "Michał",
+    "last": "Szostak",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_536",
+    "licenseNo": "Z/2150/2026/HO",
+    "first": "Tymon",
+    "last": "Szostak",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_537",
+    "licenseNo": "Z/2449/2026/HO",
+    "first": "Antoni",
+    "last": "Walkowiak",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_538",
+    "licenseNo": "Z/2529/2026/HO",
+    "first": "Barbara",
+    "last": "Wiącek",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_539",
+    "licenseNo": "Z/2444/2026/HO",
+    "first": "Aleksander",
+    "last": "Włodarczyk",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_540",
+    "licenseNo": "Z/2141/2026/HO",
+    "first": "Szymon",
+    "last": "Włodarczyk",
+    "team": "WTH",
+    "active": true,
+    "defaultNumber": null,
+    "defaultPosition": null
+  },
+  {
+    "id": "lic_6014",
+    "licenseNo": "K/2170/2026/HO",
+    "first": "Wojciech",
+    "last": "Czekaj",
+    "active": true,
+    "defaultNumber": 69,
+    "defaultPosition": "D"
+  },
+  {
+    "id": "lic_6028",
+    "licenseNo": "???",
+    "first": "Łukasz",
+    "last": "Rzepka",
+    "active": true,
+    "defaultNumber": 5,
+    "defaultPosition": "F",
+    "exception": true
+  },
+  {
+    "id": "lic_6031",
+    "licenseNo": "??",
+    "first": "Paweł",
+    "last": "Szeniewski",
+    "active": true,
+    "defaultNumber": 45,
+    "defaultPosition": "G",
+    "exception": true
+  }
+]
