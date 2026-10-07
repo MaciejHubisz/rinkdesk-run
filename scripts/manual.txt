@@ -41,8 +41,8 @@ Commands:  ./start.sh
   Matches     schedule, then open the match desk
   Results     the table (or cup ladder) and the game list; download a
               confirmed protocol straight from the list
-  Settings    tournament name, period clock, snapshot export/import,
-              protocol JSON export
+   Settings    tournament name, period clock, data export/import/demo,
+               protocol JSON export
 
   The public live page is separate and not linked as a screen: open
   http://<host>:8765/live/ (the LIVE button in the top bar does this).
@@ -84,7 +84,9 @@ Commands:  ./start.sh
 
   The desk keeps three kinds of files:
 
-    snapshots   whole-app export (Settings → Export); newest is imported
+    exports     whole-app export folders (Settings → Export); one timestamped
+                folder per export. Drop the JSON files into import/ and press
+                Import to restore; "Load demo" restores the committed demo/.
     protocols   one PDF per confirmed match, replaced on every save
     graphics/logos  image overrides you drop in yourself (no upload in the app)
 
@@ -93,19 +95,19 @@ Commands:  ./start.sh
                                         rebuild from the local source (if
                                         present) or pull newer images, then
                                         recreate the app containers; keeps data
-  ./start.sh --start --export-path DIR  write snapshots into a local folder
+  ./start.sh --start --export-path DIR  write exports into a local folder
   ./start.sh --start --protocols-path DIR
                                         write protocol PDFs into a local folder
-  ./start.sh --force-recreate           wipes the database, JSON snapshots,
+  ./start.sh --force-recreate           wipes the database, exports,
                                         and protocol PDFs; starts empty
                                         with only the built-in clerk logins.
                                         Team logos are kept (app defaults).
-                                        The shipped default snapshot stays
-                                        available to import on demand from the
+                                        The shipped demo dataset stays
+                                        available to load on demand from the
                                         login screen.
   ./start.sh --manual                   this manual
 
-  Snapshots default to the exports/ folder next to start.sh (whole-app export
+  Exports default to the exports/ folder next to start.sh (whole-app export
   in Settings → Export); protocol PDFs go to the protocols/ folder next to
   start.sh. Pass the flags on every start, or set RINKDESK_EXPORTS_PATH /
   RINKDESK_PROTOCOLS_PATH for another folder.
@@ -115,8 +117,8 @@ Commands:  ./start.sh
   graphics/logos/ next to start.sh, named {short}_logo.png with the ASCII slug
   of the short name (ORŁY → orly_logo.png); a file here replaces the default
   for that team only. A missing file just shows a neutral crest. The logo
-  appears on the live page and on the printed protocol. Snapshot export copies
-  these files next to the JSON; import restores them. See
+  appears on the live page and on the printed protocol. Export copies
+  these files next to the JSON files; import restores them. See
   graphics/logos/README.md.
 
 ────────────────────────────────────────────────────────

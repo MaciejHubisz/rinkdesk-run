@@ -89,10 +89,10 @@ source scripts/linux/start-completion.bash
 | Command | What it does |
 |---|---|
 | `./start.sh --start` | Pull images, apply newer ones, start or resume, keep data |
-| `./start.sh --start --export-path DIR` | Same, and bind snapshot exports to a local folder |
+| `./start.sh --start --export-path DIR` | Same, and bind dataset exports to a local folder |
 | `./start.sh --start --protocols-path DIR` | Same, and write generated protocol PDFs to a local folder |
 | `./start.sh --start --force-pull` | Skip local build; pull from ghcr (fail if pull fails) |
-| `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; build or pull; start empty (only built-in logins, default snapshot import stays available on demand) |
+| `./start.sh --force-recreate` | Wipe Postgres, JSON exports, and protocol PDFs; build or pull; start empty (only built-in logins, demo load stays available on demand) |
 | `./start.sh --update` | Fast-forward the run repo, build from the local source (if present) or pull newer images, recreate the app containers, keep data |
 | `./start.sh --no-self-update` | Do not git-pull this checkout before start/update |
 | `./start.sh --status` | Show container status |
@@ -277,19 +277,27 @@ scripts/
     nginx-site.conf.template      nginx site, applied by setup-server-as-root.sh
   linux/start-completion.bash   tab completion for bash
   manual.txt                    text shown by --manual
-docker-compose.yml              pre-built images only
-.env                            optional RINKDESK_* overrides (empty by default)
-exports/                        generated snapshot JSON (default location)
-protocols/                      generated protocol PDFs (default location)
-graphics/logos/                  logo overrides the app reads (user-provided)
+ docker-compose.yml              pre-built images only
+ .env                            optional RINKDESK_* overrides (empty by default)
+ exports/                        timestamped export folders (gitignored)
+ import/                         staging folder for imports (gitignored)
+ licenses/                       license-bank archive (gitignored)
+ demo/                           committed demo dataset (loaded by "Load demo")
+ protocols/                      generated protocol PDFs (default location)
+ graphics/logos/                  logo overrides the app reads (user-provided)
 ```
 
 ## Data and folders
 
-Snapshot JSON lives in the `exports/` folder next to `start.sh`. Settings →
-export writes `archive/` plus the latest file there, and copies each team's logo
-PNG next to the JSON; import restores both. Pass `--export-path DIR` (or set
-`RINKDESK_EXPORTS_PATH`) to put exports in another folder instead.
+Exports are written into the `exports/` folder next to `start.sh` — one
+timestamped folder per export, with one JSON file per dataset section plus a
+`manifest.json`. Pass `--export-path DIR` (or set `RINKDESK_EXPORTS_PATH`) to put
+exports in another folder instead.
+
+To import, drop the exported JSON files (the same layout as an export folder)
+into `import/` and press **Import** in Settings → Data. **Load demo** replaces
+the current data with the committed `demo/` dataset. The licenses bank keeps its
+own archive in `licenses/`.
 
 Protocol PDFs are written to the `protocols/` folder next to `start.sh` — always
 the same file per match, overwritten on every save. Pass `--protocols-path DIR`
@@ -305,7 +313,7 @@ change one, drop a PNG into the `graphics/logos/` folder next to `start.sh`, nam
 after the team short name (e.g. `orly_logo.png` for `ORŁY`). A file here overrides
 the bundled default for that team; teams without a file here keep the default.
 There is no upload and no per-team field — a missing file simply shows a neutral
-"no logo" crest. Export bundles those images with the JSON dump; import restores
+"no logo" crest. Export bundles those images with the JSON files; import restores
 them. See `graphics/logos/README.md`.
 
 If pull fails, the `rinkdesk-backend` and `rinkdesk-web` images are private on
