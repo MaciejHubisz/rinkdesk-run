@@ -39,7 +39,12 @@ services:
       - "${RINKDESK_EXPORTS_SOURCE:-./exports}:/app/exports${RINKDESK_EXPORTS_OPTS:-}"
       # Host ./protocols by default; --protocols-path picks another host folder.
       - "${RINKDESK_PROTOCOLS_SOURCE:-./protocols}:/app/protocols${RINKDESK_PROTOCOLS_OPTS:-}"
-      # Team logo images live in ./graphics/logos; export/import writes them here too.
+      # Staging folder for imports (drop exported JSON files here) and the
+      # committed demo dataset.
+      - ./import:/app/import${RINKDESK_VOL_OPTS:-}
+      - ./demo:/app/demo:ro${RINKDESK_VOL_OPTS_RO:-}
+      # License-bank archive (RinkDesk-specific) and team logo images.
+      - ./licenses:/app/licenses${RINKDESK_VOL_OPTS:-}
       - ./graphics/logos:/app/graphics/logos${RINKDESK_VOL_OPTS:-}
     depends_on:
       db:

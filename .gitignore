@@ -4,3 +4,5 @@ logs/*.log
 registry.env
 protocols/
 exports/
+import/
+licenses/
