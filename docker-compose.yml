@@ -63,6 +63,41 @@ services:
       timeout: 5s
       retries: 30
 
+  backup:
+    # Hourly gzipped pg_dump into auto-backups/, last 48 h kept. Only this
+    # container mounts that folder, so the desk can neither list nor delete it,
+    # and --force-recreate (which wipes the database) leaves it alone.
+    image: docker.io/library/postgres:16-alpine
+    init: true
+    restart: unless-stopped
+    environment:
+      PGHOST: db
+      PGUSER: rinkdesk
+      PGPASSWORD: rinkdesk
+      PGDATABASE: rinkdesk
+      BACKUP_EVERY_SECONDS: "${RINKDESK_BACKUP_EVERY_SECONDS:-3600}"
+      BACKUP_KEEP_MINUTES: "${RINKDESK_BACKUP_KEEP_MINUTES:-2880}"
+    volumes:
+      - ./auto-backups:/backups${RINKDESK_VOL_OPTS:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -o pipefail
+        while :; do
+          name="rinkdesk-auto-$$(date -u +%Y%m%d-%H%M%S).sql.gz"
+          if pg_dump --clean --if-exists --no-owner | gzip > "/backups/.$$name"; then
+            mv "/backups/.$$name" "/backups/$$name"
+          else
+            rm -f "/backups/.$$name"
+            echo "backup failed, next try in $$BACKUP_EVERY_SECONDS s" >&2
+          fi
+          find /backups -name 'rinkdesk-auto-*.sql.gz' -mmin "+$$BACKUP_KEEP_MINUTES" -delete
+          sleep "$$BACKUP_EVERY_SECONDS"
+        done
+
   web:
     image: ${RINKDESK_IMAGE_PREFIX:-ghcr.io/maciejhubisz/rinkdesk}-web:${RINKDESK_IMAGE_TAG:-latest}
     ports:

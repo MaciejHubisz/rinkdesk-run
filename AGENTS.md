@@ -11,7 +11,7 @@ here (see [`../rinkdesk/AGENTS.md`](../rinkdesk/AGENTS.md) for the app).
 | `scripts/setup-server-as-root.sh` | Thin wrapper: runs `common/ops/setup-server-as-root.sh` |
 | `common/` | Vendored shared ops framework (source commit in `common/VENDORED_FROM`) |
 | `scripts/admin/` | nginx site template + `admin.env` for the host script |
-| `docker-compose.yml` | The stack the images run as |
+| `docker-compose.yml` | The stack the images run as (db, backend, web, hourly `backup` dumps into `auto-backups/`) |
 
 The lifecycle and host logic live in `common/ops/`, parameterized by `app.conf`.
 `common/` is vendored from the framework repo with `common/tools/vendor.sh`

@@ -299,6 +299,7 @@ scripts/
  docker-compose.yml              pre-built images only
  .env                            optional RINKDESK_* overrides (empty by default)
  exports/                        timestamped export folders (gitignored)
+ auto-backups/                   hourly database dumps, last 48 h (gitignored)
  import/                         staging folder for imports (gitignored)
  licenses/                       license-bank archive (gitignored)
  demo/                           committed demo dataset (loaded by "Load demo")
@@ -317,6 +318,23 @@ To import, drop the exported JSON files (the same layout as an export folder)
 into `import/` and press **Import** in Settings → Data. **Load demo** replaces
 the current data with the committed `demo/` dataset. The licenses bank keeps its
 own archive in `licenses/`.
+
+### Auto-backups
+
+The `backup` service writes a gzipped `pg_dump` of the database once an hour
+while the stack is up (`auto-backups/rinkdesk-auto-<UTC timestamp>.sql.gz`) and
+deletes its own files older than 48 hours. It is the only container that mounts
+that folder: the desk cannot see or delete it, and `--force-recreate` (which
+wipes the database) leaves it alone. Change the pace with
+`RINKDESK_BACKUP_EVERY_SECONDS` / `RINKDESK_BACKUP_KEEP_MINUTES` in `.env`.
+
+Disaster recovery (the backend holds the data in memory, so stop it first):
+
+```bash
+podman compose stop backend        # or: docker compose …
+gunzip -c auto-backups/rinkdesk-auto-….sql.gz | podman compose exec -T db psql -q -U rinkdesk -d rinkdesk
+podman compose start backend
+```
 
 Protocol PDFs are written to the `protocols/` folder next to `start.sh` — always
 the same file per match, overwritten on every save. Pass `--protocols-path DIR`

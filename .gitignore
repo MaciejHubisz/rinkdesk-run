@@ -4,6 +4,7 @@ logs/*.log
 registry.env
 protocols/
 exports/
+auto-backups/
 import/
 licenses/
 tmp/
