@@ -110,6 +110,20 @@ saves to `/tmp/rinkdesk-build.log`. Each run overwrites its file.
 Global `-y` / `--yes` answers every prompt (unattended installs and updates
 over SSH). You can also set `RINKDESK_ASSUME_YES=1`.
 
+## Browser tests (e2e)
+
+```bash
+./e2e.sh            # run the browser test suite and watch it at http://localhost:7900
+./e2e.sh --window   # same, in a Chromium window on this desktop
+./e2e.sh --fast     # headless; ./e2e.sh --help for filters and options
+```
+
+Runs the `rinkdesk-e2e` image (built from `../rinkdesk` when it is present,
+otherwise pulled) against an in-memory copy of `./demo`; the running desk and
+its database are not touched. Report, JUnit XML, coverage and failure traces:
+`tmp/e2e/`. The tests themselves live in the source repo (`e2e/`, see its
+`docs/testing/e2e.md`).
+
 ## Updating the run repo itself
 
 `--start` and `--update` first fast-forward this checkout from `origin` (when it
@@ -272,6 +286,7 @@ Auto-refresh lives in `.env` (`RINKDESK_LIVE_REFRESH_SECONDS`). See
 ```
 app.conf                        app identity read by the shared scripts
 start.sh                        run the desk; wraps common/ops/start.sh
+e2e.sh                          run the browser test suite image (see above)
 common/                         submodule: reusable backend, web and ops framework
 scripts/
   setup-server-as-root.sh       wraps common/ops/setup-server-as-root.sh

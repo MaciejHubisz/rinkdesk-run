@@ -7,6 +7,7 @@ here (see [`../rinkdesk/AGENTS.md`](../rinkdesk/AGENTS.md) for the app).
 |---|---|
 | `app.conf` | App identity (name, prefix, services, volumes, paths) read by the shared scripts |
 | `start.sh` | Thin wrapper: runs `common/ops/start.sh` for this checkout |
+| `e2e.sh` | Builds (from `../rinkdesk`) or pulls the `rinkdesk-e2e` image and runs the browser suite against `demo/` |
 | `scripts/setup-server-as-root.sh` | Thin wrapper: runs `common/ops/setup-server-as-root.sh` |
 | `common/` | Vendored shared ops framework (source commit in `common/VENDORED_FROM`) |
 | `scripts/admin/` | nginx site template + `admin.env` for the host script |
