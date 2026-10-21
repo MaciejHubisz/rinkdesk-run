@@ -84,6 +84,10 @@ source scripts/linux/start-completion.bash
 # then ./start.sh --for<TAB> → --force-recreate / --force-pull
 ```
 
+The console output of the last `--start` / `--update` (build included) is saved
+to `tmp/start.log` in this folder (git-ignored); a standalone `../rinkdesk/build.sh`
+saves to `/tmp/rinkdesk-build.log`. Each run overwrites its file.
+
 ## Commands
 
 | Command | What it does |
