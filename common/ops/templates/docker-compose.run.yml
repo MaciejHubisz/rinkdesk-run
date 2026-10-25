@@ -45,8 +45,11 @@ services:
 
   web:
     image: ${MYAPP_IMAGE_PREFIX:-ghcr.io/owner/myapp}-web:${MYAPP_IMAGE_TAG:-latest}
+    # Loopback only: the host nginx is the one way in. Published on every
+    # interface, anyone could skip it and send their own X-Forwarded-Proto /
+    # X-Real-IP, which the app trusts. MYAPP_BIND=0.0.0.0 opens it on purpose.
     ports:
-      - "${MYAPP_PORT:-8000}:80"
+      - "${MYAPP_BIND:-127.0.0.1}:${MYAPP_PORT:-8000}:80"
     depends_on:
       backend:
         condition: service_healthy

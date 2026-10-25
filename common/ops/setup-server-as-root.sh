@@ -4,14 +4,16 @@
 # few system bits Homebrew/Podman need, then everything else is done by
 # ./start.sh without sudo.
 #
-#   sudo scripts/setup-server-as-root.sh USER
+#   sudo scripts/setup-server-as-root.sh [USER] [--no-nginx] [--no-service] [--no-deploy]
 #
-# Runs the whole setup from start to finish (no flags needed):
+# Runs the whole setup from start to finish (no flags needed; --no-* skips a
+# part):
 #   Phase 1 (root):    prerequisites, Homebrew, subuid range, userns, a shell
-#                      alias, lingering, and a CI deploy key uploaded to GitHub.
+#                      alias, lingering, and the private registry login.
 #   Phase 1b (root):   nginx reverse proxy + certbot TLS.
 #   Phase 2 (USER):    ./start.sh --install-service — installs Podman and starts
 #                      the app now and on every boot.
+#   Last (USER):       a CI deploy key uploaded to GitHub.
 #
 # Idempotent: safe to re-run.
 set -euo pipefail
@@ -37,6 +39,8 @@ SLUG="${APP_SLUG:-app}"
 ALIAS_NAME="${APP_ALIAS:-$SLUG}"
 SYSTEMD_UNIT="${APP_SYSTEMD_UNIT:-$SLUG}"
 DEPLOY_DOC="${APP_DEPLOY_DOC:-docs/deploy.md}"
+# How the operator invokes us (the wrapper, not this vendored copy).
+SELF="${APP_SETUP_SCRIPT:-scripts/setup-server-as-root.sh}"
 
 # --- Presentation -----------------------------------------------------------
 STEP=0
@@ -91,7 +95,7 @@ usage() {
   cat <<EOF
 ${BOLD}${APP_NAME:-App} server setup${RESET} (run as root)
 
-  sudo $0 [USER]                     run the full setup (Phases 1, 1b, 2)
+  sudo ${SELF} [USER]  run the full setup (Phases 1, 1b, 2)
 
   USER defaults to \$SUDO_USER.
 
@@ -101,6 +105,11 @@ ${BOLD}${APP_NAME:-App} server setup${RESET} (run as root)
                    ${APP_ADMIN_ENV:-scripts/admin/admin.env}.
   Phase 2 (USER):  ./${RUN_SCRIPT} --install-service — installs Podman, starts
                    the app now, and enables it on every boot. No sudo.
+
+  Skip a part (everything runs by default):
+    --no-nginx       skip Phase 1b (nginx + TLS)
+    --no-service     skip Phase 2 (boot service)
+    --no-deploy      skip the CI deploy upload
 
   Overrides for Phase 1b:
     --domain HOST    public hostname        (${APP_ENV_PREFIX}_DOMAIN)
@@ -119,12 +128,15 @@ ${BOLD}${APP_NAME:-App} server setup${RESET} (run as root)
     a deploy key pair is generated and authorized here, then the private half
     and the host variables are uploaded to GitHub with `gh` (see deploy-setup.sh
     and ${DEPLOY_DOC}). Set DEPLOY_GH_OWNER and DEPLOY_GH_REPO in the wrapper.
+    When gh is not logged in, DEPLOY_GH_TOKEN (repo scope) is used, else the
+    registry token, else gh asks interactively.
 EOF
 }
 
 TARGET_USER=""
 INSTALL_SERVICE=1
 INSTALL_NGINX=1
+INSTALL_DEPLOY=1
 REGISTRY_USER="$(app_env REGISTRY_USER)"
 REGISTRY_TOKEN_FILE="$(app_env REGISTRY_TOKEN_FILE)"
 while [[ $# -gt 0 ]]; do
@@ -146,7 +158,12 @@ while [[ $# -gt 0 ]]; do
       [[ $# -ge 2 ]] || die "$1 needs an address"
       TLS_EMAIL="$2"; shift 2 ;;
     --no-tls) ENABLE_TLS=0; shift ;;
-    -*) die "unknown argument: $1  (try: $0 --help)" ;;
+    --no-nginx) INSTALL_NGINX=0; shift ;;
+    --no-service) INSTALL_SERVICE=0; shift ;;
+    --no-deploy) INSTALL_DEPLOY=0; shift ;;
+    # Older docs pass these; both parts now run by default.
+    --install-service | --install-nginx) shift ;;
+    -*) die "unknown argument: $1  (try: ${SELF} --help)" ;;
     *) TARGET_USER="$1"; shift ;;
   esac
 done
@@ -155,12 +172,12 @@ detect_os
 is_linux || die "this host setup script is Linux only"
 
 if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
-  die "run me as root:  sudo $0 [USER]"
+  die "run me as root:  sudo ${SELF} [USER]"
 fi
 
 TARGET_USER="${TARGET_USER:-${SUDO_USER:-}}"
 if [[ -z "$TARGET_USER" ]]; then
-  die "specify the operator account:  sudo $0 USER"
+  die "specify the operator account:  sudo ${SELF} USER"
 fi
 id "$TARGET_USER" >/dev/null 2>&1 || die "no such user: $TARGET_USER"
 
@@ -265,7 +282,8 @@ ensure_registry_login() {
   rm -f "$log"
   step_ok "logged in as ${user}"
 
-  if [[ "$prompted" == 1 || ! -f "$REGISTRY_ENV" ]]; then
+  # Persist only a typed-in token; one from the environment already has a home.
+  if [[ "$prompted" == 1 ]]; then
     {
       printf '# Written by setup-server-as-root.sh. Keep it private (chmod 600).\n'
       printf '%s_REGISTRY_USER=%s\n' "$APP_ENV_PREFIX" "$user"
@@ -442,7 +460,7 @@ setup_deploy() {
     run_as_operator env HOMEBREW_NO_AUTO_UPDATE=1 "$BREW_PREFIX/bin/brew" install gh >/dev/null 2>&1 ||
       die "could not install gh for ${TARGET_USER} — run: brew install gh"
   fi
-  token="$(registry_token)"
+  token="${DEPLOY_GH_TOKEN:-$(registry_token)}"
   [[ -z "$token" && -n "$REGISTRY_TOKEN_FILE" && -r "$REGISTRY_TOKEN_FILE" ]] && token="$(tr -d '\r\n' <"$REGISTRY_TOKEN_FILE")"
 
   if ! run_as_operator env \
@@ -453,7 +471,7 @@ setup_deploy() {
     DEPLOY_PORT="${DEPLOY_PORT:-22}" \
     DEPLOY_PATH="${DEPLOY_PATH:-${APP_RUN_REPO:-${SLUG}-run}}" \
     DEPLOY_SERVER_USER="${DEPLOY_SERVER_USER:-$TARGET_USER}" \
-    GH_TOKEN="$token" \
+    DEPLOY_GH_TOKEN="$token" \
     bash "$ROOT/common/ops/deploy-setup.sh"; then
     die "deploy upload failed — is 'gh' installed and authenticated as ${TARGET_USER}?"
   fi
@@ -591,12 +609,6 @@ if [[ "$INSTALL_SERVICE" == 1 || -n "$REGISTRY_TOKEN_FILE" || -n "$have_token" ]
 fi
 if [[ "$INSTALL_NGINX" == 1 ]]; then setup_nginx; fi
 
-say ""
-say "${GREEN}Server ready.${RESET}"
-say ""
-say "  ${BOLD}${ALIAS_NAME}${RESET}  ->  ${ROOT}/${RUN_SCRIPT}"
-say "  ${DIM}Alias written to ${TARGET_HOME}/.bashrc — open a new shell, or run: source ~/.bashrc${RESET}"
-
 # Phase 2: install the boot service as the operator (never as root).
 install_service() {
   step "Boot service (systemd user unit for ${TARGET_USER})"
@@ -612,11 +624,14 @@ install_service() {
   fi
 }
 
-if [[ "$INSTALL_SERVICE" == 1 ]]; then
-  install_service
-  say ""
-  say "Check it as ${TARGET_USER}:"
-  say "  ${BOLD}systemctl --user status ${SYSTEMD_UNIT}${RESET}"
-fi
+if [[ "$INSTALL_SERVICE" == 1 ]]; then install_service; fi
+if [[ "$INSTALL_DEPLOY" == 1 ]]; then setup_deploy; fi
 
-setup_deploy
+say ""
+say "${GREEN}Server ready.${RESET}"
+say ""
+say "  ${BOLD}${ALIAS_NAME}${RESET}  ->  ${ROOT}/${RUN_SCRIPT}"
+say "  ${DIM}Alias written to ${TARGET_HOME}/.bashrc — open a new shell, or run: source ~/.bashrc${RESET}"
+if [[ "$INSTALL_SERVICE" == 1 ]]; then
+  say "  ${DIM}Check the service as ${TARGET_USER}: systemctl --user status ${SYSTEMD_UNIT}${RESET}"
+fi
