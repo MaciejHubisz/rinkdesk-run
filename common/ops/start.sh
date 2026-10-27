@@ -4,6 +4,7 @@
 #   ./start.sh --start
 #   ./start.sh --stop
 #   ./start.sh --update
+#   ./start.sh --update-changed
 #   ./start.sh --force-recreate
 #   ./start.sh --start --force-pull
 #   ./start.sh --start --export-path /path/to/folder
@@ -43,6 +44,7 @@ RUN_SCRIPT="${APP_RUN_SCRIPT:-start.sh}"
 CMD=help
 OPEN=1
 RECREATE=0
+ONLY_CHANGED=0
 SKIP_BUILD="$(app_env SKIP_BUILD)"; SKIP_BUILD="${SKIP_BUILD:-0}"
 FORCE_PULL="$(app_env FORCE_PULL)"; FORCE_PULL="${FORCE_PULL:-0}"
 FORCE_UP="$(app_env FORCE_UP)"; FORCE_UP="${FORCE_UP:-0}"
@@ -99,6 +101,7 @@ ${BOLD}${APP_NAME:-App}${RESET} ${APP_VERSION}
   ${GREEN}./start.sh --start${RESET}             start or resume, applying newer images (keep data)
   ${GREEN}./start.sh --force-recreate${RESET}    wipe database, rebuild or pull, start empty
   ${GREEN}./start.sh --update${RESET}            rebuild or pull, recreate app, keep data
+  ${GREEN}./start.sh --update-changed${RESET}    rebuild or pull, recreate only containers whose image changed
   ${GREEN}./start.sh --status${RESET}            show container status
   ${GREEN}./start.sh --login${RESET}             log in to the image registry (private images)
   ${GREEN}./start.sh --logs [SERVICE]${RESET}    follow logs (all by default)
@@ -239,6 +242,16 @@ cmd_start() {
     # compose project. wipe_data() guarantees the data is gone either way.
     wipe_data
     compose_up --force-recreate --no-build -d
+  elif [[ "$ONLY_CHANGED" == 1 ]]; then
+    local stale=()
+    mapfile -t stale < <(stale_services)
+    if [[ ${#stale[@]} -gt 0 ]]; then
+      say "${DIM}Recreating containers with a new image: ${stale[*]}${RESET}"
+      compose_up --force-recreate --no-build -d "${stale[@]}"
+    else
+      say "${DIM}No image changed — app containers kept.${RESET}"
+      compose_up --no-build -d
+    fi
   elif [[ "$FORCE_UP" == 1 || "$image_changed" == 1 ]]; then
     if [[ "$image_changed" == 1 ]]; then
       say "${DIM}New images — recreating app containers.${RESET}"
@@ -334,6 +347,27 @@ cmd_logs() {
 cmd_update() {
   FORCE_UP=1
   cmd_start "$1" 0
+}
+
+# App services whose container is missing or runs an older image than its tag
+# now points to. Works from the engine's compose labels, so it behaves the same
+# under docker compose and podman-compose (which does not detect image changes).
+stale_services() {
+  local project svc cid ref
+  project="$(compose config 2>/dev/null | sed -n 's/^name: *//p' | head -n1)"
+  project="${project:-${APP_SLUG:-}}"
+  for svc in "${APP_SERVICES[@]}"; do
+    cid="$("$ENGINE" ps -aq --filter "label=com.docker.compose.project=$project" \
+      --filter "label=com.docker.compose.service=$svc" 2>/dev/null | head -n1)"
+    if [[ -z "$cid" ]]; then
+      printf '%s\n' "$svc"
+      continue
+    fi
+    ref="$("$ENGINE" inspect --format '{{.Config.Image}}' "$cid" 2>/dev/null || true)"
+    if [[ -z "$ref" || "$("$ENGINE" inspect --format '{{.Image}}' "$cid")" != "$(image_id "$ref")" ]]; then
+      printf '%s\n' "$svc"
+    fi
+  done
 }
 
 # Pull this run repo before starting, so an updated script / compose file takes
@@ -485,6 +519,7 @@ while [[ $# -gt 0 ]]; do
     --stop | stop) CMD=stop; shift ;;
     --force-recreate | --reset) CMD=start; RECREATE=1; shift ;;
     --update | update) CMD=update; shift ;;
+    --update-changed) CMD=update; ONLY_CHANGED=1; shift ;;
     --status | status) CMD=status; shift ;;
     --login) CMD=login; shift ;;
     --check) LOGIN_CHECK=1; shift ;;

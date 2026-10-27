@@ -1,5 +1,5 @@
 # Deploy template. After a successful publish (or manual), SSH to the run host
-# and run start.sh --update. Disabled until the repository variables exist.
+# and run start.sh --update-changed. Disabled until the repository variables exist.
 name: deploy
 
 on:
@@ -22,4 +22,4 @@ jobs:
           port: ${{ vars.MYAPP_DEPLOY_PORT || 22 }}
           script: |
             cd "${{ vars.MYAPP_DEPLOY_PATH || 'myapp-run' }}"
-            ./start.sh --update --yes --no-open
+            ./start.sh --update-changed --yes --no-open
